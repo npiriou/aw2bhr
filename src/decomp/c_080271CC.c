@@ -14,8 +14,8 @@ u8 sub_080271CC(int a1)
   unsigned int new_var;
   int idx;
   int o;
-  struct Unk08499594 **pu;
-  struct Unk08499594 **pv;
+  struct UnitRecord **pu;
+  struct UnitRecord **pv;
   s16 *pe;
   if (!sub_080266DC(a1))
   {
@@ -26,13 +26,13 @@ u8 sub_080271CC(int a1)
     return 1;
   }
   i = 1;
-  pu = &gUnknown_08499594;
+  pu = &gUnitRecords;
   new_var2 = i;
   pe = &gUnknown_084995FE[a1];
   idx = (u16) (*pe);
   idx = idx + new_var2;
-  o = idx * (sizeof(struct Unk08499594));
-  if ((idx = ((struct Unk08499594 *) (((u8 *) (*pu)) + o))->unk00) != 0)
+  o = idx * (sizeof(struct UnitRecord));
+  if ((idx = ((struct UnitRecord *) (((u8 *) (*pu)) + o))->unk00) != 0)
   {
     goto out;
   }
@@ -45,9 +45,9 @@ u8 sub_080271CC(int a1)
     goto out;
   }
   idx = i + ((u16) (*pe));
-  o = idx * (sizeof(struct Unk08499594));
+  o = idx * (sizeof(struct UnitRecord));
   new_var2 = o;
-  new_var = ((struct Unk08499594 *) (((u8 *) (*pv)) + new_var2))->unk00;
+  new_var = ((struct UnitRecord *) (((u8 *) (*pv)) + new_var2))->unk00;
   if ((idx = new_var) == 0)
   {
     goto body;

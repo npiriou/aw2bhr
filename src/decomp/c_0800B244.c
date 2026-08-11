@@ -33,7 +33,7 @@ void sub_0800B244(int x, int y)
     int tile;
     int v;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417A;
     off = (*(u16 *)(rows + t) + x) * 2;
@@ -147,7 +147,7 @@ void sub_0800B244(int x, int y)
         {
             int up;
 
-            tiles = gUnknown_08499590;
+            tiles = gMapData;
             p = tiles;
             t = (y - 1) * 2;
             rows = p + 0x417A;

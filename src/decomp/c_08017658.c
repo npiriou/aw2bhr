@@ -10,7 +10,7 @@
 /* The parameter is `struct Unk03001470 *`: a bare `adds r4, r0, #0` prologue
  * with no narrowing, then `ldrh` at +0x1e, which is that struct's `s16 unk1e`
  * and is exactly the field sub_08017688 next door writes with `strh`.
- * gUnknown_030033EC is a u16 read `ldrb` -- the truncation sub_08043DAC's `u8`
+ * gCurrentArmyIndex is a u16 read `ldrb` -- the truncation sub_08043DAC's `u8`
  * parameter folds into the load. */
 void sub_08017658(struct Unk03001470 *proc)
 {
@@ -19,5 +19,5 @@ void sub_08017658(struct Unk03001470 *proc)
     sub_08026798();
     sub_08023348();
     sub_0803662C();
-    sub_08043DAC(gUnknown_030033EC);
+    sub_08043DAC(gCurrentArmyIndex);
 }

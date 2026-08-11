@@ -13,18 +13,18 @@ void sub_08062038(void)
     u16 *p;
     int i;
 
-    i = gUnknown_030033EC;
+    i = gCurrentArmyIndex;
     saved = i;
     if (gUnknown_030046B8 & 2)
     {
         for (i = 1; i <= 4; i++)
         {
             p = &gUnknown_03004480;
-            gUnknown_030033EC = i;
+            gCurrentArmyIndex = i;
             *p = i;
             if (sub_080266DC(i))
                 sub_0806209C();
         }
-        gUnknown_03004480 = gUnknown_030033EC = saved;
+        gUnknown_03004480 = gCurrentArmyIndex = saved;
     }
 }

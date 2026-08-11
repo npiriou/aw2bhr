@@ -7,13 +7,13 @@
  * sub_080455CC @ 0x080455CC, sub_08045650 @ 0x08045650, sub_080456B8 @ 0x080456B8, sub_08045700 @ 0x08045700
  */
 
-/* The map header at gUnknown_08499590 must be reached as a struct laid over
+/* The map header at gMapData must be reached as a struct laid over
  * the pointer: the ROM computes `(map + 0x417A) + y * 2` and `(map + 0x1432)
  * + idx`, and only a COMPONENT_REF preserves that association -- a `u16 *`
  * cast reassociates to `(map + y * 2) + 0x417A`. Same spelling that closed
  * sub_08040790 and sub_0804189C.
  *
- * gUnknown_08499590 is named honestly and inline at every read: the `strb`
+ * gMapData is named honestly and inline at every read: the `strb`
  * into gUnknown_020288B4 kills the CSE of the pointer deref, which is why the
  * ROM reloads `[r5]` on every inner iteration and why the address constant
  * ends up materialised twice (r8 for the outer bound, r5 for the body). */
@@ -26,7 +26,7 @@ struct Unk455CCMap
     /* 0x417A */ u16 rowOffset[1];
 };
 /* The read-only twin of sub_080455CC: the same double scan of the map header
- * at gUnknown_08499590, asking whether any cell of the parallel byte plane at
+ * at gMapData, asking whether any cell of the parallel byte plane at
  * gUnknown_020288B4 is set. With no store in the loop, LICM hoists the height
  * and the width out of the outer loop for the guards while the map deref is
  * still reloaded per outer iteration, and strength_reduce turns
@@ -53,7 +53,7 @@ struct Unk45650Map
  * the array inline instead emits the address AFTER the loop guard and the
  * reversed `adds r1, r5, r6`, and swaps the two pool words -- 2 instructions.
  *
- * The map header is NOT bound: the ROM keeps `[gUnknown_08499590]` in r3 across
+ * The map header is NOT bound: the ROM keeps `[gMapData]` in r3 across
  * the loop (LICM hoisted the pointer deref, which is why the `ldr` sits after
  * `run = 0` and `i = 0` rather than before them) but reloads width and height
  * every iteration, because the `strb` through the `u8 *` parameter kills them.
@@ -71,13 +71,13 @@ void sub_080455CC(void)
     int y;
     int idx;
 
-    for (y = 0; y < ((struct Unk455CCMap *)gUnknown_08499590)->height; y++)
+    for (y = 0; y < ((struct Unk455CCMap *)gMapData)->height; y++)
     {
-        for (x = 0; x < ((struct Unk455CCMap *)gUnknown_08499590)->width; x++)
+        for (x = 0; x < ((struct Unk455CCMap *)gMapData)->width; x++)
         {
-            idx = ((struct Unk455CCMap *)gUnknown_08499590)->rowOffset[y] + x;
+            idx = ((struct Unk455CCMap *)gMapData)->rowOffset[y] + x;
 
-            if (((struct Unk455CCMap *)gUnknown_08499590)->terrain[idx] == 0x10)
+            if (((struct Unk455CCMap *)gMapData)->terrain[idx] == 0x10)
                 gUnknown_020288B4[idx] = 0x63;
             else
                 gUnknown_020288B4[idx] = 0;
@@ -90,9 +90,9 @@ bool8 sub_08045650(void)
     int x;
     int y;
 
-    for (y = 0; y < ((struct Unk45650Map *)gUnknown_08499590)->height; y++)
-        for (x = 0; x < ((struct Unk45650Map *)gUnknown_08499590)->width; x++)
-            if (gUnknown_020288B4[((struct Unk45650Map *)gUnknown_08499590)->rowOffset[y] + x] != 0)
+    for (y = 0; y < ((struct Unk45650Map *)gMapData)->height; y++)
+        for (x = 0; x < ((struct Unk45650Map *)gMapData)->width; x++)
+            if (gUnknown_020288B4[((struct Unk45650Map *)gMapData)->rowOffset[y] + x] != 0)
                 return TRUE;
 
     return FALSE;
@@ -146,8 +146,8 @@ void sub_08045700(u8 *dst)
     run = 0;
 
     for (i = 0;
-         i < ((struct Unk45700Map *)gUnknown_08499590)->width
-           * ((struct Unk45700Map *)gUnknown_08499590)->height;
+         i < ((struct Unk45700Map *)gMapData)->width
+           * ((struct Unk45700Map *)gMapData)->height;
          i++)
     {
         if (src[i] != 0)

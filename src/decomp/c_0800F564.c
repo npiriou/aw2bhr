@@ -40,7 +40,7 @@ int sub_0800F564(int x, int y, int dir)
     int tile;
     int result;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     ny = y + gUnknown_08488954[dir];
     t = ny * 2;
     rows = p + 0x417A;

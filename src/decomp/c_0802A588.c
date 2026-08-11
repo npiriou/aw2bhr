@@ -16,20 +16,20 @@
  * the copy.
  *
  * The `lsls/adds` cascade ending in `rsbs; asrs #2` is agbcc's division by 12
- * for a pointer difference; write it as `unit - gUnknown_08499594` and it falls
+ * for a pointer difference; write it as `unit - gUnitRecords` and it falls
  * out. That difference is also what proves the +0x4c member's type. */
 
 struct Unk2A588Proc
 {
     /* 0x00 */ u8 filler_00[0x4c];
-    /* 0x4c */ struct Unk08499594 *unk4c;
+    /* 0x4c */ struct UnitRecord *unk4c;
 };
 
 void sub_0802A588(struct Unk2A588Proc *proc)
 {
-    struct Unk08499594 *unit = proc->unk4c;
+    struct UnitRecord *unit = proc->unk4c;
 
     sub_0803FECC(unit->unk02, unit->unk03, proc);
-    sub_08025D60(unit - gUnknown_08499594);
+    sub_08025D60(unit - gUnitRecords);
     sub_080258CC();
 }

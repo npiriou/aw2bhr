@@ -42,7 +42,7 @@ struct Unk3E594Map
     /* 0x0012 */ u8 unit[0x417A - 0x12];
     /* 0x417A */ u16 rowOffset[1];
 };
-#define MAP ((struct Unk3E594Map *)gUnknown_08499590)
+#define MAP ((struct Unk3E594Map *)gMapData)
 
 void sub_0803E594(int a1, int a2, int a3)
 {

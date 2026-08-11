@@ -36,7 +36,7 @@ int sub_0802CA78(void)
     if (gUnknown_030033E8[0] + gUnknown_030033E8[1] != 0)
         return 1;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = gUnknown_03003100.pos.unk02 * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + t) + gUnknown_03003100.pos.unk00;
@@ -48,15 +48,15 @@ int sub_0802CA78(void)
     cur = gUnknown_03003100.raw;
 
     if (cur != gUnknown_03003F24.raw
-        && gUnknown_085D5ABC[gUnknown_030040D8->unk00].unk0e != 1)
+        && gUnitTypeData[gUnknown_030040D8->unk00].unk0e != 1)
         return 1;
 
-    if (gUnknown_085D5ABC[gUnknown_030040D8->unk00].unk0e == 0)
+    if (gUnitTypeData[gUnknown_030040D8->unk00].unk0e == 0)
         return 1;
 
     sub_0801F838(0xff);
     sub_08020354(gUnknown_03003100.pos.unk00, gUnknown_03003100.pos.unk02,
-        (struct Unk08499594 *)gUnknown_030040D8);
+        (struct UnitRecord *)gUnknown_030040D8);
 
     if (!sub_080413E8())
         return 1;
@@ -73,10 +73,10 @@ int sub_0802CB20(void)
     int off;
     u32 cur;
 
-    if (gUnknown_085D5ABC[gUnknown_030040D8->unk00].unk0e == 1)
+    if (gUnitTypeData[gUnknown_030040D8->unk00].unk0e == 1)
         return 1;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = gUnknown_03003100.pos.unk02 * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + t) + gUnknown_03003100.pos.unk00;
@@ -90,12 +90,12 @@ int sub_0802CB20(void)
     if (cur != gUnknown_03003F24.raw)
         return 1;
 
-    if (gUnknown_085D5ABC[gUnknown_030040D8->unk00].unk0e == 0)
+    if (gUnitTypeData[gUnknown_030040D8->unk00].unk0e == 0)
         return 1;
 
     sub_0801F838(0xff);
     sub_08020354(gUnknown_03003100.pos.unk00, gUnknown_03003100.pos.unk02,
-        (struct Unk08499594 *)gUnknown_030040D8);
+        (struct UnitRecord *)gUnknown_030040D8);
 
     if (!sub_080413E8())
         return 2;

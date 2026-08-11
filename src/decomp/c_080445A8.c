@@ -22,14 +22,14 @@ void sub_080445A8(struct Unk080445A8Proc *proc)
 {
     sub_0801DA94();
 
-    if (gUnknown_084A0090[gUnknown_08499598[gUnknown_030033EC].unk1d]
-            .unk1c[gUnknown_08499598[gUnknown_030033EC].unk1f - 1].unk04 == NULL)
+    if (gUnknown_084A0090[gArmyRecords[gCurrentArmyIndex].unk1d]
+            .unk1c[gArmyRecords[gCurrentArmyIndex].unk1f - 1].unk04 == NULL)
     {
         Proc_End(proc);
     }
     else
     {
-        sub_08044AB8(gUnknown_030033EC);
+        sub_08044AB8(gCurrentArmyIndex);
         proc->unk68 = 1;
         proc->unk64 = 0;
     }

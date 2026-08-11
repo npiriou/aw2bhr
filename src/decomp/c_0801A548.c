@@ -12,7 +12,7 @@
 /* Slot 0 means "no army", so it passes 0; otherwise it passes that army's
  * palette index, one less than the stored unk1a.
  *
- * `lsls #4; subs; lsls #2` is the * 0x3c stride of struct Unk08499598, which is
+ * `lsls #4; subs; lsls #2` is the * 0x3c stride of struct ArmyRecord, which is
  * the size the header already records -- so this is plain array indexing off
  * the dereferenced pointer, not a hand-built offset. */
 void sub_0801A548(u16 a1)
@@ -20,7 +20,7 @@ void sub_0801A548(u16 a1)
     if (a1 == 0)
         sub_0802D5CC(0, 8);
     else
-        sub_0802D5CC(gUnknown_08499598[a1].unk1a - 1, 8);
+        sub_0802D5CC(gArmyRecords[a1].unk1a - 1, 8);
 }
 
 /* Loads army a1's palette into OBJ palette slot 0x160. gUnknown_0810E6E0 is
@@ -29,7 +29,7 @@ void sub_0801A548(u16 a1)
  * `u16 *` is byte-neutral. 0x160 is built `movs #0xb0; lsls #1`. */
 void sub_0801A57C(u16 a1)
 {
-    ApplyPaletteExt((u16 *)(gUnknown_0810E6E0 + (gUnknown_08499598[a1].unk1a + 4) * 0x20),
+    ApplyPaletteExt((u16 *)(gUnknown_0810E6E0 + (gArmyRecords[a1].unk1a + 4) * 0x20),
                     0x160, 0x20);
 }
 

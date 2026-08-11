@@ -24,9 +24,9 @@
  * the second test to a label the second test also falls into. Folded into one
  * `if (A && B) return 1; return 0;` the polarity flips: `return 1` goes inline
  * and `return 0` lands after the pool, which is 4 bytes wrong. */
-int sub_0804203C(struct Unk08499594 *p)
+int sub_0804203C(struct UnitRecord *p)
 {
-    if (sub_08042D50(((p - gUnknown_08499594) >> 6) + 1, p->unk00) == 1)
+    if (sub_08042D50(((p - gUnitRecords) >> 6) + 1, p->unk00) == 1)
         return 0;
 
     if (p->unk04_7 != 0)

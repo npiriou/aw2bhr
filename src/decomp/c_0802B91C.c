@@ -56,7 +56,7 @@ void sub_0802B91C(s16 a1, s16 a2, s16 a3, s16 a4, u8 a5, u8 a6, u8 a7, s16 a8)
     if (a5 != 0)
         a5 = 1;
 
-    if (sub_0802706C(a3, gUnknown_030033EC, a4))
+    if (sub_0802706C(a3, gCurrentArmyIndex, a4))
     {
         u8 *dst;
         int t;

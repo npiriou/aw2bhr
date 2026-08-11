@@ -20,7 +20,7 @@ void sub_0805ECDC(void)
     u8 x;
     int t;
 
-    if (gUnknown_085D5ABC[gUnknown_030040D8->unk00].unk1a == 0x20)
+    if (gUnitTypeData[gUnknown_030040D8->unk00].unk1a == 0x20)
         t = 0x11;
     else
         t = gUnknown_030040D8->unk00;
@@ -31,7 +31,7 @@ void sub_0805ECDC(void)
 
     if (sub_08058F90(&v) == -1)
         sub_0805F4F8();
-    else if (gUnknown_085D5ABC[gUnknown_030040D8->unk00].unk1a == 0x20)
+    else if (gUnitTypeData[gUnknown_030040D8->unk00].unk1a == 0x20)
         sub_080590DC(&v);
     else
         sub_080591E4(&v);
@@ -50,7 +50,7 @@ void sub_0805ED70(void)
     gUnknown_030013EC(gUnknown_030040D8->unk02, gUnknown_030040D8->unk03,
                       gUnknown_030040D8->unk00, x, 0);
     sub_08059AEC();
-    if (gUnknown_085D5ABC[gUnknown_030040D8->unk00].unk1a == 0x20)
+    if (gUnitTypeData[gUnknown_030040D8->unk00].unk1a == 0x20)
         sub_0805A008(p);
     else
         sub_08059F24(p);
@@ -58,8 +58,8 @@ void sub_0805ED70(void)
     sub_08059C00(p, (u16 *)&v);
     if (v.pos.unk00 == 0x270F)
         sub_0805F4F8();
-    gUnknown_03004730[((struct Unk5ED70Map *)gUnknown_08499590)->plane[
-        ((struct Unk5ED70Map *)gUnknown_08499590)->rows[v.pos.unk02]
+    gUnknown_03004730[((struct Unk5ED70Map *)gMapData)->plane[
+        ((struct Unk5ED70Map *)gMapData)->rows[v.pos.unk02]
         + v.pos.unk00] & 0x3f]++;
     sub_080591E4(&v);
     sub_0805F7B8();
@@ -80,7 +80,7 @@ void sub_0805EE40(void)
                       gUnknown_030040D8->unk00, x, 0);
     sub_08059AEC();
     sub_08059A0C(p);
-    if (gUnknown_085D5ABC[gUnknown_030040D8->unk00].unk0e > 1)
+    if (gUnitTypeData[gUnknown_030040D8->unk00].unk0e > 1)
     {
         q = sub_08057F00(4);
         a = gUnknown_085766E0->unk0c;
@@ -110,7 +110,7 @@ void sub_0805EF00(void)
 
     p = gUnknown_03003F20;
     sub_08059A0C(p);
-    if (gUnknown_085D5ABC[gUnknown_030040D8->unk00].unk0e > 1)
+    if (gUnitTypeData[gUnknown_030040D8->unk00].unk0e > 1)
     {
         q = sub_08057F00(4);
         a = gUnknown_085766E0->unk0c;
@@ -148,7 +148,7 @@ void sub_0805EF9C(void)
         sub_0805F4F8();
     else if ((s8)gUnknown_03003340[v.pos.unk02][v.pos.unk00] <= 0x79)
         sub_080591E4(&v);
-    sub_0801F92C(gUnknown_08499590 + 0x2d5a);
+    sub_0801F92C(gMapData + 0x2d5a);
     gUnknown_030013EC(v.pos.unk00, v.pos.unk02, 0x10, 0x78, 0);
     sub_08059464(&v);
     sub_0805F7B8();

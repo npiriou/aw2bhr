@@ -9,7 +9,7 @@
 
 /* Wave 37 (W37-E). Matched first attempt.
  * The terrain lookup is written through the shared local `struct Map` cast
- * (see include/unknown-globals.h on gUnknown_08499590 and the W34-F note):
+ * (see include/unknown-globals.h on gMapData and the W34-F note):
  * `map->unk1432[x + map->unk417A[y]]`. Plain byte arithmetic on the `u8 *`
  * reassociates the 0x1432 / 0x417A constants past the index and does not match.
  * unk65 is the "cursor moved" flag this sets and sub_08001DAC consumes. */
@@ -36,9 +36,9 @@ void sub_08000BF8(void)
     if (gUnknown_0200B0B0->unk07 == 0)
     {
         if (gUnknown_0200B0B0->unk2a
-            != ((struct Map *)gUnknown_08499590)->unk1432[
+            != ((struct Map *)gMapData)->unk1432[
                    gUnknown_0200B0B0->unk08
-                   + ((struct Map *)gUnknown_08499590)->unk417A[gUnknown_0200B0B0->unk0a]])
+                   + ((struct Map *)gMapData)->unk417A[gUnknown_0200B0B0->unk0a]])
             gUnknown_0200B0B0->unk65 = 1;
     }
     else
@@ -54,9 +54,9 @@ void sub_08000C68(void)
     sub_0803B4DC(0x65);
 
     if (gUnknown_0200B0B0->unk07 == 0)
-        sub_08000CCC(((struct Map *)gUnknown_08499590)->unk1432[
+        sub_08000CCC(((struct Map *)gMapData)->unk1432[
             gUnknown_0200B0B0->unk08
-            + ((struct Map *)gUnknown_08499590)->unk417A[gUnknown_0200B0B0->unk0a]]);
+            + ((struct Map *)gMapData)->unk417A[gUnknown_0200B0B0->unk0a]]);
     else
         sub_08000CCC(sub_08008B70(gUnknown_0200B0B0->unk08, gUnknown_0200B0B0->unk0a));
 }

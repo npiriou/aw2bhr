@@ -20,7 +20,7 @@
  */
 int sub_080432E0(int a)
 {
-    u32 v = gUnknown_085D5ABC[a].unk0e;
+    u32 v = gUnitTypeData[a].unk0e;
 
     if (v > 1)
         return 6;

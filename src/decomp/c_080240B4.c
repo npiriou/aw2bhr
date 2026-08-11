@@ -11,7 +11,7 @@
  * `u8 *` symbol (the wave-34 W34-F rule): the ROM computes every plane address
  * as `(map + K) + idx`, which only a COMPONENT_REF preserves. Writing the cast
  * inline at all four sites rather than binding one `map` local is what makes
- * agbcc re-read gUnknown_08499590 after the `bl __divsi3`, exactly as the ROM
+ * agbcc re-read gMapData after the `bl __divsi3`, exactly as the ROM
  * does -- a single binding would park the pointer in a callee-saved register
  * across the call instead.
  *
@@ -59,19 +59,19 @@ s16 sub_080240B4(s16 a1, s16 a2, u8 a3)
     int i;
     int n;
 
-    gUnknown_030033F8 = ((struct Unk240B4Map *)gUnknown_08499590)->tile[
-        ((struct Unk240B4Map *)gUnknown_08499590)->rowOffset[a2] + a1];
+    gUnknown_030033F8 = ((struct Unk240B4Map *)gMapData)->tile[
+        ((struct Unk240B4Map *)gMapData)->rowOffset[a2] + a1];
 
     for (i = 0; gUnknown_08499B0C[i] != 0xffff; i++)
     {
-        if (gUnknown_08499B0C[i] == ((struct Unk240B4Map *)gUnknown_08499590)->tile[
-                ((struct Unk240B4Map *)gUnknown_08499590)->rowOffset[a2] + a1])
+        if (gUnknown_08499B0C[i] == ((struct Unk240B4Map *)gMapData)->tile[
+                ((struct Unk240B4Map *)gMapData)->rowOffset[a2] + a1])
             break;
     }
 
     n = i / 5 * 5;
-    ((struct Unk240B4Map *)gUnknown_08499590)->tile[
-        ((struct Unk240B4Map *)gUnknown_08499590)->rowOffset[a2] + a1] =
+    ((struct Unk240B4Map *)gMapData)->tile[
+        ((struct Unk240B4Map *)gMapData)->rowOffset[a2] + a1] =
             gUnknown_08499B0C[n + (a3 >> 5)];
     return n;
 }
@@ -83,15 +83,15 @@ s16 sub_0802419C(s16 a1, s16 a2, u8 a3)
 
     for (i = 0; gUnknown_08499B0C[i] != 0xffff; i++)
     {
-        if (gUnknown_08499B0C[i] == ((struct Unk2419CMap *)gUnknown_08499590)->tile[
-                ((struct Unk2419CMap *)gUnknown_08499590)->rowOffset[a2] + a1])
+        if (gUnknown_08499B0C[i] == ((struct Unk2419CMap *)gMapData)->tile[
+                ((struct Unk2419CMap *)gMapData)->rowOffset[a2] + a1])
             break;
     }
 
     n = i / 5 * 5;
     if (n <= 4)
-        ((struct Unk2419CMap *)gUnknown_08499590)->tile[
-            ((struct Unk2419CMap *)gUnknown_08499590)->rowOffset[a2] + a1] =
+        ((struct Unk2419CMap *)gMapData)->tile[
+            ((struct Unk2419CMap *)gMapData)->rowOffset[a2] + a1] =
                 gUnknown_08499B0C[n + (u8)((a3 >> 5) + 0xa)];
     return n;
 }

@@ -11,7 +11,7 @@
  * byte?" -- gated on gUnknown_03003FC0.unk04 bit 2, and answering TRUE (the
  * fall-through) whenever the gate is closed.
  *
- * The `&&` chain is what puts the gUnknown_08499598 pool word INSIDE the loop:
+ * The `&&` chain is what puts the gArmyRecords pool word INSIDE the loop:
  * the deref is written in place, once per iteration, and nothing hoists it
  * because the `bl sub_080266DC` in the same body clobbers it. r7 and r6 are
  * strength_reduce's two givs for `a1 * 0x3c` and `i * 0x3c`; only r6 is
@@ -33,7 +33,7 @@ bool8 sub_080289FC(int a1)
         for (i = 1; i <= 4; i++)
         {
             if (a1 != i
-             && gUnknown_08499598[a1].unk2a == gUnknown_08499598[i].unk2a
+             && gArmyRecords[a1].unk2a == gArmyRecords[i].unk2a
              && !sub_080266DC(i))
                 return FALSE;
         }
@@ -111,9 +111,9 @@ void sub_08028AEC(void)
  * because the counter already lives zero-extended. The compare against unk31 is
  * `bhs`, unsigned on both sides, which is what types the +0x11 member u8.
  *
- * The `ldr r3, [gUnknown_08499598]` in the preheader is the loop optimiser's
+ * The `ldr r3, [gArmyRecords]` in the preheader is the loop optimiser's
  * LICM hoist of the pointer deref, not source -- the body is written with the
- * ordinary `gUnknown_08499598[i]` subscript. */
+ * ordinary `gArmyRecords[i]` subscript. */
 int sub_08028B70(void)
 {
     u8 i;
@@ -123,7 +123,7 @@ int sub_08028B70(void)
 
     for (i = 1; i <= 4; i++)
     {
-        if (gUnknown_08499598[i].unk11 >= gUnknown_03003FC0.unk31)
+        if (gArmyRecords[i].unk11 >= gUnknown_03003FC0.unk31)
             return i;
     }
 

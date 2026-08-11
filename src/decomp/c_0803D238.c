@@ -40,10 +40,10 @@ struct Map
  * 6..7 then REUSES that shift (`lsr #30`). `& 0x3f` needs no extension in
  * either mode, which is why the low field stays a plain `and` in both.
  *
- * gUnknown_030033EC and gUnknown_03003F2C are saved and restored around the
+ * gCurrentArmyIndex and gUnknown_03003F2C are saved and restored around the
  * call loop -- both spelled honestly. Their initial reads go through this
  * unit's own -fforce-addr `.rodata` words (the ROM words at 0x08091148 and
- * 0x0809114C, which hold &gUnknown_030033EC and &gUnknown_03003F2C -- checked
+ * 0x0809114C, which hold &gCurrentArmyIndex and &gUnknown_03003F2C -- checked
  * against baserom.gba, they are pool words and not globals), while the writes
  * get ordinary inline pool words. agbcc places both from the honest spelling;
  * nothing needs to name the 0x0809 addresses. The save locals are `int`, not
@@ -55,21 +55,21 @@ void sub_0803D238(u8 *a1)
     int save1;
     int x, y, k;
 
-    save0 = gUnknown_030033EC;
+    save0 = gCurrentArmyIndex;
     save1 = gUnknown_03003F2C;
     sub_08025E74();
     k = 0;
-    for (y = 0; y < ((struct Map *)gUnknown_08499590)->height; y++) {
-        for (x = 0; x < ((struct Map *)gUnknown_08499590)->width; x++) {
+    for (y = 0; y < ((struct Map *)gMapData)->height; y++) {
+        for (x = 0; x < ((struct Map *)gMapData)->width; x++) {
             if (((struct Rec *)a1)->cell[k] != 0) {
-                gUnknown_030033EC = (((struct Rec *)a1)->cell[k] >> 6) + 1;
+                gCurrentArmyIndex = (((struct Rec *)a1)->cell[k] >> 6) + 1;
                 gUnknown_03003F2C = (((struct Rec *)a1)->cell[k] >> 6) << 6;
                 sub_08025CC8(x, y, ((struct Rec *)a1)->cell[k] & 0x3f);
             }
             k++;
         }
     }
-    gUnknown_030033EC = save0;
+    gCurrentArmyIndex = save0;
     gUnknown_03003F2C = save1;
 }
 
@@ -85,17 +85,17 @@ void sub_0803D2F8(int a1, u8 *a2)
     int x, y, k;
 
     sub_0803CC84((u8 *)a1, ((struct Rec *)a2)->name);
-    ((struct Map *)gUnknown_08499590)->unk4233 = ((struct Rec *)a2)->unk4C3;
+    ((struct Map *)gMapData)->unk4233 = ((struct Rec *)a2)->unk4C3;
     for (x = 0; x <= 4; x++)
         gUnknown_03003FF3[x] = ((struct Rec *)a2)->unk4C4[x];
-    ((struct Map *)gUnknown_08499590)->width = ((struct Rec *)a2)->width;
-    ((struct Map *)gUnknown_08499590)->height = ((struct Rec *)a2)->height;
+    ((struct Map *)gMapData)->width = ((struct Rec *)a2)->width;
+    ((struct Map *)gMapData)->height = ((struct Rec *)a2)->height;
     sub_080215FC();
     k = 0;
-    for (y = 0; y < ((struct Map *)gUnknown_08499590)->height; y++) {
-        for (x = 0; x < ((struct Map *)gUnknown_08499590)->width; x++) {
-            ((struct Map *)gUnknown_08499590)
-                ->tile[((struct Map *)gUnknown_08499590)->rowOffset[y] + x] =
+    for (y = 0; y < ((struct Map *)gMapData)->height; y++) {
+        for (x = 0; x < ((struct Map *)gMapData)->width; x++) {
+            ((struct Map *)gMapData)
+                ->tile[((struct Map *)gMapData)->rowOffset[y] + x] =
                 ((struct Rec *)a2)->tile[k];
             k++;
         }

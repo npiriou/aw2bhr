@@ -21,7 +21,7 @@
  * own CSE and not a different source spelling -- one plain assignment
  * statement per field reproduces the grouping exactly.
  *
- * gUnknown_08090A8C is the -fforce-addr word holding &gUnknown_08499598, which
+ * gUnknown_08090A8C is the -fforce-addr word holding &gArmyRecords, which
  * is why the chain is three `ldr`s deep. Named honestly; the build places the
  * word. */
 void sub_08026BAC(void)
@@ -30,33 +30,33 @@ void sub_08026BAC(void)
 
     for (i = 0; i <= 4; i++)
     {
-        gUnknown_08499598[i].unk00 = 0;
-        gUnknown_08499598[i].unk04 = 0;
-        gUnknown_08499598[i].unk11 = 0;
-        gUnknown_08499598[i].unk12 = 0;
-        gUnknown_08499598[i].unk13 = 0;
-        gUnknown_08499598[i].unk14 = 0;
-        gUnknown_08499598[i].unk16 = 0;
-        gUnknown_08499598[i].unk18 = 0;
-        gUnknown_08499598[i].unk1a = 0;
-        gUnknown_08499598[i].unk1b = 0;
-        gUnknown_08499598[i].unk1c = 0;
-        gUnknown_08499598[i].unk1e = 0;
-        gUnknown_08499598[i].unk1f = 0;
-        gUnknown_08499598[i].unk20 = 0;
-        gUnknown_08499598[i].unk24 = 0;
-        gUnknown_08499598[i].unk25 = 0;
-        gUnknown_08499598[i].unk26 = 0;
-        gUnknown_08499598[i].unk28 = 0;
-        gUnknown_08499598[i].unk2a = i;
-        gUnknown_08499598[i].unk31 = 0;
-        gUnknown_08499598[i].unk32 = 0;
-        gUnknown_08499598[i].unk3a = 0;
-        gUnknown_08499598[i].unk3b = 0;
+        gArmyRecords[i].unk00 = 0;
+        gArmyRecords[i].unk04 = 0;
+        gArmyRecords[i].unk11 = 0;
+        gArmyRecords[i].unk12 = 0;
+        gArmyRecords[i].unk13 = 0;
+        gArmyRecords[i].unk14 = 0;
+        gArmyRecords[i].unk16 = 0;
+        gArmyRecords[i].unk18 = 0;
+        gArmyRecords[i].unk1a = 0;
+        gArmyRecords[i].unk1b = 0;
+        gArmyRecords[i].unk1c = 0;
+        gArmyRecords[i].unk1e = 0;
+        gArmyRecords[i].unk1f = 0;
+        gArmyRecords[i].unk20 = 0;
+        gArmyRecords[i].unk24 = 0;
+        gArmyRecords[i].unk25 = 0;
+        gArmyRecords[i].unk26 = 0;
+        gArmyRecords[i].unk28 = 0;
+        gArmyRecords[i].unk2a = i;
+        gArmyRecords[i].unk31 = 0;
+        gArmyRecords[i].unk32 = 0;
+        gArmyRecords[i].unk3a = 0;
+        gArmyRecords[i].unk3b = 0;
     }
 
-    gUnknown_08499598[1].unk2b = 1;
-    gUnknown_08499598[2].unk2b = 2;
-    gUnknown_08499598[3].unk2b = 4;
-    gUnknown_08499598[4].unk2b = 8;
+    gArmyRecords[1].unk2b = 1;
+    gArmyRecords[2].unk2b = 2;
+    gArmyRecords[3].unk2b = 4;
+    gArmyRecords[4].unk2b = 8;
 }

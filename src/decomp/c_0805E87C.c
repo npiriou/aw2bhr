@@ -25,9 +25,9 @@
  * THE ONE THING THAT COST ANYTHING: the ROM's `adds r1,r0,#0` before the *12.
  * That copy is CSE substituting the map-cell load into a SECOND local, so the
  * cell expression is written TWICE -- once in the `if` and once as the unit
- * id -- and the id's assignment has to sit INSIDE the `u = gUnknown_08499594 +
+ * id -- and the id's assignment has to sit INSIDE the `u = gUnitRecords +
  * ...` expression.  Bound as its own preceding statement (`id = cell; u = g +
- * id;`) the copy appears but lands BEFORE gUnknown_08499594's pool `ldr`
+ * id;`) the copy appears but lands BEFORE gUnitRecords's pool `ldr`
  * instead of after it.  Wave 27 (W27-A) predicted the copy correctly; what is
  * new is that its POSITION is set by which statement the assignment belongs to.
  *
@@ -46,7 +46,7 @@
  * bitfield gives the ROM's SImode `movs r3,#0x39; rsbs r3,r3,#0`.  The second
  * mask is derived from the first (`adds r3,#0x31` -> -8), which is CSE on the
  * two constants and confirms both writes are bitfield stores on one container.
- * struct Unk08499594's and struct Unk030040D8's own unk09 are left alone so the
+ * struct UnitRecord's and struct Unk030040D8's own unk09 are left alone so the
  * shared layouts stay shared.
  *
  * struct Unk5A514Cell is repeated here rather than declared in a shared header
@@ -125,10 +125,10 @@ void sub_0805E87C(void)
         }
         else
         {
-            if (((struct Map *)gUnknown_08499590)->unk0012[((struct Map *)gUnknown_08499590)->unk417A[pos.y] + pos.x] != 0)
+            if (((struct Map *)gMapData)->unk0012[((struct Map *)gMapData)->unk417A[pos.y] + pos.x] != 0)
             {
-                u = (struct Unk5E87CUnit *)(gUnknown_08499594 + (id = ((struct Map *)gUnknown_08499590)->unk0012[((struct Map *)gUnknown_08499590)->unk417A[pos.y] + pos.x]));
-                if ((s8)gUnknown_03003340[pos.y][pos.x] <= sub_08058224((struct Unk08499594 *)gUnknown_030040D8))
+                u = (struct Unk5E87CUnit *)(gUnitRecords + (id = ((struct Map *)gMapData)->unk0012[((struct Map *)gMapData)->unk417A[pos.y] + pos.x]));
+                if ((s8)gUnknown_03003340[pos.y][pos.x] <= sub_08058224((struct UnitRecord *)gUnknown_030040D8))
                 {
                     if (u->unk00 == 0x16)
                     {

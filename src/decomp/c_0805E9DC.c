@@ -29,7 +29,7 @@ void sub_0805E9DC(void)
 {
     void (*fns[2])(void) = { sub_0805E87C, sub_0805E778 };
 
-    sub_0801F92C(gUnknown_08499590 + 0x2852);
+    sub_0801F92C(gMapData + 0x2852);
 
     if ((gUnknown_030040D8->unk05 & 0xf8) == 0
         && ((struct Unk5E9DCFlags *)gUnknown_030040D8)->unk09_0 != 0
@@ -59,9 +59,9 @@ void sub_0805EA54(void)
 
     for (i = gUnknown_03003F2C; i < gUnknown_03003F2C + 0x40; i++)
     {
-        struct Unk08499594 *p;
+        struct UnitRecord *p;
 
-        p = &gUnknown_08499594[i];
+        p = &gUnitRecords[i];
 
         if (gUnknown_030040D8->unk00 != p->unk00)
             continue;
@@ -69,7 +69,7 @@ void sub_0805EA54(void)
             continue;
         if (gUnknown_030040D8->unk07[0] != -p->unk07)
             continue;
-        if ((struct Unk08499594 *)gUnknown_030040D8 == p)
+        if ((struct UnitRecord *)gUnknown_030040D8 == p)
             continue;
         if (p->unk01 & 8)
             continue;

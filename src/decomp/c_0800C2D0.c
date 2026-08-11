@@ -14,12 +14,12 @@
  *
  * The struct is c_0800C22C.c's / c_0800AF24.c's, copied verbatim.
  *
- * gUnknown_08499590 is read FIVE times, so -fforce-addr parks its address in
+ * gMapData is read FIVE times, so -fforce-addr parks its address in
  * this unit's own .rodata and the ROM's `ldr r4, =gUnknown_0808D874;
  * ldr r0, [r4]; ldr r1, [r0]` is a THREE-level chain: 0x0808D874 is the pool
- * word, it holds 0x08499590, and gUnknown_08499590 is the pointer variable.
+ * word, it holds 0x08499590, and gMapData is the pointer variable.
  * Write the global's name -- the ROM word pointing AT it is not a symbol.
- * The later `ldr r4, [r4]` that swaps the pool address for &gUnknown_08499590
+ * The later `ldr r4, [r4]` that swaps the pool address for &gMapData
  * in sl is CSE's, not the source's.
  *
  * THE ONE NON-OBVIOUS SPELLING, and it cost the only rewrite here: the two
@@ -45,7 +45,7 @@ struct MapScreen
     /* 0x1432 */ u8 terrain[0x417A - 0x1432];
     /* 0x417A */ u16 rowOffset[1];
 };
-#define MAP ((struct MapScreen *)gUnknown_08499590)
+#define MAP ((struct MapScreen *)gMapData)
 
 void sub_0800C2D0(int x, int y, int f)
 {

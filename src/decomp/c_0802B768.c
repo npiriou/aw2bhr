@@ -129,10 +129,10 @@ void sub_0802B868(void)
 {
     u16 x;
 
-    x = gUnknown_030033E4.unk00 * 16 - ((struct Map *)gUnknown_08499590)->unk04;
+    x = gUnknown_030033E4.unk00 * 16 - ((struct Map *)gMapData)->unk04;
 
     if ((s16)(gUnknown_030033E4.unk02 * 16
-              - ((struct Map *)gUnknown_08499590)->unk06) > 0x20)
+              - ((struct Map *)gMapData)->unk06) > 0x20)
     {
         if ((s16)x > 0x7f)
             sub_0802B7E8();

@@ -68,7 +68,7 @@ void sub_0803ED60(struct Unk3ED60Proc *proc)
             return;
         case 3:
         case 4:
-            if (gUnknown_08499598[gUnknown_030033EC].unk1a != 5)
+            if (gArmyRecords[gCurrentArmyIndex].unk1a != 5)
                 break;
             if (proc->unk2c->unk04 == 0)
                 break;

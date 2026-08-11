@@ -11,7 +11,7 @@
  * SEPARATELY narrowed copies for sub_08028848's two u16 parameters, and then
  * the RAW originals for sub_08028874, is the copy-then-narrow tell: the
  * narrowing is a cast at a use, not the parameter's width. `cmp r0, r4` against
- * the u16 gUnknown_030033EC compares the raw value and corroborates it.
+ * the u16 gCurrentArmyIndex compares the raw value and corroborates it.
  *
  * That second call is also what retyped sub_08028874's second parameter from
  * `u8` to `int` in this wave -- see its declaration. */
@@ -20,7 +20,7 @@ void sub_08028894(int a1, int a2)
     sub_08028848(a1, a2);
     sub_08028874(a1, a2);
 
-    if (gUnknown_030033EC == a1)
+    if (gCurrentArmyIndex == a1)
     {
         gUnknown_030032D8 = 1;
         sub_08025EA0();
@@ -42,8 +42,8 @@ u8 sub_080288D8(u16 a1)
 }
 
 /* `lsls r0,#4; subs r0,r0,r4; lsls r0,#2` is a MULTIPLY by 0x3c, i.e. the
- * stride of gUnknown_08499598's elements -- written as a subscript, not as
- * hand-rolled arithmetic. gUnknown_08499598 is a POINTER variable in ROM, so
+ * stride of gArmyRecords's elements -- written as a subscript, not as
+ * hand-rolled arithmetic. gArmyRecords is a POINTER variable in ROM, so
  * the base arrives through `ldr r1, [r0]`.
  *
  * BOTH FAILING PATHS RETURN 0 AND THE SUCCESS IS THE LAST STATEMENT. The ROM
@@ -56,7 +56,7 @@ u8 sub_08028904(u16 a1)
     if (sub_080266DC(a1) == 0)
         return 0;
 
-    if (gUnknown_08499598[a1].unk14 == 0 && gUnknown_08499598[a1].unk31 != 0)
+    if (gArmyRecords[a1].unk14 == 0 && gArmyRecords[a1].unk31 != 0)
         return 0;
 
     return 1;

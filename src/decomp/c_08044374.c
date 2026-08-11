@@ -16,5 +16,5 @@
 
 int sub_08044374(int a1)
 {
-    return gUnknown_08499598[a1].unk25;
+    return gArmyRecords[a1].unk25;
 }

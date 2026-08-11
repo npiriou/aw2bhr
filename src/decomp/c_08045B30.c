@@ -59,7 +59,7 @@ struct Unk45BMap
 
 int sub_08045B30(void)
 {
-    struct Unk45BMap *m = (struct Unk45BMap *)gUnknown_08499590;
+    struct Unk45BMap *m = (struct Unk45BMap *)gMapData;
     int b;
     int c;
     int d;

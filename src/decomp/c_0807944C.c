@@ -9,5 +9,5 @@
 
 void sub_0807944C(void)
 {
-    sub_08043BA4(gUnknown_08499598[sub_0807A908()].unk1d, 0, 11);
+    sub_08043BA4(gArmyRecords[sub_0807A908()].unk1d, 0, 11);
 }

@@ -28,7 +28,7 @@ u8 sub_08028990(u16 a1)
  * cannot distinguish the two. */
 u8 sub_080289BC(int a1)
 {
-    if (gUnknown_08499598[a1].unk1b == 1 && (gUnknown_03003FC0.unk04 & 0x10))
+    if (gArmyRecords[a1].unk1b == 1 && (gUnknown_03003FC0.unk04 & 0x10))
         return sub_080271CC(a1);
 
     return 1;

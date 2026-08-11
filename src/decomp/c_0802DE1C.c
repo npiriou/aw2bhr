@@ -22,7 +22,7 @@ void sub_0802DE1C(void)
     sub_080236E8();
     sub_08023908(4);
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = gUnknown_030033E4.unk02 * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + t) + gUnknown_030033E4.unk00;
@@ -69,7 +69,7 @@ void sub_0802DEFC(void)
     int t;
     int off;
     int id;
-    struct Unk08499594 *e;
+    struct UnitRecord *e;
 
     sub_08023824();
     sub_0802361C();
@@ -86,7 +86,7 @@ void sub_0802DEFC(void)
         return;
     }
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = gUnknown_030033E4.unk02 * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + t) + gUnknown_030033E4.unk00;
@@ -96,10 +96,10 @@ void sub_0802DEFC(void)
     if (id == 0)
         return;
 
-    if (((u32)id >> 6) + 1 != gUnknown_030033EC)
+    if (((u32)id >> 6) + 1 != gCurrentArmyIndex)
         return;
 
-    e = &gUnknown_08499594[id];
+    e = &gUnitRecords[id];
 
     if (e->unk01 & 1)
         return;

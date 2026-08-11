@@ -17,7 +17,7 @@
  * call; the other three blocks copy it back out of r6.
  *
  * `pp` and `lim` are the -fforce-addr workaround, not the original source; the
- * ROM's pool word is agbcc's own address constant for &gUnknown_08499590 and
+ * ROM's pool word is agbcc's own address constant for &gMapData and
  * the honest spelling relocates against this unit's .rodata, which the split
  * cannot place.  `lim` is what places the `mov r8, r1` copy: agbcc emits setup
  * in source-statement order and the ROM copies the pool register into r8 AFTER

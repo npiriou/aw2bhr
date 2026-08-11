@@ -8,7 +8,7 @@
  */
 
 #include "proc.h"
-/* Spawns the unit sprite for one gUnknown_08499594 record and hands the record
+/* Spawns the unit sprite for one gUnitRecords record and hands the record
  * back to it.
  *
  * The `x * 5, * 17, * 257, * 65537` shift-add chain followed by `rsbs` is ONE
@@ -17,10 +17,10 @@
  * the remaining `>> 2` for the factor of 4 is folded into the source's own
  * `>> 6` to give the `lsls #8; lsrs #0x10` pair -- which is that `>> 8` and the
  * u16 conversion of the third argument fused. So the whole thing is
- * `(p - gUnknown_08499594) >> 6`, the record index divided by the 64-entry
+ * `(p - gUnitRecords) >> 6`, the record index divided by the 64-entry
  * army group that unknown-globals.h documents.
  *
- * The cast is the struct Unk030040D8 / struct Unk08499594 duplication the note
+ * The cast is the struct Unk030040D8 / struct UnitRecord duplication the note
  * on the former describes: the two are the same object and the difference has
  * to be taken in one of them.
  *
@@ -38,7 +38,7 @@ ProcPtr sub_08035584(struct Unk030040D8 *p)
 
     p->unk01 |= 6;
     proc = sub_080355CC(p->unk02, p->unk03,
-                        ((struct Unk08499594 *)p - gUnknown_08499594) >> 6,
+                        ((struct UnitRecord *)p - gUnitRecords) >> 6,
                         p->unk00);
     if (proc == NULL)
         return NULL;

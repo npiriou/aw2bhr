@@ -49,7 +49,7 @@ void sub_0805DFF4(void)
 {
     u8 buf;
     union Unk802C57CBuf v;
-    struct Unk08499594 *p;
+    struct UnitRecord *p;
     int q;
     u8 x;
     u8 y;
@@ -58,7 +58,7 @@ void sub_0805DFF4(void)
     sub_0805D888();
 
     if (gUnknown_03004784[0] > (u8)(gUnknown_030040D8->unk07[3] % 100)
-        || sub_0804415C(gUnknown_030033EC))
+        || sub_0804415C(gCurrentArmyIndex))
         sub_0805E718();
 
     sub_08058F30(&buf);

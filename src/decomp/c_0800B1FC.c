@@ -12,11 +12,11 @@
  *
  * The screen is reached through a STRUCT, and that is what makes it match --
  * the wave-18 rule that a table declared flat may need a struct. Written as
- * `*(u16 *)(gUnknown_08499590 + 0x417A + y * 2)` agbcc reassociates to
+ * `*(u16 *)(gMapData + 0x417A + y * 2)` agbcc reassociates to
  * `(y * 2 + base) + 0x417A`, which needs one register fewer and drops the r4
  * push the ROM has. A member-array access computes `base + offsetof` first and
  * then adds the scaled index, which is the ROM's order and its register
- * pressure. gUnknown_08499590 itself stays `u8 *` -- a dozen promoted files
+ * pressure. gMapData itself stays `u8 *` -- a dozen promoted files
  * share that declaration -- so the struct is local to this file and applied by
  * a cast.
  *
@@ -36,7 +36,7 @@ struct MapScreen
 
 int sub_0800B1FC(int x, int y)
 {
-    struct MapScreen *s = (struct MapScreen *)gUnknown_08499590;
+    struct MapScreen *s = (struct MapScreen *)gMapData;
     int cell = s->cells[s->rowOffset[y] + x];
 
     if (cell == 2 || cell == 0x20)

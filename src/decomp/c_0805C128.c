@@ -80,7 +80,7 @@ void sub_0805C128(int x, int y, u16 * out)
     if (y < 0)
         return;
 
-    map = (struct Map *)gUnknown_08499590;
+    map = (struct Map *)gMapData;
 
     if (x >= map->unk00)
         return;

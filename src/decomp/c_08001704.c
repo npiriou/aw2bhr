@@ -51,7 +51,7 @@ int sub_08001704(int x, int y, int v)
     }
     else
     {
-        p = gUnknown_08499590;
+        p = gMapData;
         t = y * 2;
         rows = p + 0x417A;
         off = *(u16 *)(rows + t) - 1;
@@ -150,7 +150,7 @@ int sub_08001A04(int x, int y, int v)
     }
     else
     {
-        p = gUnknown_08499590;
+        p = gMapData;
         t = y * 2;
         rows = p + 0x417A;
         off = *(u16 *)(rows + t) - 1;

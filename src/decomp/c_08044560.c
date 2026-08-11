@@ -9,6 +9,6 @@
 
 void sub_08044560(void)
 {
-    gUnknown_08499598[gUnknown_030033EC].unk26 = Div(gUnknown_08499598[gUnknown_030033EC].unk00, 300);
-    gUnknown_08499598[gUnknown_030033EC].unk28 = 10;
+    gArmyRecords[gCurrentArmyIndex].unk26 = Div(gArmyRecords[gCurrentArmyIndex].unk00, 300);
+    gArmyRecords[gCurrentArmyIndex].unk28 = 10;
 }

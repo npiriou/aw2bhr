@@ -9,7 +9,7 @@
 
 void sub_080251D8(int a1)
 {
-    struct Unk08499594 *e;
+    struct UnitRecord *e;
     int a;
     int b;
     int ok;
@@ -19,22 +19,22 @@ void sub_080251D8(int a1)
     b = 0;
     ok = 0;
 
-    e = &gUnknown_08499594[a1];
+    e = &gUnitRecords[a1];
 
     sub_08024A2C((struct Unk030013D0 *)gUnknown_030013D0, a1);
 
     if (e->unk04_7 != 0)
     {
-        a = sub_08043070(gUnknown_08499598[gUnknown_030033EC].unk1d,
-                         gUnknown_08499598[gUnknown_030033EC].unk1e,
+        a = sub_08043070(gArmyRecords[gCurrentArmyIndex].unk1d,
+                         gArmyRecords[gCurrentArmyIndex].unk1e,
                          e->unk00, 3, 0);
     }
     else
     {
         ok = sub_080433F8(e->unk00, 3, 1);
         if (ok != 0)
-            b = sub_08043070(gUnknown_08499598[gUnknown_030033EC].unk1d,
-                             gUnknown_08499598[gUnknown_030033EC].unk1e,
+            b = sub_08043070(gArmyRecords[gCurrentArmyIndex].unk1d,
+                             gArmyRecords[gCurrentArmyIndex].unk1e,
                              e->unk00, 3, 1);
     }
 

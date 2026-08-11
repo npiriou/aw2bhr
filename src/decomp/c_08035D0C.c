@@ -17,7 +17,7 @@
 #include "proc.h"
 /* Picks the help/message id for whatever the proc's cursor is standing on:
  * two overriding predicates first, then a table on the low five bits of the
- * gUnknown_08499590 terrain byte at the same `rowOffset[y] + x` key
+ * gMapData terrain byte at the same `rowOffset[y] + x` key
  * sub_08035C90 uses (same `(v + 8) / 16` pixel-to-cell divide).
  *
  * The 0x2d arm of the switch and the sub_08035C90 early return are ONE block in
@@ -52,7 +52,7 @@ u16 sub_08035D0C(ProcPtr proc)
     if (sub_08035CF4(proc))
         return 0x43;
 
-    map = (struct Unk35D0CMap *)gUnknown_08499590;
+    map = (struct Unk35D0CMap *)gMapData;
 
     switch (map->plane[map->rowOffset[
                 (((struct Unk35D0CProc *)proc)->unk44 + 8) / 16]

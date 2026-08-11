@@ -16,20 +16,20 @@
  * up -- the declared `ProcPtr` fourth parameter is what proves it is there.
  *
  * The magic-number chain ends `asr #2` and NOT `asr #8`, so this is the bare
- * pointer subtraction `ent - gUnknown_08499594` with no `>> 6`: it is the unit
+ * pointer subtraction `ent - gUnitRecords` with no `>> 6`: it is the unit
  * index, not the army number that sub_0804203C and sub_08041FE0 derive. */
 struct Unk401B4Proc
 {
     /* 00 */ u8 filler_00[0x4c];
-    /* 4c */ struct Unk08499594 *unk4c;
+    /* 4c */ struct UnitRecord *unk4c;
 };
-/* Marks the entry's cell as occupied on two planes of the gUnknown_08499590
+/* Marks the entry's cell as occupied on two planes of the gMapData
  * map, then refreshes. The map header is modelled as a struct for the same
  * reason sub_08041EA8 and sub_08040790 need it: the ROM computes every plane
  * address as `(map + K) + idx`, an association that only survives through a
  * COMPONENT_REF.
  *
- * gUnknown_08499590 is RE-READ for the second store (`ldr r2,[r5]` a second
+ * gMapData is RE-READ for the second store (`ldr r2,[r5]` a second
  * time off the same pool register): the intervening `strb` goes through a
  * `u8 *` and kills the non-const pointer global's MEM, so writing the global
  * honestly twice is what reproduces the reload.
@@ -47,10 +47,10 @@ struct Unk40200Map
 
 void sub_080401B4(struct Unk401B4Proc *proc)
 {
-    struct Unk08499594 *ent = proc->unk4c;
+    struct UnitRecord *ent = proc->unk4c;
 
-    sub_0803FF48(ent->unk02, ent->unk03, gUnknown_085D5ABC[ent->unk00].unk18, proc);
-    sub_08025D60(ent - gUnknown_08499594);
+    sub_0803FF48(ent->unk02, ent->unk03, gUnitTypeData[ent->unk00].unk18, proc);
+    sub_08025D60(ent - gUnitRecords);
     sub_080258CC();
 }
 
@@ -58,12 +58,12 @@ void sub_08040200(struct Unk02028360 *ent, ProcPtr a2)
 {
     sub_0803FECC(ent->unk00, ent->unk01, a2);
 
-    ((struct Unk40200Map *)gUnknown_08499590)->terrain[
-        ((struct Unk40200Map *)gUnknown_08499590)->rowOffset[ent->unk01]
+    ((struct Unk40200Map *)gMapData)->terrain[
+        ((struct Unk40200Map *)gMapData)->rowOffset[ent->unk01]
         + ent->unk00] = 1;
 
-    ((struct Unk40200Map *)gUnknown_08499590)->unkA22[
-        ((struct Unk40200Map *)gUnknown_08499590)->rowOffset[ent->unk01]
+    ((struct Unk40200Map *)gMapData)->unkA22[
+        ((struct Unk40200Map *)gMapData)->rowOffset[ent->unk01]
         + ent->unk00] = 4;
 
     sub_08024268();

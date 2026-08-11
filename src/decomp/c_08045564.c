@@ -34,7 +34,7 @@ void sub_08045564(struct Unk45564Proc *proc)
     y = proc->unk30;
     flag = 0;
 
-    if (gUnknown_08499598[gUnknown_030033EC].unk1f == 2)
+    if (gArmyRecords[gCurrentArmyIndex].unk1f == 2)
         flag = 1;
 
     sub_08044B08(x, y, flag);

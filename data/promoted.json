@@ -7265,6 +7265,15 @@
   "size": 56
  },
  {
+  "file": "src/decomp/c_08025B24.c",
+  "obj": "src/decomp/c_08025B24.o",
+  "addr_hex": "0x08025B24",
+  "functions": [
+   "sub_08025B24"
+  ],
+  "size": 4
+ },
+ {
   "file": "src/decomp/c_08025B28.c",
   "obj": "src/decomp/c_08025B28.o",
   "addr_hex": "0x08025B28",
@@ -11255,6 +11264,19 @@
    "sub_08035064"
   ],
   "size": 96
+ },
+ {
+  "file": "src/decomp/c_08035080.c",
+  "obj": "src/decomp/c_08035080.o",
+  "addr_hex": "0x08035080",
+  "functions": [
+   "sub_08035080"
+  ],
+  "size": 100,
+  "rodata": [
+   "0x08090E34",
+   "0x08090E38"
+  ]
  },
  {
   "file": "src/decomp/c_080350E4.c",

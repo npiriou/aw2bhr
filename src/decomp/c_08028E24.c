@@ -17,7 +17,7 @@
  * ROM CSEs the element address into one register for all six accesses, which is
  * the plain `s[i].member` subscript.
  *
- * gUnknown_08499590's +0x04 and +0x06 are s16 (`movs rI,#4 / ldrsh`, the
+ * gMapData's +0x04 and +0x06 are s16 (`movs rI,#4 / ldrsh`, the
  * s16-object tell) and are subtracted from the particle's u16 position, so they
  * are a pixel scroll origin -- distinct from the +0x0C / +0x0E tile camera
  * recorded in include/unknown-globals.h. Reached through a locally-declared
@@ -73,8 +73,8 @@ void sub_08028E24(struct Unk08028E24Proc *proc)
         s[i].unk00 += s[i].unk04;
         s[i].unk02 += s[i].unk06;
         PutSprite(0,
-                  s[i].unk00 - ((struct Unk08028E24Map *)gUnknown_08499590)->unk04,
-                  s[i].unk02 - ((struct Unk08028E24Map *)gUnknown_08499590)->unk06,
+                  s[i].unk00 - ((struct Unk08028E24Map *)gMapData)->unk04,
+                  s[i].unk02 - ((struct Unk08028E24Map *)gMapData)->unk06,
                   gUnknown_08499FE4, 0);
     }
 }

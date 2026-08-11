@@ -13,7 +13,7 @@ void sub_08023274(int a1)
     s16 y;
 
     sub_08023168(gUnknown_030033E4.unk00 << 4, gUnknown_030033E4.unk02 << 4, a1, &x, &y);
-    sub_08043418(x - *(s16 *)(gUnknown_08499590 + 4), y - *(s16 *)(gUnknown_08499590 + 6), (s16)a1);
+    sub_08043418(x - *(s16 *)(gMapData + 4), y - *(s16 *)(gMapData + 6), (s16)a1);
 }
 
 void sub_080232CC(int a1, int a2)
@@ -22,6 +22,6 @@ void sub_080232CC(int a1, int a2)
     s16 y;
 
     sub_08023168(gUnknown_030033E4.unk00 << 4, gUnknown_030033E4.unk02 << 4, a1, &x, &y);
-    sub_08043418(x - *(s16 *)(gUnknown_08499590 + 4), y - *(s16 *)(gUnknown_08499590 + 6), a1);
-    sub_08043418(x - *(s16 *)(gUnknown_08499590 + 4), y - *(s16 *)(gUnknown_08499590 + 6), a2);
+    sub_08043418(x - *(s16 *)(gMapData + 4), y - *(s16 *)(gMapData + 6), a1);
+    sub_08043418(x - *(s16 *)(gMapData + 4), y - *(s16 *)(gMapData + 6), a2);
 }

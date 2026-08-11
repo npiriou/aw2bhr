@@ -7,7 +7,7 @@
  * sub_0802163C @ 0x0802163C
  */
 
-/* Loads map <a> into gUnknown_08499590: for the 0xB4..0xBF range it forwards to
+/* Loads map <a> into gMapData: for the 0xB4..0xBF range it forwards to
  * sub_08021750 (the "rebuild from the tile table already in the map" path), and
  * otherwise it seeds the header from the gUnknown_03003F68 blob, copies the
  * name, and fills tile[]/plane[] from the blob's halfword tile stream.
@@ -63,34 +63,34 @@ void sub_0802163C(int a)
 
     sub_080247A4(a);
 
-    ((struct Unk2163CMap *)gUnknown_08499590)->width =
+    ((struct Unk2163CMap *)gMapData)->width =
         ((struct Unk2163CSrc *)gUnknown_03003F68)->width;
-    ((struct Unk2163CMap *)gUnknown_08499590)->height =
+    ((struct Unk2163CMap *)gMapData)->height =
         ((struct Unk2163CSrc *)gUnknown_03003F68)->height;
-    ((struct Unk2163CMap *)gUnknown_08499590)->unk04 = 0;
-    ((struct Unk2163CMap *)gUnknown_08499590)->unk06 = 0;
-    ((struct Unk2163CMap *)gUnknown_08499590)->unk08 = 0;
-    ((struct Unk2163CMap *)gUnknown_08499590)->unk0a = 0;
-    ((struct Unk2163CMap *)gUnknown_08499590)->unk0c = 0;
-    ((struct Unk2163CMap *)gUnknown_08499590)->unk0e = 0;
-    ((struct Unk2163CMap *)gUnknown_08499590)->unk10 = 0;
+    ((struct Unk2163CMap *)gMapData)->unk04 = 0;
+    ((struct Unk2163CMap *)gMapData)->unk06 = 0;
+    ((struct Unk2163CMap *)gMapData)->unk08 = 0;
+    ((struct Unk2163CMap *)gMapData)->unk0a = 0;
+    ((struct Unk2163CMap *)gMapData)->unk0c = 0;
+    ((struct Unk2163CMap *)gMapData)->unk0e = 0;
+    ((struct Unk2163CMap *)gMapData)->unk10 = 0;
 
-    sub_0803CC84(((struct Unk2163CMap *)gUnknown_08499590)->name,
+    sub_0803CC84(((struct Unk2163CMap *)gMapData)->name,
                  sub_08024944(a));
-    ((struct Unk2163CMap *)gUnknown_08499590)->unk4233 = sub_0802490C(a);
+    ((struct Unk2163CMap *)gMapData)->unk4233 = sub_0802490C(a);
 
     sub_080215FC();
 
-    for (y = 0; y < ((struct Unk2163CMap *)gUnknown_08499590)->height; y++)
+    for (y = 0; y < ((struct Unk2163CMap *)gMapData)->height; y++)
     {
-        for (x = 0; x < ((struct Unk2163CMap *)gUnknown_08499590)->width; x++)
+        for (x = 0; x < ((struct Unk2163CMap *)gMapData)->width; x++)
         {
             t = ((struct Unk2163CSrc *)gUnknown_03003F68)->tile[
-                    ((struct Unk2163CMap *)gUnknown_08499590)->rowOffset[y] + x];
-            ((struct Unk2163CMap *)gUnknown_08499590)->tile[
-                ((struct Unk2163CMap *)gUnknown_08499590)->rowOffset[y] + x] = t;
-            ((struct Unk2163CMap *)gUnknown_08499590)->plane[
-                ((struct Unk2163CMap *)gUnknown_08499590)->rowOffset[y] + x] =
+                    ((struct Unk2163CMap *)gMapData)->rowOffset[y] + x];
+            ((struct Unk2163CMap *)gMapData)->tile[
+                ((struct Unk2163CMap *)gMapData)->rowOffset[y] + x] = t;
+            ((struct Unk2163CMap *)gMapData)->plane[
+                ((struct Unk2163CMap *)gMapData)->rowOffset[y] + x] =
                 gUnknown_0849959C[t];
         }
     }

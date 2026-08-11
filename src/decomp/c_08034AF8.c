@@ -9,7 +9,7 @@
 
 #include "hardware.h"
 
-/* gUnknown_08090E24 is a `-fforce-addr` .rodata word holding &gUnknown_030033EC
+/* gUnknown_08090E24 is a `-fforce-addr` .rodata word holding &gCurrentArmyIndex
  * (dumped from baserom.gba), not a global -- it is read on both sides of the
  * sub_080348B4 test. gUnknown_08090D90 immediately before it IS a real u16
  * table (0,1,2,3,3,3,2,1,0,0), reached with `lsls #1; adds; ldrh`.
@@ -21,7 +21,7 @@ void sub_08034AF8(void)
 {
     if (sub_080348B4())
     {
-        sub_08034A7C(0x4e, gUnknown_08499598[sub_08026704(gUnknown_030033EC)].unk1a);
+        sub_08034A7C(0x4e, gArmyRecords[sub_08026704(gCurrentArmyIndex)].unk1a);
         switch (gUnknown_02028E40)
         {
         case 0:
@@ -50,7 +50,7 @@ void sub_08034AF8(void)
     }
     sub_08026768();
     sub_080268F4();
-    sub_08044178(gUnknown_030033EC);
+    sub_08044178(gCurrentArmyIndex);
     sub_08024268();
     sub_08062038();
     if (sub_080348B4())

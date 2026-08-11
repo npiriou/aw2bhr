@@ -13,7 +13,7 @@
  * a2 is `s8`, and the two shift pairs are what say so: PROMOTE_MODE narrows it
  * into r3 with `lsls #0x18; lsrs #0x18` (zero-extending, which says only
  * "narrow") and the USE re-reads it as `lsls #0x18; asrs #0x18` -- the second
- * pair is where the sign lives. a3 is the u8 index into gUnknown_085D5ABC.
+ * pair is where the sign lives. a3 is the u8 index into gUnitTypeData.
  *
  * `lsls #0x19; asrs #0x18` is a NET LEFT SHIFT OF ONE under an (s8) cast, not a
  * mask: count it as `(s8)(x * 2)` and fold it into the x5 above it, giving
@@ -22,7 +22,7 @@
 
 int sub_080249EC(int a1, s8 a2, u8 a3)
 {
-    if (gUnknown_085D5ABC[a3].unk1a == 0x10)
+    if (gUnitTypeData[a3].unk1a == 0x10)
         return 0;
 
     return (s8)(gUnknown_085D583C[a2].unk10 * 10);

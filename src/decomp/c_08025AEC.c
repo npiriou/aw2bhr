@@ -7,14 +7,14 @@
  * sub_08025AEC @ 0x08025AEC
  */
 
-struct Unk08499594 *sub_08025AEC(void)
+struct UnitRecord *sub_08025AEC(void)
 {
     int i;
 
     for (i = gUnknown_03003F2C + 1; i < gUnknown_03003F2C + 0x33; i++)
     {
-        if (gUnknown_08499594[i].unk00 == 0)
-            return &gUnknown_08499594[i];
+        if (gUnitRecords[i].unk00 == 0)
+            return &gUnitRecords[i];
     }
 
     return 0;

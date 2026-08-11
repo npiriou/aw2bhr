@@ -48,7 +48,7 @@
  *     in the data, not a typing error here.
  *
  * Case 0's two guards are ONE `||` of two `&&` pairs, not two separate `if`s:
- * `(p[1] != 0 && p[1] != gUnknown_030033EC) || (u16 != 0 && u16 != g03004080)`.
+ * `(p[1] != 0 && p[1] != gCurrentArmyIndex) || (u16 != 0 && u16 != g03004080)`.
  * The short-circuit structure reads straight out of the branch targets -- each
  * `&&`'s first test jumps FORWARD to the next disjunct on failure, each second
  * test jumps to the reject block on success.
@@ -65,7 +65,7 @@ u8 sub_08074484(u8 *p, struct Unk030040D8 *a2, int a3)
         switch (p[0])
         {
         case 0:
-            if ((p[1] != 0 && p[1] != gUnknown_030033EC)
+            if ((p[1] != 0 && p[1] != gCurrentArmyIndex)
              || (*(u16 *)(p + 2) != 0 && *(u16 *)(p + 2) != gUnknown_03004080))
                 p = sub_08074570(p);
             break;

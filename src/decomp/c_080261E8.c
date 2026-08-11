@@ -31,7 +31,7 @@ bool8 sub_080261E8(int a)
 
     if (gUnknown_03003FC0.unk01 == 1)
     {
-        switch (gUnknown_08499598[a].unk1a - 1)
+        switch (gArmyRecords[a].unk1a - 1)
         {
         case 0:
             v = 0x65;

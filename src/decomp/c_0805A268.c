@@ -42,7 +42,7 @@ struct Unk5A514Cell
 
 void sub_0805A268(struct Unk5A514Cell *out)
 {
-    struct Unk08499594 *u;
+    struct UnitRecord *u;
     int i;
     int flag;
 
@@ -52,7 +52,7 @@ void sub_0805A268(struct Unk5A514Cell *out)
 
     for (i = gUnknown_03003F2C; i < gUnknown_03003F2C + 0x40; i++)
     {
-        u = &gUnknown_08499594[i];
+        u = &gUnitRecords[i];
         if (u->unk00 == 0)
             continue;
 
@@ -89,7 +89,7 @@ void sub_0805A268(struct Unk5A514Cell *out)
 
 void sub_0805A388(struct Unk5A514Cell *out)
 {
-    struct Unk08499594 *u;
+    struct UnitRecord *u;
     u8 *q;
     u8 *rows;
     u8 *cells;
@@ -108,14 +108,14 @@ void sub_0805A388(struct Unk5A514Cell *out)
     if ((u8)(gUnknown_030040D8->unk00 - 0x13) <= 1)
         flag = -1;
 
-    for (y = 0; y < *(u16 *)(gUnknown_08499590 + 2); y++)
+    for (y = 0; y < *(u16 *)(gMapData + 2); y++)
     {
-        for (x = 0; x < *(u16 *)gUnknown_08499590; x++)
+        for (x = 0; x < *(u16 *)gMapData; x++)
         {
             if ((s8)gUnknown_03003340[y][x] < 0)
                 continue;
 
-            q = gUnknown_08499590;
+            q = gMapData;
             t = y * 2;
             rows = q + 0x417a;
             off = *(u16 *)(rows + t) + x;
@@ -126,7 +126,7 @@ void sub_0805A388(struct Unk5A514Cell *out)
             {
                 if ((*cell & 0xc0) != gUnknown_03003F2C)
                     continue;
-                u = &gUnknown_08499594[*cell];
+                u = &gUnitRecords[*cell];
                 if (flag == 0 && sub_08042084((u8 *)u)
                  && gUnknown_084995A8[gUnknown_030040D8->unk00] != 0)
                 {

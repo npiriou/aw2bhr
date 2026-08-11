@@ -11,7 +11,7 @@ int sub_0805B4A8(void)
 {
     int v;
 
-    v = gUnknown_085D5ABC[gUnknown_030046D4].unk1a;
+    v = gUnitTypeData[gUnknown_030046D4].unk1a;
 
     if (v == 2)
         goto one;

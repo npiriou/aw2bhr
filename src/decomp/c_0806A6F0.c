@@ -84,6 +84,6 @@ void sub_0806A6F0(ProcPtr a1, int a2, int a3)
     sub = Proc_Start(gUnknown_085815D0, a1);
     sub->unk2c = a1;
 
-    PROC->unk5e = *(u16 *)(gUnknown_08499590 + 4);
-    PROC->unk60 = *(u16 *)(gUnknown_08499590 + 6);
+    PROC->unk5e = *(u16 *)(gMapData + 4);
+    PROC->unk60 = *(u16 *)(gMapData + 6);
 }

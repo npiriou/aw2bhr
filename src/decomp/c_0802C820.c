@@ -13,7 +13,7 @@
  * `ands` with no `lsls #0x18; lsrs #0x18` in front, and agbcc re-narrows a
  * narrow-returning callee at every call site. Its parameter is `int` on the
  * bare-prologue rule -- `adds r5, r0, #0` with no masking -- so the u16
- * gUnknown_030033EC arrives as a plain `ldrh`.
+ * gCurrentArmyIndex arrives as a plain `ldrh`.
  *
  * The test reads FALSE-first: the branch jumps to `movs r0, #0` and that block
  * sits after the pool, so `return FALSE` is the THEN arm and `return TRUE` the
@@ -23,7 +23,7 @@
 
 bool8 sub_0802C820(void)
 {
-    if (gUnknown_03003FC0.unk07 & sub_080442AC(gUnknown_030033EC))
+    if (gUnknown_03003FC0.unk07 & sub_080442AC(gCurrentArmyIndex))
         return FALSE;
 
     return TRUE;
@@ -37,7 +37,7 @@ bool8 sub_0802C820(void)
 
 bool8 sub_0802C848(void)
 {
-    if (gUnknown_03003FC0.unk07 & sub_08044280(gUnknown_030033EC))
+    if (gUnknown_03003FC0.unk07 & sub_08044280(gCurrentArmyIndex))
         return FALSE;
 
     return TRUE;

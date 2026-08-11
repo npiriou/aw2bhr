@@ -7,13 +7,13 @@
  * sub_0802BC5C @ 0x0802BC5C
  */
 
-/* The index needs its own binding local. Written `p[gUnknown_030033EC - 1]`
+/* The index needs its own binding local. Written `p[gCurrentArmyIndex - 1]`
  * the -1 folds into the address as a trailing `subs r0, r0, #2` after the
  * scaling, where the ROM subtracts 1 from the index first. */
 void sub_0802BC5C(void)
 {
     const s16 *p = gUnknown_08090A98;
-    int i = gUnknown_030033EC - 1;
+    int i = gCurrentArmyIndex - 1;
 
     sub_0802BBDC(p[i]);
 }

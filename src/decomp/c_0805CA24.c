@@ -15,7 +15,7 @@
  */
 
 
-/* `movs r0, #0x5c; muls r0, r1, r0` is the 0x5c stride of struct Unk085D5ABC
+/* `movs r0, #0x5c; muls r0, r1, r0` is the 0x5c stride of struct UnitTypeData
  * -- agbcc does not strength-reduce it -- so this is `g[type]`, the unit-type
  * record for whatever gUnknown_030040D8 currently points at.
  *
@@ -24,7 +24,7 @@
  * 0x780 (`movs #0xf0; lsls #3`) spans bits 7..10, i.e. the top bit of the byte
  * at +0x04 and the low three of unk05, so it crosses the byte boundary and no
  * byte member can express it. The cast is the layout-preserving way to say
- * that until struct Unk030040D8 and struct Unk08499594 are merged.
+ * that until struct Unk030040D8 and struct UnitRecord are merged.
  *
  * The predicate is written the NEGATIVE way round -- `return 0` under a
  * disjunction, `return 1` as the bare trailing statement -- and that is forced,
@@ -38,7 +38,7 @@
 
 int sub_0805CA24(void)
 {
-    struct Unk085D5ABC *type = &gUnknown_085D5ABC[gUnknown_030040D8->unk00];
+    struct UnitTypeData *type = &gUnitTypeData[gUnknown_030040D8->unk00];
 
     if ((type->unk11 | type->unk0e) == 0
         || (type->unk0b != 0

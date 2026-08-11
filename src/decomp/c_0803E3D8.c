@@ -10,14 +10,14 @@
 /* MATCHED (wave 49, W49-C), first attempt. 380/380 bytes.
  *
  * PROMOTION NOTE: the only reloc difference is agbcc's own -fforce-addr copy of
- * &gUnknown_08499590, which asm/ prints as `gUnknown_080912F8` because gen_lds.py
+ * &gMapData, which asm/ prints as `gUnknown_080912F8` because gen_lds.py
  * invents a symbol for the ROM word. The ROM word at 0x080912F8 contains
  * 0x08499590. Do NOT declare gUnknown_080912F8. This entry needs
  *   "rodata": ["0x080912F8"]
  * in data/promoted.json, then tools/split_rodata.py + tools/gen_lds.py.
  *
- * The map planes are reached as MEMBERS of a struct cast onto gUnknown_08499590
- * (W34-F's rule): a flat `gUnknown_08499590[0x1432 + rowOffset[y] + x]`
+ * The map planes are reached as MEMBERS of a struct cast onto gMapData
+ * (W34-F's rule): a flat `gMapData[0x1432 + rowOffset[y] + x]`
  * reassociates to `(p + idx) + K` where the ROM has `(p + K) + idx`. Both the
  * 0x417A row table and the 0x1432 terrain plane need it here, and the 0x417A
  * constant is too wide for `adds #imm8`, which is why the ROM spends a register
@@ -40,7 +40,7 @@ struct Unk3E3D8Map
     /* 0x1432 */ u8 terrain[0x417A - 0x1432];
     /* 0x417A */ u16 rowOffset[1];
 };
-#define MAP ((struct Unk3E3D8Map *)gUnknown_08499590)
+#define MAP ((struct Unk3E3D8Map *)gMapData)
 
 void sub_0803E3D8(void)
 {

@@ -7,7 +7,7 @@
  * sub_0803EED4 @ 0x0803EED4
  */
 
-/* gUnknown_08499590's screen descriptor, reached through a struct for the
+/* gMapData's screen descriptor, reached through a struct for the
  * reason recorded in c_0800B1FC.c: a member access computes base + offsetof
  * first and then adds the scaled index, which is the ROM's order. */
 struct MapScreen3EED4
@@ -29,12 +29,12 @@ u8 sub_0803EED4(int a1, int a2)
     struct Unk02028360 *p;
     u8 ret;
 
-    ret = ((struct MapScreen3EED4 *)gUnknown_08499590)->terrain[((struct MapScreen3EED4 *)gUnknown_08499590)->rowOffset[a2] + a1];
+    ret = ((struct MapScreen3EED4 *)gMapData)->terrain[((struct MapScreen3EED4 *)gMapData)->rowOffset[a2] + a1];
     p = sub_0803DE94(a1, a2);
     if (p != NULL)
     {
         sub_0803DF98(p->unk02_6, &pos);
-        ret = ((struct MapScreen3EED4 *)gUnknown_08499590)->terrain[((struct MapScreen3EED4 *)gUnknown_08499590)->rowOffset[p->unk01 + pos.unk02] + (p->unk00 + pos.unk00)];
+        ret = ((struct MapScreen3EED4 *)gMapData)->terrain[((struct MapScreen3EED4 *)gMapData)->rowOffset[p->unk01 + pos.unk02] + (p->unk00 + pos.unk00)];
     }
 
     return ret;

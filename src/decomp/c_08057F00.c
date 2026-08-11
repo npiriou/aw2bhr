@@ -53,8 +53,8 @@ int sub_08057F00(int a1)
 
     for (i = gUnknown_03003F2C; i < gUnknown_03003F2C + 0x40; i++)
     {
-        if (gUnknown_08499594[i].unk00 != 0
-         && gUnknown_085D5ABC[gUnknown_08499594[i].unk00].unk1b == a1)
+        if (gUnitRecords[i].unk00 != 0
+         && gUnitTypeData[gUnitRecords[i].unk00].unk1b == a1)
             count++;
     }
 
@@ -70,8 +70,8 @@ int sub_08057F54(int a1)
 
     for (i = gUnknown_03003F2C; i < gUnknown_03003F2C + 0x40; i++)
     {
-        if (gUnknown_08499594[i].unk00 != 0
-         && (gUnknown_085D5ABC[gUnknown_08499594[i].unk00].unk1a & a1) != 0)
+        if (gUnitRecords[i].unk00 != 0
+         && (gUnitTypeData[gUnitRecords[i].unk00].unk1a & a1) != 0)
             count++;
     }
 
@@ -87,7 +87,7 @@ int sub_08057FA8(int a1)
 
     for (i = gUnknown_03003F2C; i < gUnknown_03003F2C + 0x40; i++)
     {
-        if (gUnknown_08499594[i].unk00 == a1)
+        if (gUnitRecords[i].unk00 == a1)
             count++;
     }
 
@@ -104,11 +104,11 @@ int sub_08057FE8(int a1)
 
     for (i = 0; i < 4; i++)
     {
-        if ((gUnknown_08499598[gUnknown_030033EC].unk2c >> i) & 1)
+        if ((gArmyRecords[gCurrentArmyIndex].unk2c >> i) & 1)
         {
             for (j = i * 64; j < i * 64 + 0x40; j++)
             {
-                if (gUnknown_08499594[j].unk00 == a1)
+                if (gUnitRecords[j].unk00 == a1)
                     count++;
             }
         }
@@ -134,13 +134,13 @@ int sub_08058058(int n)
     if ((u8)(gUnknown_030040D8->unk00 - 1) > 1)
         return 0;
 
-    for (y = 0; y < *(u16 *)(gUnknown_08499590 + 2); y++)
+    for (y = 0; y < *(u16 *)(gMapData + 2); y++)
     {
-        for (x = 0; x < *(u16 *)gUnknown_08499590; x++)
+        for (x = 0; x < *(u16 *)gMapData; x++)
         {
             if ((s8)gUnknown_03003340[y][x] >= 0)
             {
-                p = gUnknown_08499590;
+                p = gMapData;
                 t = y * 2;
                 rows = p + 0x417a;
                 off = *(u16 *)(rows + t) + x;
@@ -165,21 +165,21 @@ int sub_08058058(int n)
 }
 
 /* Repeatedly pulls the next candidate cell off sub_08057EC0 and maps it through
- * gUnknown_08499590's rowOffset table (+0x417A, u16 per row) into the s8 cell
- * table at +0x193A; that byte selects a gUnknown_084995A0 record.  The first
+ * gMapData's rowOffset table (+0x417A, u16 per row) into the s8 cell
+ * table at +0x193A; that byte selects a gPropertyList record.  The first
  * record whose unk03[a2] is not above a1 wins: the counter is bumped and the
  * record returned.  NOTE the return type -- the object really is a
- * `struct Unk084995A0 *`; see the comment in include/unknown-functions.h.
+ * `struct PropertyListEntry *`; see the comment in include/unknown-functions.h.
  *
- * `arrp` binds gUnknown_084995A0's ADDRESS rather than dereferencing it in
+ * `arrp` binds gPropertyList's ADDRESS rather than dereferencing it in
  * place.  That is what puts the `ldr r6, =...` in the loop preheader: written
- * as a bare `gUnknown_084995A0[v]` the address load stays inside the loop, and
+ * as a bare `gPropertyList[v]` the address load stays inside the loop, and
  * the pool word moves with it. */
-struct Unk08499594 *sub_08058144(int a1, int a2)
+struct UnitRecord *sub_08058144(int a1, int a2)
 {
     struct Unk08057EC0Rec *e;
-    struct Unk084995A0 **arrp;
-    struct Unk084995A0 *q;
+    struct PropertyListEntry **arrp;
+    struct PropertyListEntry *q;
     u8 *p;
     u8 *rows;
     u8 *cells;
@@ -187,7 +187,7 @@ struct Unk08499594 *sub_08058144(int a1, int a2)
     int idx;
     int v;
 
-    arrp = &gUnknown_084995A0;
+    arrp = &gPropertyList;
 
     do
     {
@@ -195,7 +195,7 @@ struct Unk08499594 *sub_08058144(int a1, int a2)
         if (e == 0)
             return 0;
 
-        p = gUnknown_08499590;
+        p = gMapData;
         t = e->unk01 * 2;
         rows = p + 0x417A;
         idx = *(u16 *)(rows + t) + e->unk00;
@@ -206,5 +206,5 @@ struct Unk08499594 *sub_08058144(int a1, int a2)
 
     q->unk03[a2]++;
 
-    return (struct Unk08499594 *)q;
+    return (struct UnitRecord *)q;
 }

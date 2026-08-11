@@ -34,11 +34,11 @@ void sub_080440E0(int a1, int a2)
         return;
     if (sub_0804415C(a1))
         return;
-    v = gUnknown_08499598[a1].unk20;
+    v = gArmyRecords[a1].unk20;
     if (v < 0)
         return;
     if (v + a2 > sub_08044208(a1))
-        gUnknown_08499598[a1].unk20 = sub_08044208(a1);
+        gArmyRecords[a1].unk20 = sub_08044208(a1);
     else
-        gUnknown_08499598[a1].unk20 = gUnknown_08499598[a1].unk20 + a2;
+        gArmyRecords[a1].unk20 = gArmyRecords[a1].unk20 + a2;
 }

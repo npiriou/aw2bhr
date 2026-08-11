@@ -26,9 +26,9 @@ void sub_0805CBCC(void)
 
     for (i = gUnknown_03003F2C + 1; i < gUnknown_03003F2C + 0x40; i++)
     {
-        if (gUnknown_08499594[i].unk00 != 0
-            && !(gUnknown_08499594[i].unk01 & 1)
-            && gUnknown_085D5ABC[gUnknown_08499594[i].unk00].unk1b == 4)
+        if (gUnitRecords[i].unk00 != 0
+            && !(gUnitRecords[i].unk01 & 1)
+            && gUnitTypeData[gUnitRecords[i].unk00].unk1b == 4)
         {
             *gUnknown_030046B0++ = i;
         }

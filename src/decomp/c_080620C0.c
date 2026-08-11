@@ -14,5 +14,5 @@ void sub_080620C0(void)
 
     for (i = 0; i <= 2; i++)
         for (j = 0; j <= 0x1f; j++)
-            gUnknown_02029ED8[j + i * 0x20 + gUnknown_030033EC * 0xc00] = 0;
+            gUnknown_02029ED8[j + i * 0x20 + gCurrentArmyIndex * 0xc00] = 0;
 }

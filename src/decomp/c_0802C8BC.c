@@ -7,7 +7,7 @@
  * sub_0802C8BC @ 0x0802C8BC
  */
 
-/* "Is the cell under the cursor occupied": the gUnknown_08499590 map read in
+/* "Is the cell under the cursor occupied": the gMapData map read in
  * its usual three-step form (src/decomp/c_08001158.c), against the +0x12 unit
  * plane and the gUnknown_03003100 cursor. Read UNSIGNED -- both halves come
  * back with a plain `ldrh`, which is the union's `pos` view and not `spos`. */
@@ -19,7 +19,7 @@ bool8 sub_0802C8BC(void)
     int t;
     int off;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = gUnknown_03003100.pos.unk02 * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + t) + gUnknown_03003100.pos.unk00;

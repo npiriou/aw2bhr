@@ -14,7 +14,7 @@
  * The struct is c_0800AF24.c's -- this function is that file's neighbour and
  * sub_0800AF24 / sub_0800AF74 both call it.  Only width and height are read
  * here, which is why the pool word stays a plain inline `.word
- * gUnknown_08499590`: two reads is under the four -fforce-addr needs.
+ * gMapData`: two reads is under the four -fforce-addr needs.
  *
  * THE DISCRIMINATOR, and the only thing this cost a rewrite over: both
  * two-call tests over (y - 2) are `== 0 && == 0` with the SMALL tile id as the
@@ -49,7 +49,7 @@ struct MapScreen
     /* 0x1432 */ u8 terrain[0x417A - 0x1432];
     /* 0x417A */ u16 rowOffset[1];
 };
-#define MAP ((struct MapScreen *)gUnknown_08499590)
+#define MAP ((struct MapScreen *)gMapData)
 
 void sub_0800B048(int x, int y)
 {

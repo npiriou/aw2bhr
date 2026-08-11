@@ -19,7 +19,7 @@
  * 0x080909E8-0x08090A5C run), so the source names gUnknown_030032C0 directly
  * and the build places the word.
  *
- * Two passes over the same 12-byte gUnknown_08499594 records, and the shape of
+ * Two passes over the same 12-byte gUnitRecords records, and the shape of
  * each bound is what fixes the types:
  *   - pass 1 counts `i <= 0x32` against a CONSTANT, so the compare is unsigned
  *     (`bhi`/`bls`) and the `lsls #16; lsrs #16` after every increment is the
@@ -36,38 +36,38 @@
  *
  * Both passes spell the hit path and the `return` in full; jump.c cross-jumps
  * the two into the single shared tail block at 0x0802554A that recomputes
- * `&gUnknown_08499594[i + gUnknown_03003F2C]`. Do not try to author that block.
+ * `&gUnitRecords[i + gUnknown_03003F2C]`. Do not try to author that block.
  *
  * `gUnknown_030032C0 = 0` on the out-of-range branch compiles to `strh r3,[r1]`
  * reusing the flag test's AND result, which is 0 on that path -- ordinary CSE,
  * not a spelling.
  */
 
-struct Unk08499594 *sub_080254AC(void)
+struct UnitRecord *sub_080254AC(void)
 {
     u16 i;
 
     for (i = gUnknown_030032C0 + 1; i <= 0x32; i++)
     {
-        if (gUnknown_08499594[i + gUnknown_03003F2C].unk00 != 0
-            && !(gUnknown_08499594[i + gUnknown_03003F2C].unk01 & 1))
+        if (gUnitRecords[i + gUnknown_03003F2C].unk00 != 0
+            && !(gUnitRecords[i + gUnknown_03003F2C].unk01 & 1))
         {
             gUnknown_030032C0 = i;
             if ((s16)i > 0x31)
                 gUnknown_030032C0 = 0;
-            return &gUnknown_08499594[i + gUnknown_03003F2C];
+            return &gUnitRecords[i + gUnknown_03003F2C];
         }
     }
 
     for (i = 1; i < (s16)gUnknown_030032C0 + 1; i++)
     {
-        if (gUnknown_08499594[i + gUnknown_03003F2C].unk00 != 0
-            && !(gUnknown_08499594[i + gUnknown_03003F2C].unk01 & 1))
+        if (gUnitRecords[i + gUnknown_03003F2C].unk00 != 0
+            && !(gUnitRecords[i + gUnknown_03003F2C].unk01 & 1))
         {
             gUnknown_030032C0 = i;
             if ((s16)i > 0x31)
                 gUnknown_030032C0 = 0;
-            return &gUnknown_08499594[i + gUnknown_03003F2C];
+            return &gUnitRecords[i + gUnknown_03003F2C];
         }
     }
 

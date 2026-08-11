@@ -7,12 +7,12 @@
  * sub_08025340 @ 0x08025340, sub_08025378 @ 0x08025378
  */
 
-/* gUnknown_08499594 is a POINTER to the 12-byte records, not an array, and the
+/* gUnitRecords is a POINTER to the 12-byte records, not an array, and the
  * `lsls #1; adds; lsls #2` index is the x*3<<2 = x*12 multiply
  * docs/agbcc-codegen.md describes -- write it as a struct subscript.
  *
  * Binding the element to a local pointer is load-bearing: written inline as
- * `gUnknown_08499594[a1].unk01 |= 2` agbcc dereferences the pool word FIRST
+ * `gUnitRecords[a1].unk01 |= 2` agbcc dereferences the pool word FIRST
  * (`ldr r0,[r0]`) and then computes the index, which is the reverse of the ROM.
  * With the local the index is computed while the pool word is still
  * undereferenced in r1, exactly as the ROM has it -- the same ordering effect
@@ -24,7 +24,7 @@
 
 void sub_08025340(u8 a1)
 {
-    struct Unk08499594 *p = &gUnknown_08499594[a1];
+    struct UnitRecord *p = &gUnitRecords[a1];
 
     p->unk01 |= 2;
 
@@ -39,7 +39,7 @@ void sub_08025340(u8 a1)
 
 void sub_08025378(u8 a1)
 {
-    struct Unk08499594 *p = &gUnknown_08499594[a1];
+    struct UnitRecord *p = &gUnitRecords[a1];
 
     p->unk01 &= ~2;
 

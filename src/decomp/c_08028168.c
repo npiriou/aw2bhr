@@ -9,5 +9,5 @@
 
 void sub_08028168(void)
 {
-    sub_0801A5B0(gUnknown_030033EC);
+    sub_0801A5B0(gCurrentArmyIndex);
 }

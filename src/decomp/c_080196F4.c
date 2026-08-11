@@ -8,10 +8,10 @@
  */
 
 /* Apply a 0xFF-terminated table of 12-byte unit-spawn commands: 0xFE resets
- * gUnknown_030033EC (and the 0x40-scaled shadow gUnknown_03003F2C) to the
+ * gCurrentArmyIndex (and the 0x40-scaled shadow gUnknown_03003F2C) to the
  * command's byte 1, anything else builds a unit through sub_08025C5C and
  * stamps the command's bytes into it, clamped against that unit type's caps in
- * gUnknown_085D5ABC. The entry value of gUnknown_030033EC is saved in sl and
+ * gUnitTypeData. The entry value of gCurrentArmyIndex is saved in sl and
  * restored on the way out, so the whole table runs "as" whichever army each
  * 0xFE selects.
  *
@@ -19,12 +19,12 @@
  * same block the loop guard does, and that block still runs sub_080258CC and
  * the restore.
  *
- * gUnknown_030033EC and gUnknown_03003F2C each get an agbcc `-fforce-addr`
+ * gCurrentArmyIndex and gUnknown_03003F2C each get an agbcc `-fforce-addr`
  * `.rodata` word (the ROM's 0x0808E5AC and 0x0808E5B0), parked in r8/sb and
  * re-loaded from memory at every use -- five and four references respectively.
- * gUnknown_085D5ABC, by contrast, is CSEd to a single reference and gets an
+ * gUnitTypeData, by contrast, is CSEd to a single reference and gets an
  * ordinary inline pool word, which is why there is no local for the table
- * element: writing `t = &gUnknown_085D5ABC[u->unk00];` as its own statement
+ * element: writing `t = &gUnitTypeData[u->unk00];` as its own statement
  * computes the element address BEFORE `u->unk06_0`, and the ROM computes the
  * bitfield extract first.
  *
@@ -55,18 +55,18 @@ struct Unk080196F4Cmd /* 0x0c */
 void sub_080196F4(void *arg)
 {
     struct Unk080196F4Cmd *p;
-    struct Unk08499594 *u;
+    struct UnitRecord *u;
     u16 saved;
 
     p = arg;
-    saved = gUnknown_030033EC;
+    saved = gCurrentArmyIndex;
 
     while (p->unk00 != 0xFF)
     {
         if (p->unk00 == 0xFE)
         {
-            gUnknown_030033EC = p->unk01;
-            gUnknown_03003F2C = (gUnknown_030033EC - 1) * 0x40;
+            gCurrentArmyIndex = p->unk01;
+            gUnknown_03003F2C = (gCurrentArmyIndex - 1) * 0x40;
         }
         else
         {
@@ -86,15 +86,15 @@ void sub_080196F4(void *arg)
             u->unk09 = 0;
             u->unk0a = 0;
             u->unk0b = p->unk09;
-            if (u->unk06_0 > gUnknown_085D5ABC[u->unk00].unk10)
-                u->unk06_0 = gUnknown_085D5ABC[u->unk00].unk10;
-            if (u->unk04_7 > gUnknown_085D5ABC[u->unk00].unk0b)
-                u->unk04_7 = gUnknown_085D5ABC[u->unk00].unk0b;
+            if (u->unk06_0 > gUnitTypeData[u->unk00].unk10)
+                u->unk06_0 = gUnitTypeData[u->unk00].unk10;
+            if (u->unk04_7 > gUnitTypeData[u->unk00].unk0b)
+                u->unk04_7 = gUnitTypeData[u->unk00].unk0b;
         }
         p++;
     }
 
     sub_080258CC();
-    gUnknown_030033EC = saved;
-    gUnknown_03003F2C = (gUnknown_030033EC - 1) * 0x40;
+    gCurrentArmyIndex = saved;
+    gUnknown_03003F2C = (gCurrentArmyIndex - 1) * 0x40;
 }

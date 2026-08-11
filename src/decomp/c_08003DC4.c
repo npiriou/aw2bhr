@@ -10,7 +10,7 @@
 /* MATCHED, wave 36 (W36-I), after five waves parked at 93.7%. PROMOTION NEEDS
  * THE POOL WORD PLACED:
  *     "rodata": ["0x0808D794"]
- * (two references, both to the same word, which holds &gUnknown_08499590.)
+ * (two references, both to the same word, which holds &gMapData.)
  *
  * THE OLD PARK NOTE WAS WRONG and this replaces it. It described the residual
  * as "a pure register permutation ... nothing in the C distinguishes them" and
@@ -18,7 +18,7 @@
  * the map (`cells` locals, `*(p + K + idx)`, a permuter run). The axis that
  * mattered was not in the list because it did not exist yet when the note was
  * written: the planes must be reached as MEMBERS of a struct cast onto
- * gUnknown_08499590 (W34-F's rule), and the cast must stay INLINE rather than
+ * gMapData (W34-F's rule), and the cast must stay INLINE rather than
  * being bound to a `map` local. A local keeps the pseudo live to the end of
  * its scope, so agbcc preserves the base (`mov rT,ip; adds rD,rBase,rT`) where
  * the ROM advances it (`add rBase,ip`) -- that pair IS the advance-vs-preserve
@@ -43,7 +43,7 @@ struct UnkDC4Map
     /* 0x1432 */ u8 cell[0x417A - 0x1432];
     /* 0x417A */ u16 rowOffset[1];
 };
-#define MAP ((struct UnkDC4Map *)gUnknown_08499590)
+#define MAP ((struct UnkDC4Map *)gMapData)
 
 void sub_08003DC4(int x, int y, int kind)
 {

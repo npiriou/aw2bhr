@@ -43,11 +43,11 @@ void sub_08031D54(struct Unk08031D54Proc *proc)
 }
 
 /* Sets up the unit records the 0x08031 screen edits: publishes
- * &gUnknown_08499594[1] as gUnknown_030040D8, redraws the 0xc-wide window, and
+ * &gUnitRecords[1] as gUnknown_030040D8, redraws the 0xc-wide window, and
  * writes two fields on element 1 and two on element 2.
  *
  * THE +0x18 / +0x1C STORES ARE ELEMENT 2, NOT MEMBERS 0x18 AND 0x1C. struct
- * Unk08499594 is 0x0c bytes, so 0x18 == 2 * 0x0c is that element's unk00 and
+ * UnitRecord is 0x0c bytes, so 0x18 == 2 * 0x0c is that element's unk00 and
  * 0x1c its unk04_0 -- the `u16 unk04_0:7` bitfield already declared there,
  * which is exactly what the `AND ~0x7f; OR 0x64` store is. agbcc synthesises
  * 0xFFFFFF80 as `subs r0,#0x81` off the `movs r0,#1` the previous statement
@@ -55,16 +55,16 @@ void sub_08031D54(struct Unk08031D54Proc *proc)
  * fit `strb`'s imm5, so no address arithmetic appears and the element indices
  * are invisible unless you know the 0x0c stride.
  *
- * THE ARRAY BASE IS BOUND TO A LOCAL. Naming gUnknown_08499594 at each of its
+ * THE ARRAY BASE IS BOUND TO A LOCAL. Naming gUnitRecords at each of its
  * three uses reloads the pointer twice more and puts a fourth word in the
  * literal pool; the ROM materialises it once into r4 and keeps it. By contrast
  * gUnknown_030040D8 IS reloaded for each of its two stores, so that one is
  * named directly -- the two spellings sit side by side in this function. */
 void sub_08031DC0(void)
 {
-    struct Unk08499594 *p;
+    struct UnitRecord *p;
 
-    p = gUnknown_08499594;
+    p = gUnitRecords;
 
     gUnknown_030040D8 = (struct Unk030040D8 *)&p[1];
 

@@ -13,8 +13,8 @@
  * one `&&` only in spelling -- both jump to the same exit and neither has a
  * body, so this is the short-circuit shape either way.
  *
- * The +0x4c member is a `struct Unk08499594 *` on sub_0802A588's evidence, not
- * a guess: that handler reads the slot back, subtracts gUnknown_08499594 from
+ * The +0x4c member is a `struct UnitRecord *` on sub_0802A588's evidence, not
+ * a guess: that handler reads the slot back, subtracts gUnitRecords from
  * it and divides the difference by 12 to recover the unit index. The proc
  * record itself is not otherwise modelled, so its struct stays local to the
  * file per the header rules. */
@@ -22,10 +22,10 @@
 struct Unk2A54CProc
 {
     /* 0x00 */ u8 filler_00[0x4c];
-    /* 0x4c */ struct Unk08499594 *unk4c;
+    /* 0x4c */ struct UnitRecord *unk4c;
 };
 
-void sub_0802A54C(struct Unk08499594 *unit, ProcPtr parent)
+void sub_0802A54C(struct UnitRecord *unit, ProcPtr parent)
 {
     struct Unk2A54CProc *proc;
 

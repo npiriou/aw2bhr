@@ -29,17 +29,17 @@
  */
 int sub_08043DAC(u8 a)
 {
-    switch (gUnknown_08499598[a].unk1e)
+    switch (gArmyRecords[a].unk1e)
     {
     case 0:
     default:
         sub_0803B4EC((s16)sub_08043D84(a));
         break;
     case 1:
-        sub_08043DF4(gUnknown_08499598[a].unk1d);
+        sub_08043DF4(gArmyRecords[a].unk1d);
         break;
     case 2:
-        sub_08043E18(gUnknown_08499598[a].unk1d);
+        sub_08043E18(gArmyRecords[a].unk1d);
         break;
     }
 }

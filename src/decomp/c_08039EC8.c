@@ -13,7 +13,7 @@
  * refused. The two masks differ (0x1ff against 0xff) because the x wraps on a
  * 512-pixel map row and the y on a 256-pixel column.
  *
- * gUnknown_08499590 is dereferenced ONCE here, unlike src/decomp/c_08039140.c
+ * gMapData is dereferenced ONCE here, unlike src/decomp/c_08039140.c
  * where the two reads sit in different branches: both `ldrsh`es are register
  * offsets off one loaded base because they are in a single expression. */
 struct Unk39EC8Proc
@@ -28,7 +28,7 @@ struct Unk39EC8Proc
 void sub_08039EC8(struct Unk39EC8Proc *proc)
 {
     if (sub_0801C254(proc->unk34,
-                     ((proc->unk29 << 4) - *(s16 *)(gUnknown_08499590 + 4) + 8) & 0x1ff,
-                     ((proc->unk2a << 4) - *(s16 *)(gUnknown_08499590 + 6) + 8) & 0xff) == 0)
+                     ((proc->unk29 << 4) - *(s16 *)(gMapData + 4) + 8) & 0x1ff,
+                     ((proc->unk2a << 4) - *(s16 *)(gMapData + 6) + 8) & 0xff) == 0)
         Proc_Break(proc);
 }

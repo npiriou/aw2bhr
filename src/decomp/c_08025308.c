@@ -14,7 +14,7 @@ int sub_08025308(int a)
 
     for (i = 1; i <= 50; i++)
     {
-        if (gUnknown_08499594[(a - 1) * 64 + i].unk00 != 0)
+        if (gUnitRecords[(a - 1) * 64 + i].unk00 != 0)
             count++;
     }
 

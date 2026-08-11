@@ -33,7 +33,7 @@ void sub_08021CB4(void)
 
     while (gUnknown_03003150[i].flags != 0xff)
     {
-        map = (struct Unk21CB4Map *)gUnknown_08499590;
+        map = (struct Unk21CB4Map *)gMapData;
         gUnknown_03003150[i].flags =
             map->plane[map->rowOffset[gUnknown_03003150[i].y] + gUnknown_03003150[i].x];
         i++;

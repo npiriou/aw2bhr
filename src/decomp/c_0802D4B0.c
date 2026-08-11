@@ -21,7 +21,7 @@ void sub_0802D4B0(void)
 
     v = 1;
 
-    if (gUnknown_030033E4.unk00 - *(s16 *)(gUnknown_08499590 + 4) / 16 <= 6)
+    if (gUnknown_030033E4.unk00 - *(s16 *)(gMapData + 4) / 16 <= 6)
         v = 0x14;
 
     sub_08024268();
@@ -37,7 +37,7 @@ void sub_0802D504(void)
 
     v = 1;
 
-    if (gUnknown_030033E4.unk00 - *(s16 *)(gUnknown_08499590 + 4) / 16 <= 6)
+    if (gUnknown_030033E4.unk00 - *(s16 *)(gMapData + 4) / 16 <= 6)
         v = 0x14;
 
     sub_08024268();
@@ -52,7 +52,7 @@ void sub_0802D558(void)
 
     v = 1;
 
-    if (gUnknown_030033E4.unk00 - *(s16 *)(gUnknown_08499590 + 4) / 16 <= 6)
+    if (gUnknown_030033E4.unk00 - *(s16 *)(gMapData + 4) / 16 <= 6)
         v = 0x14;
 
     sub_08024268();

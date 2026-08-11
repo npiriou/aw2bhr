@@ -7,7 +7,7 @@
  * sub_080215FC @ 0x080215FC
  */
 
-/* gUnknown_08499590 is a screen descriptor: u16 width at +0, u16 height at +2,
+/* gMapData is a screen descriptor: u16 width at +0, u16 height at +2,
  * u16 rowOffset[] at +0x417A. This fills rowOffset[y] = y * width.
  *
  * The loop is written as an explicit entry test plus a do/while because that is
@@ -25,11 +25,11 @@ void sub_080215FC(void)
 
     i = 0;
 
-    if (i < *(u16 *)(gUnknown_08499590 + 2))
+    if (i < *(u16 *)(gMapData + 2))
     {
         do
         {
-            p = gUnknown_08499590;
+            p = gMapData;
             t = i * 2;
             rows = p + 0x417A;
             *(u16 *)(rows + t) = i * *(u16 *)p;

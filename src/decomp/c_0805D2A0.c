@@ -34,11 +34,11 @@ void sub_0805D2A0(void)
 
     for (i = gUnknown_03003F2C + 1; i < gUnknown_03003F2C + 0x40; i++)
     {
-        if (gUnknown_08499594[i].unk00 != 0)
+        if (gUnitRecords[i].unk00 != 0)
         {
-            if (!(gUnknown_08499594[i].unk01 & 1))
+            if (!(gUnitRecords[i].unk01 & 1))
             {
-                if (gUnknown_08499594[i].unk00 == 7)
+                if (gUnitRecords[i].unk00 == 7)
                 {
                     *gUnknown_030046B0++ = i;
                 }

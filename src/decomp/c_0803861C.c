@@ -9,8 +9,8 @@
 
 /* MATCHED byte-for-byte (wave 43, W43-E). relocs: match.
  *
- * `r1 + 0x66` is not a member of the outer object: gUnknown_08499598's record
- * stride is 0x3c and 0x3c + 0x2a = 0x66, so it is gUnknown_08499598[1].unk2a,
+ * `r1 + 0x66` is not a member of the outer object: gArmyRecords's record
+ * stride is 0x3c and 0x3c + 0x2a = 0x66, so it is gArmyRecords[1].unk2a,
  * the same member the loop reads at index i. The function counts the armies
  * whose unk2a agrees with army 1's.
  *
@@ -36,7 +36,7 @@ bool8 sub_0803861C(void)
     count = 0;
     for (i = 1; i <= 4; i++)
     {
-        if (sub_080266DC(i) && gUnknown_08499598[1].unk2a == gUnknown_08499598[i].unk2a)
+        if (sub_080266DC(i) && gArmyRecords[1].unk2a == gArmyRecords[i].unk2a)
             count++;
     }
     if (count != 0)

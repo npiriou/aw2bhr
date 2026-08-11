@@ -28,7 +28,7 @@ void sub_0802C0E4(void)
  *
  * The parameter is never read -- the body opens by loading gUnknown_03003FC0
  * straight over r0 -- so its width is settled entirely at the only call site,
- * sub_0802C118, which hands it the u16 global gUnknown_030033EC with a bare
+ * sub_0802C118, which hands it the u16 global gCurrentArmyIndex with a bare
  * `ldrb`. A byte load out of a halfword global is what a u8 parameter costs;
  * an `int` parameter would have emitted `ldrh`. `pop {r0}; bx r0`, so void.
  */
@@ -51,7 +51,7 @@ void sub_0802C0E8(u8 a)
 }
 
 /* Two bare statements. sub_0802C0E8 discards its argument, so the `ldrb` of
- * the u16 gUnknown_030033EC is the only evidence for that parameter's width --
+ * the u16 gCurrentArmyIndex is the only evidence for that parameter's width --
  * see the note on sub_0802C0E8 in include/unknown-functions.h.
  * `pop {r0}; bx r0`, so void.
  */
@@ -59,5 +59,5 @@ void sub_0802C0E8(u8 a)
 void sub_0802C118(void)
 {
     sub_080366A4();
-    sub_0802C0E8(gUnknown_030033EC);
+    sub_0802C0E8(gCurrentArmyIndex);
 }

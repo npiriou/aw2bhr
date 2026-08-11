@@ -53,13 +53,13 @@ int sub_08059A0C(void *a1)
     out = (struct Unk59A0CCell *)a1;
     start = out;
 
-    for (y = 0; y < *(u16 *)(gUnknown_08499590 + 2); y++)
+    for (y = 0; y < *(u16 *)(gMapData + 2); y++)
     {
-        for (x = 0; x < *(u16 *)gUnknown_08499590; x++)
+        for (x = 0; x < *(u16 *)gMapData; x++)
         {
             if ((s8)gUnknown_03003340[y][x] >= 0)
             {
-                p = gUnknown_08499590;
+                p = gMapData;
                 t = y * 2;
                 rows = p + 0x417a;
                 off = *(u16 *)(rows + t) + x;

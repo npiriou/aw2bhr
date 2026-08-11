@@ -40,17 +40,17 @@ void sub_08000E48(struct Unk03001470 *proc)
 
     gUnknown_030040E4 = 0;
     gUnknown_030040E8 = 0;
-    gUnknown_08499590[0x4233] = 4;
+    gMapData[0x4233] = 4;
     sub_08026BAC();
     sub_08034780();
     sub_08026924();
-    gUnknown_08499598[0].unk1d = 0;
-    gUnknown_08499598[1].unk1d = 1;
-    gUnknown_08499598[2].unk1d = 3;
-    gUnknown_08499598[3].unk1d = 8;
-    gUnknown_08499598[4].unk1d = 6;
+    gArmyRecords[0].unk1d = 0;
+    gArmyRecords[1].unk1d = 1;
+    gArmyRecords[2].unk1d = 3;
+    gArmyRecords[3].unk1d = 8;
+    gArmyRecords[4].unk1d = 6;
     gUnknown_03003FC0.unk04 = 0;
-    gUnknown_030033EC = 0;
+    gCurrentArmyIndex = 0;
     gUnknown_03004080 = 1;
     sub_08026768();
     sub_08000DF8(a);

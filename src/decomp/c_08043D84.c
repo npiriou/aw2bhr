@@ -16,5 +16,5 @@
 
 u16 sub_08043D84(u8 a1)
 {
-    return gUnknown_085D3DD0[gUnknown_08499598[a1].unk1d].unk04;
+    return gCoDataTable[gArmyRecords[a1].unk1d].unk04;
 }

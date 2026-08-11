@@ -20,12 +20,12 @@
  * unit's remaining fuel (unk06_0) and its movement allowance, then pushes the
  * unit's own cell as step 0 of the gUnknown_0849D5F8 stack.
  *
- * gUnknown_030040D8 is a `struct Unk08499594 *` in disguise -- the pointer
- * SUBTRACTION against gUnknown_08499594 proves it, since the 0x0c-byte
+ * gUnknown_030040D8 is a `struct UnitRecord *` in disguise -- the pointer
+ * SUBTRACTION against gUnitRecords proves it, since the 0x0c-byte
  * reciprocal multiply only comes out of a 12-byte pointee. The declaration
  * keeps its own struct tag, so every use here casts; include/unknown-globals.h
  * already records the same conflation for gUnknown_08091364.
- * `((p - gUnknown_08499594) >> 6) + 1` is src/decomp/c_080211DC.c's army-index
+ * `((p - gUnitRecords) >> 6) + 1` is src/decomp/c_080211DC.c's army-index
  * idiom verbatim.
  *
  * The two arms are a plain if/else with a STORE IN EACH, not a `?:` -- both
@@ -36,21 +36,21 @@ void sub_08038C98(void)
     ApplyPaletteExt(gUnknown_0809165C, 0x260, 0x20);
     sub_08011E54(gUnknown_080A1C24, (void *)0x06013940, 0xa00);
 
-    if (((struct Unk08499594 *)gUnknown_030040D8)->unk06_0
-        < sub_08042D1C(((((struct Unk08499594 *)gUnknown_030040D8)
-                         - gUnknown_08499594) >> 6) + 1,
-                       ((struct Unk08499594 *)gUnknown_030040D8)->unk00))
+    if (((struct UnitRecord *)gUnknown_030040D8)->unk06_0
+        < sub_08042D1C(((((struct UnitRecord *)gUnknown_030040D8)
+                         - gUnitRecords) >> 6) + 1,
+                       ((struct UnitRecord *)gUnknown_030040D8)->unk00))
         gUnknown_0849D5F8->unk38[0xc]
-            = ((struct Unk08499594 *)gUnknown_030040D8)->unk06_0;
+            = ((struct UnitRecord *)gUnknown_030040D8)->unk06_0;
     else
         gUnknown_0849D5F8->unk38[0xc]
-            = sub_08042D1C(((((struct Unk08499594 *)gUnknown_030040D8)
-                             - gUnknown_08499594) >> 6) + 1,
-                           ((struct Unk08499594 *)gUnknown_030040D8)->unk00);
+            = sub_08042D1C(((((struct UnitRecord *)gUnknown_030040D8)
+                             - gUnitRecords) >> 6) + 1,
+                           ((struct UnitRecord *)gUnknown_030040D8)->unk00);
 
     sub_080386EC(0);
-    sub_08038848(((struct Unk08499594 *)gUnknown_030040D8)->unk02,
-                 ((struct Unk08499594 *)gUnknown_030040D8)->unk03);
+    sub_08038848(((struct UnitRecord *)gUnknown_030040D8)->unk02,
+                 ((struct UnitRecord *)gUnknown_030040D8)->unk03);
     gUnknown_0849D5F8->unk38[0] = gUnknown_0849D5F8->unk38[0xc];
     sub_080386DC(0xFFFF, 0xFFFF);
     sub_08038D7C();

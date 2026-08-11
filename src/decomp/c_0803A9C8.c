@@ -20,5 +20,5 @@ void sub_0803A9C8(u8 a)
     sub_080152EC(gUnknown_0849E280, 0);
     gUnknown_0849D89C->unk00 = 0x80;
     gUnknown_0849D89C->unk04 = &gUnknown_03004100;
-    gUnknown_0849D89C->unk08 = gUnknown_030033EC;
+    gUnknown_0849D89C->unk08 = gCurrentArmyIndex;
 }

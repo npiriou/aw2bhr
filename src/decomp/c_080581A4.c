@@ -10,20 +10,20 @@
 /* Wave 52, W52-B.  MATCHED, 2 attempts.
  *
  * Seeds a whole map plane to one byte value through a stack table of 40 row
- * pointers (`sub sp,#0xa0`), built from gUnknown_08499590's +0x417A rowOffset
+ * pointers (`sub sp,#0xa0`), built from gMapData's +0x417A rowOffset
  * table and then walked row by row.
  *
  * PROMOTION MUST CARRY  "rodata": ["0x0816D938"] .  That ROM word holds
- * 0x08499590, i.e. &gUnknown_08499590 -- agbcc's own -fforce-addr address
+ * 0x08499590, i.e. &gMapData -- agbcc's own -fforce-addr address
  * constant for this function, which is why the symbol is reached with a
  * three-level `ldr rA,=<rodata slot>; ldr rB,[rA]; ldr rC,[rB]`.  The honest
- * `gUnknown_08499590` spelling reproduces it and trymatch reports `relocs:
+ * `gMapData` spelling reproduces it and trymatch reports `relocs:
  * name different symbols that resolve to the same address`.
  *
  * The map header MUST be reached through a locally declared struct cast onto
  * the `u8 *` symbol, not as pointer arithmetic -- wave 34 (W34-F)'s rule,
- * recorded on gUnknown_08499590 in include/unknown-globals.h.  Written as
- * `*(u16 *)(gUnknown_08499590 + 2)` the height reassociates, becomes
+ * recorded on gMapData in include/unknown-globals.h.  Written as
+ * `*(u16 *)(gMapData + 2)` the height reassociates, becomes
  * loop-invariant, `check_dbra_loop` reverses the first loop into a countdown,
  * and the ROM's re-read of `->unk02` at the loop bottom disappears (-4 bytes).
  */
@@ -45,12 +45,12 @@ void sub_080581A4(u8 *dst, int a2)
 
     v = a2;
 
-    for (i = 0; i < ((struct Unk581A4Map *)gUnknown_08499590)->unk02; i++)
-        rows[i] = dst + ((struct Unk581A4Map *)gUnknown_08499590)->unk417a[i];
+    for (i = 0; i < ((struct Unk581A4Map *)gMapData)->unk02; i++)
+        rows[i] = dst + ((struct Unk581A4Map *)gMapData)->unk417a[i];
 
-    for (i = 0; i < ((struct Unk581A4Map *)gUnknown_08499590)->unk02; i++)
+    for (i = 0; i < ((struct Unk581A4Map *)gMapData)->unk02; i++)
     {
-        for (j = 0; j < ((struct Unk581A4Map *)gUnknown_08499590)->unk00; j++)
+        for (j = 0; j < ((struct Unk581A4Map *)gMapData)->unk00; j++)
             rows[i][j] = v;
     }
 }

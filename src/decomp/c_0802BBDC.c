@@ -17,7 +17,7 @@
  * the reverse of the ROM. */
 void sub_0802BBDC(s16 a1)
 {
-    sub_0802BD54((u16)(a1 + 0x46), 5, gUnknown_08499598[gUnknown_030033EC].unk00);
+    sub_0802BD54((u16)(a1 + 0x46), 5, gArmyRecords[gCurrentArmyIndex].unk00);
     sub_0802BD54((u16)(a1 + 0xe), 5, gUnknown_03004080);
     sub_0801BD00(a1 + 0x16, 5, gUnknown_0849A3B8, 0x700A);
     sub_0801BD00(a1 + 0x4e, 6, gUnknown_0849A3B8, 0x700B);

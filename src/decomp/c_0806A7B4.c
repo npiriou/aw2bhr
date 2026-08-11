@@ -43,7 +43,7 @@ struct Unk6A7B4Proc
  * why the early exit is a branch to the tail and not a `return`.
  *
  * `map` is a binding local, not decoration: written as two dereferences of
- * gUnknown_08499590 the halfword store through `u16 *` may alias the pointer
+ * gMapData the halfword store through `u16 *` may alias the pointer
  * global itself, so agbcc reloads it for the second store. The ROM loads it
  * once.
  *
@@ -120,7 +120,7 @@ void sub_0806A8E4(struct Unk6A8E4Proc *proc)
             proc->unk5a++;
         }
 
-        map = gUnknown_08499590;
+        map = gMapData;
         *(u16 *)(map + 4) = proc->unk5e + x;
         *(u16 *)(map + 6) = proc->unk60 + y;
 

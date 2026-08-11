@@ -16,5 +16,5 @@
 
 void sub_0802C154(int a1)
 {
-    gUnknown_08499598[a1].unk31 = 1;
+    gArmyRecords[a1].unk31 = 1;
 }

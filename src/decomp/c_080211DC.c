@@ -16,11 +16,11 @@ struct Unk211DCMap
 
 void sub_080211DC(u8 a1, s8 a2)
 {
-    struct Unk08499594 *e;
+    struct UnitRecord *e;
     struct Unk211DCMap *map;
     int bonus;
 
-    e = &gUnknown_08499594[a1];
+    e = &gUnitRecords[a1];
     bonus = 0;
 
     if (e->unk00 == 0)
@@ -31,14 +31,14 @@ void sub_080211DC(u8 a1, s8 a2)
 
     if (e->unk00 <= 2)
     {
-        map = (struct Unk211DCMap *)gUnknown_08499590;
+        map = (struct Unk211DCMap *)gMapData;
 
         if ((map->plane[map->rowOffset[e->unk03] + e->unk02] & 0x1f) == 3)
             bonus = 3;
     }
 
     sub_080210C8(e->unk02, e->unk03,
-                 bonus + sub_08042D84(((e - gUnknown_08499594) >> 6) + 1, e->unk00),
-                 gUnknown_08499598[(a1 >> 6) + 1].unk1c,
+                 bonus + sub_08042D84(((e - gUnitRecords) >> 6) + 1, e->unk00),
+                 gArmyRecords[(a1 >> 6) + 1].unk1c,
                  a2, (a1 >> 6) + 1);
 }

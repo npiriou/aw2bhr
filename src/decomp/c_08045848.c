@@ -7,7 +7,7 @@
  * sub_08045848 @ 0x08045848, sub_08045874 @ 0x08045874, sub_080458A0 @ 0x080458A0, sub_080458CC @ 0x080458CC, sub_080458F8 @ 0x080458F8
  */
 
-/* One of five near-identical predicates over the gUnknown_08499590 screen
+/* One of five near-identical predicates over the gMapData screen
  * struct: read the u16 row offset at +0x4184, index the byte array that starts
  * 0x143f bytes into the struct with it, and test the top three bits of that
  * byte for the value 1. All five use `lsrs #5` and `cmp #1` -- diffed one by
@@ -27,7 +27,7 @@ int sub_08045848(void)
 {
     u8 *p;
 
-    p = gUnknown_08499590;
+    p = gMapData;
 
     if (*(p + *(u16 *)(p + 0x4184) + 0x143f) >> 5 == 1)
         return 1;
@@ -35,7 +35,7 @@ int sub_08045848(void)
     return 0;
 }
 
-/* One of five near-identical predicates over the gUnknown_08499590 screen
+/* One of five near-identical predicates over the gMapData screen
  * struct: read the u16 row offset at +0x417e, index the byte array that starts
  * 0x1441 bytes into the struct with it, and test the top three bits of that
  * byte for the value 1. All five use `lsrs #5` and `cmp #1` -- diffed one by
@@ -55,7 +55,7 @@ int sub_08045874(void)
 {
     u8 *p;
 
-    p = gUnknown_08499590;
+    p = gMapData;
 
     if (*(p + *(u16 *)(p + 0x417e) + 0x1441) >> 5 == 1)
         return 1;
@@ -63,7 +63,7 @@ int sub_08045874(void)
     return 0;
 }
 
-/* One of five near-identical predicates over the gUnknown_08499590 screen
+/* One of five near-identical predicates over the gMapData screen
  * struct: read the u16 row offset at +0x418a, index the byte array that starts
  * 0x1435 bytes into the struct with it, and test the top three bits of that
  * byte for the value 1. All five use `lsrs #5` and `cmp #1` -- diffed one by
@@ -83,7 +83,7 @@ int sub_080458A0(void)
 {
     u8 *p;
 
-    p = gUnknown_08499590;
+    p = gMapData;
 
     if (*(p + *(u16 *)(p + 0x418a) + 0x1435) >> 5 == 1)
         return 1;
@@ -91,7 +91,7 @@ int sub_080458A0(void)
     return 0;
 }
 
-/* One of five near-identical predicates over the gUnknown_08499590 screen
+/* One of five near-identical predicates over the gMapData screen
  * struct: read the u16 row offset at +0x418a, index the byte array that starts
  * 0x1438 bytes into the struct with it, and test the top three bits of that
  * byte for the value 1. All five use `lsrs #5` and `cmp #1` -- diffed one by
@@ -111,7 +111,7 @@ int sub_080458CC(void)
 {
     u8 *p;
 
-    p = gUnknown_08499590;
+    p = gMapData;
 
     if (*(p + *(u16 *)(p + 0x418a) + 0x1438) >> 5 == 1)
         return 1;
@@ -136,7 +136,7 @@ int sub_080458F8(void)
     u8 *p;
     u8 *q;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     q = p + 0x1432;
 
     if (*(q + *(u16 *)(p + 0x418c)) >> 5 == 1)

@@ -33,7 +33,7 @@ struct Unk35E90Proc
 {
     /* 0x00 */ PROC_HEADER;
     /* 0x29 */ STRUCT_PAD(0x29, 0x30);
-    /* 0x30 */ struct Unk08499594 *unk30;
+    /* 0x30 */ struct UnitRecord *unk30;
     /* 0x34 */ STRUCT_PAD(0x34, 0x36);
     /* 0x36 */ u8 unk36;
     /* 0x37 */ STRUCT_PAD(0x37, 0x39);

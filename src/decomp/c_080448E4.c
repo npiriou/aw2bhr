@@ -23,17 +23,17 @@ struct UnkP448E4
  * been the same `ldrsh` both times, so the local is in the ROM and not a
  * convenience here.
  *
- * `&gUnknown_08499594[...]` is bound to a pointer before the two byte reads;
+ * `&gUnitRecords[...]` is bound to a pointer before the two byte reads;
  * that is what keeps the pool word in its own register and defers the
  * dereference past the index arithmetic, which is the ROM's order. */
 void sub_080448E4(struct UnkP448E4 *proc)
 {
-    u8 id = sub_0805C290(gUnknown_030033EC, 1);
-    struct Unk08499594 *e;
+    u8 id = sub_0805C290(gCurrentArmyIndex, 1);
+    struct UnitRecord *e;
 
     proc->unk66 = id;
     if (id != 0) {
-        e = &gUnknown_08499594[proc->unk66];
+        e = &gUnitRecords[proc->unk66];
         sub_08029088(e->unk02, e->unk03);
     }
 }

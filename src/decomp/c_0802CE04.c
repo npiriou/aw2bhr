@@ -18,7 +18,7 @@ void sub_0802CE04(void)
         break;
 
     case 1:
-        sub_08043DAC(gUnknown_030033EC);
+        sub_08043DAC(gCurrentArmyIndex);
         break;
     }
 

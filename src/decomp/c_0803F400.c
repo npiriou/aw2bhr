@@ -22,7 +22,7 @@ struct UnkF400Proc
     /* 58 */ int unk58;
 };
 
-/* `ldr r1, [r1]` before any index proves gUnknown_08499590 is a POINTER, and
+/* `ldr r1, [r1]` before any index proves gMapData is a POINTER, and
  * `movs r2, #6; ldrsh r1, [r1, r2]` is a SIGNED halfword at a constant
  * displacement -- Thumb has no immediate-offset ldrsh, so the register-offset
  * form is how agbcc spells `*(s16 *)(p + 6)`, not an array index. */
@@ -32,7 +32,7 @@ void sub_0803F400(struct UnkF400Proc *proc)
 
     proc->unk50 = sprite;
     proc->unk54 = proc->unk2c * 16 + 8;
-    proc->unk58 = *(s16 *)(gUnknown_08499590 + 6) + 0x10;
+    proc->unk58 = *(s16 *)(gMapData + 6) + 0x10;
 
     sprite->unk22 = 0x51CA;
 }

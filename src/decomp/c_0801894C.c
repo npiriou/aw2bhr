@@ -9,7 +9,7 @@
 
 bool8 sub_0801894C(s16 a)
 {
-    sub_0801A548(gUnknown_030033EC);
+    sub_0801A548(gCurrentArmyIndex);
     gUnknown_0200C528[a].unk04++;
     return TRUE;
 }
@@ -80,7 +80,7 @@ void sub_08018A28(struct Unk0200C528 *slot)
 {
     if (gUnknown_030032D8 == 0xc)
         if (slot->unk12 < 0 || gUnknown_03004080 == slot->unk12)
-            if (gUnknown_030033EC == slot->unk11)
+            if (gCurrentArmyIndex == slot->unk11)
                 slot->unk08 = NULL;
 }
 
@@ -110,7 +110,7 @@ void sub_08018AA8(struct Unk0200C528 *slot)
 {
     if (gUnknown_030032D8 == 0xc)
         if (sub_0804415C(slot->unk11))
-            if (gUnknown_030033EC == 1)
+            if (gCurrentArmyIndex == 1)
                 slot->unk08 = NULL;
 }
 

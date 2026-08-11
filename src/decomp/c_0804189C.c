@@ -13,12 +13,12 @@
  * starts the same 0x0849FE78 proc with unk4c NULL and the two coordinates
  * stored.
  *
- * Both plane addresses go through a struct laid over gUnknown_08499590 -- the
+ * Both plane addresses go through a struct laid over gMapData -- the
  * ROM computes `(map + 0x417A) + y * 2`, and only a COMPONENT_REF preserves
  * that association; the `u16 *` cast reassociates it to `(map + y * 2) +
  * 0x417A`. Same spelling that closed sub_08040790 and sub_08040200.
  *
- * gUnknown_08499590 and gUnknown_020288B4 are both named HONESTLY here even
+ * gMapData and gUnknown_020288B4 are both named HONESTLY here even
  * though the ROM reaches them through agbcc's own -fforce-addr words at
  * 0x0809133C and 0x08091338 (whose ROM contents are 0x08499590 and 0x020288B4).
  * The build places this unit's .rodata pool word for each, which is the wave-18
@@ -68,7 +68,7 @@ void sub_0804189C(int a1, int a2, int a3)
     sub_080251D8(gUnknown_03003F38);
 
     v = gUnknown_020288B4[
-        ((struct Unk4189CMap *)gUnknown_08499590)->rowOffset[a2] + a1];
+        ((struct Unk4189CMap *)gMapData)->rowOffset[a2] + a1];
 
     lim = gUnknown_030013D0;
 
@@ -78,7 +78,7 @@ void sub_0804189C(int a1, int a2, int a3)
         v -= *(s16 *)(lim + 0x14);
 
     gUnknown_020288B4[
-        ((struct Unk4189CMap *)gUnknown_08499590)->rowOffset[a2] + a1] = v;
+        ((struct Unk4189CMap *)gMapData)->rowOffset[a2] + a1] = v;
 
     sub_0802DCA4();
 

@@ -9,7 +9,7 @@
 
 #include "proc.h"
 /* The proc's own fields. unk66 is SIGNED: it is written from the u16
- * gUnknown_030033EC but read back `movs r1,#0; ldrsh r0,[r5,r1]` for
+ * gCurrentArmyIndex but read back `movs r1,#0; ldrsh r0,[r5,r1]` for
  * sub_08043834. The `adds rN,#0x64` / `#0x66` / `#0x4e` base bumps are not a
  * spelling choice -- `strh`'s immediate offset stops at 62. */
 struct UnkBD4Proc
@@ -28,7 +28,7 @@ struct UnkBD4Proc
 void sub_08084BD4(struct UnkBD4Proc *proc)
 {
     proc->unk64 = 0;
-    proc->unk66 = gUnknown_030033EC;
+    proc->unk66 = gCurrentArmyIndex;
     proc->unk4e = 0;
     proc->unk58 = 0;
     proc->unk4c = 0;

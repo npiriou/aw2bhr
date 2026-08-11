@@ -42,21 +42,21 @@ void sub_080436DC(int x, int y, int pid)
 
     gUnknown_030005D0 = pid;
 
-    if (gUnknown_03003FC0.unk0d != 0 && (gUnknown_08499598[pid].unk1c & 2) == 0)
+    if (gUnknown_03003FC0.unk0d != 0 && (gArmyRecords[pid].unk1c & 2) == 0)
         sub_080119A0((x + 0x34) & 0x1ff, y + 3, gUnknown_0809136C);
     else
-        sub_0802BD54((x + 0x34) & 0x1ff, y + 3, gUnknown_08499598[pid].unk00);
+        sub_0802BD54((x + 0x34) & 0x1ff, y + 3, gArmyRecords[pid].unk00);
 
     PutSprite(0, x, y, gUnknown_084A0032, 0x7000);
     PutSprite(0, x, y, gUnknown_084A003A, 0xe03a);
 
-    sub_08043AA0(gUnknown_08499598[pid].unk1d, 0x1e);
-    off = ((gUnknown_08499598[pid].unk1d * 8) & 0x3ff) * 0x20;
+    sub_08043AA0(gArmyRecords[pid].unk1d, 0x1e);
+    off = ((gArmyRecords[pid].unk1d * 8) & 0x3ff) * 0x20;
     sub_08011E54(gUnknown_08102F64 + off, (void *)0x06010740, 0x100);
 
     if (gUnknown_03003FC0.unk07 != 0)
     {
-        if (gUnknown_08499598[pid].unk1e != 0)
+        if (gArmyRecords[pid].unk1e != 0)
             sub_08043898(x, y, pid);
         else
             sub_080438FC(x, y, pid);

@@ -39,8 +39,8 @@ void sub_080404A0(struct Unk404A0Proc *proc)
     proc->unk30 = (proc->unk30 << 4) + 0x10;
 
     sub_0801C70C((void *)gUnknown_08111D94,
-                 proc->unk2c - *(s16 *)(gUnknown_08499590 + 4),
-                 proc->unk30 - *(s16 *)(gUnknown_08499590 + 6),
+                 proc->unk2c - *(s16 *)(gMapData + 4),
+                 proc->unk30 - *(s16 *)(gMapData + 6),
                  proc->unk4a, 0, 1);
 
     proc->unk50 = sub_0801C210((void *)gUnknown_08111D94, 1, 1);

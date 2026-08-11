@@ -21,11 +21,11 @@
  *
  * unk32 is tested TWICE and the tests are NESTED, not sequential: the first
  * `beq` jumps past the second test to the tail, which an `if (unk32 && ...)`
- * pair could not produce. sub_08025B80 wants a `struct Unk08499594 *` while
+ * pair could not produce. sub_08025B80 wants a `struct UnitRecord *` while
  * gUnknown_030040D8 is declared `struct Unk030040D8 *`; the cast is
  * byte-neutral and the two struct names are already flagged in
  * unknown-globals.h as the same object (gUnknown_08091364 is
- * `struct Unk08499594 **` holding &gUnknown_030040D8).
+ * `struct UnitRecord **` holding &gUnknown_030040D8).
  *
  * MATCHED first draft. */
 void sub_0802D0F4(void)
@@ -37,7 +37,7 @@ void sub_0802D0F4(void)
     {
         if (gUnknown_03003FC0.unk0d == 0)
         {
-            sub_08025B80((struct Unk08499594 *)gUnknown_030040D8, gUnknown_03004074);
+            sub_08025B80((struct UnitRecord *)gUnknown_030040D8, gUnknown_03004074);
             gUnknown_03004074 = 0;
         }
 

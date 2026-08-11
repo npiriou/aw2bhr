@@ -13,7 +13,7 @@
  * holding &gUnknown_08580934 and &gpKeySt (the ROM words at those addresses are
  * 0x08580934 and 0x03002EE0). Naming the globals honestly reproduces the ROM's
  * three-level `ldr rN,=<word>; ldr r0,[rN]; ldr r1,[r0]` exactly -- see the
- * gUnknown_08499590 note in unknown-globals.h.
+ * gMapData note in unknown-globals.h.
  *
  * The selector is `int`, not `s8`: the ROM never re-narrows it between the
  * decrement, the increment and the final `strb`. Both arms are spelled with the

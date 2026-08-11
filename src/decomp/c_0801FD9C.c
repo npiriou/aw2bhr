@@ -55,20 +55,20 @@ void sub_0801FD9C(int a1)
     s8 *q;
 
     v = a1;
-    for (y = 0; y < *(u16 *)(gUnknown_08499590 + 2); y++) {
-        for (x = 0; x < *(u16 *)gUnknown_08499590; x++) {
+    for (y = 0; y < *(u16 *)(gMapData + 2); y++) {
+        for (x = 0; x < *(u16 *)gMapData; x++) {
             p = (s8 *)gUnknown_03003340[y] + x;
             if (*p >= 0 && *p != v) {
                 if (p[-1] < 0 && x != 0)
                     p[-1] = v;
                 q = (s8 *)(x + (int)gUnknown_03003340[y]);
-                if (q[1] < 0 && x != *(u16 *)gUnknown_08499590 - 1)
+                if (q[1] < 0 && x != *(u16 *)gMapData - 1)
                     q[1] = v;
                 p = (s8 *)gUnknown_03003340[y - 1] + x;
                 if (*p < 0 && y != 0)
                     *p = v;
                 p = (s8 *)gUnknown_03003340[y + 1] + x;
-                if (*p < 0 && y != *(u16 *)(gUnknown_08499590 + 2) - 1)
+                if (*p < 0 && y != *(u16 *)(gMapData + 2) - 1)
                     *p = v;
             }
         }

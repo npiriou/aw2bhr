@@ -10,7 +10,7 @@
 /* The local `struct Map` cast is load-bearing, not decoration: the ROM
  * computes every plane address as `(map + K) + idx`, and only a COMPONENT_REF
  * preserves that association. Written as pointer arithmetic
- * (`*(u16 *)(gUnknown_08499590 + 0x417A + y * 2)`) fold's `associate` path
+ * (`*(u16 *)(gMapData + 0x417A + y * 2)`) fold's `associate` path
  * pulls the constant outward and emits `(map + y * 2) + 0x417A` instead --
  * measured on this function, where it also cost the two registers the ROM
  * spends holding 0x417A and 0x1432 across the inner loop. Same finding as the
@@ -53,12 +53,12 @@ void sub_0803D3F0(void)
 {
     int x, y;
 
-    for (y = 0; y < ((struct Map *)gUnknown_08499590)->height; y++) {
-        for (x = 0; x < ((struct Map *)gUnknown_08499590)->width; x++) {
-            int idx = ((struct Map *)gUnknown_08499590)->rowOffset[y] + x;
+    for (y = 0; y < ((struct Map *)gMapData)->height; y++) {
+        for (x = 0; x < ((struct Map *)gMapData)->width; x++) {
+            int idx = ((struct Map *)gMapData)->rowOffset[y] + x;
 
-            ((struct Map *)gUnknown_08499590)->terrain[idx] =
-                gUnknown_0849959C[((struct Map *)gUnknown_08499590)->tile[idx]];
+            ((struct Map *)gMapData)->terrain[idx] =
+                gUnknown_0849959C[((struct Map *)gMapData)->tile[idx]];
         }
     }
     sub_080219AC();

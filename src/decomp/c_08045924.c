@@ -8,7 +8,7 @@
  */
 
 /* "Does the current army have no unit left with a non-zero unk06_0?"  It walks
- * the army's 0x32 gUnknown_08499594 slots from `(u16)gUnknown_084995FE[army] + 1`
+ * the army's 0x32 gUnitRecords slots from `(u16)gUnknown_084995FE[army] + 1`
  * and counts the live ones whose unk06_0 bitfield is set, returning TRUE only
  * when the count is zero.
  *
@@ -36,7 +36,7 @@ bool8 sub_08045924(void)
     for (i = (u16)gUnknown_084995FE[gUnknown_03003F2C] + 1;
          i < (u16)gUnknown_084995FE[gUnknown_03003F2C] + 0x33; i++)
     {
-        if (gUnknown_08499594[i].unk00 != 0 && gUnknown_08499594[i].unk06_0 != 0)
+        if (gUnitRecords[i].unk00 != 0 && gUnitRecords[i].unk06_0 != 0)
             count++;
     }
 

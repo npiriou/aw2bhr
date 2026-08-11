@@ -13,7 +13,7 @@
  *
  * gUnknown_0816DA44 and gUnknown_0816DA48 are NOT globals: the ROM words there
  * hold 0x030040D8 and 0x08499590, so they are agbcc's own -fforce-addr
- * constants for gUnknown_030040D8 and gUnknown_08499590. The honest spelling
+ * constants for gUnknown_030040D8 and gMapData. The honest spelling
  * reproduces both and the promotion carries the two rodata words.
  *
  * sub_08071910 is the linker's THUMB->ARM veneer for sub_08000554, which is
@@ -75,7 +75,7 @@ void sub_0805D648(s16 a1, s16 a2, u8 a3, u8 a4, u8 a5)
     int x;
     int y;
     int count;
-    struct Unk08499594 *e;
+    struct UnitRecord *e;
     struct Unk0805D648Cmd *d;
 
     count = 0;
@@ -85,17 +85,17 @@ void sub_0805D648(s16 a1, s16 a2, u8 a3, u8 a4, u8 a5)
         sub_0801F838(0xff);
         sub_0801F9C0(a1, a2, 9, 0);
 
-        for (y = 0; y < ((struct Map *)gUnknown_08499590)->unk02; y++)
+        for (y = 0; y < ((struct Map *)gMapData)->unk02; y++)
         {
-            for (x = 0; x < ((struct Map *)gUnknown_08499590)->unk00; x++)
+            for (x = 0; x < ((struct Map *)gMapData)->unk00; x++)
             {
                 if ((s8)gUnknown_03003340[y][x] < 0)
                     continue;
-                if (((struct Map *)gUnknown_08499590)->unk0012[((struct Map *)gUnknown_08499590)->unk417A[y] + x] == 0)
+                if (((struct Map *)gMapData)->unk0012[((struct Map *)gMapData)->unk417A[y] + x] == 0)
                     continue;
-                if (sub_08026F9C(gUnknown_03003F38, ((struct Map *)gUnknown_08499590)->unk0012[((struct Map *)gUnknown_08499590)->unk417A[y] + x]))
+                if (sub_08026F9C(gUnknown_03003F38, ((struct Map *)gMapData)->unk0012[((struct Map *)gMapData)->unk417A[y] + x]))
                     continue;
-                e = &gUnknown_08499594[((struct Map *)gUnknown_08499590)->unk0012[((struct Map *)gUnknown_08499590)->unk417A[y] + x]];
+                e = &gUnitRecords[((struct Map *)gMapData)->unk0012[((struct Map *)gMapData)->unk417A[y] + x]];
                 if (gUnknown_03003FC0.unk0d == 0)
                 {
                     if ((u8)(e->unk00 - 0xa) <= 1)

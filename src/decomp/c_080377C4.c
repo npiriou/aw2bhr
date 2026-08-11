@@ -30,7 +30,7 @@
  *
  * 1. The map's arrays must go through a LOCALLY CAST STRUCT, per the wave-34
  *    (W34-F) rule in unknown-globals.h -- which names this exact expression:
- *    `*(u16 *)(gUnknown_08499590 + 0x417a + y * 2)` reassociates to
+ *    `*(u16 *)(gMapData + 0x417a + y * 2)` reassociates to
  *    `(map + y * 2) + 0x417a`, the wrong order. `->unk417a[y]` keeps the ROM's
  *    `(map + 0x417a) + y * 2`.
  *
@@ -76,17 +76,17 @@ void sub_080377C4(void *a1)
 
     sub_08037B84(sub_08014E44(0xa14));
 
-    ((u8 *)gUnknown_03003F68)[0] = ((struct Map377C4 *)gUnknown_08499590)->unk00;
-    ((u8 *)gUnknown_03003F68)[1] = ((struct Map377C4 *)gUnknown_08499590)->unk02;
+    ((u8 *)gUnknown_03003F68)[0] = ((struct Map377C4 *)gMapData)->unk00;
+    ((u8 *)gUnknown_03003F68)[1] = ((struct Map377C4 *)gMapData)->unk02;
 
-    for (y = 0; y < ((struct Map377C4 *)gUnknown_08499590)->unk02; y++)
+    for (y = 0; y < ((struct Map377C4 *)gMapData)->unk02; y++)
     {
-        for (x = 0; x < ((struct Map377C4 *)gUnknown_08499590)->unk00; x++)
+        for (x = 0; x < ((struct Map377C4 *)gMapData)->unk00; x++)
         {
             dst = gUnknown_03003F68;
-            dst += ((struct Map377C4 *)gUnknown_08499590)->unk417a[y] + x;
-            dst[1] = ((struct Map377C4 *)gUnknown_08499590)->unk0a22[
-                ((struct Map377C4 *)gUnknown_08499590)->unk417a[y] + x];
+            dst += ((struct Map377C4 *)gMapData)->unk417a[y] + x;
+            dst[1] = ((struct Map377C4 *)gMapData)->unk0a22[
+                ((struct Map377C4 *)gMapData)->unk417a[y] + x];
         }
     }
 

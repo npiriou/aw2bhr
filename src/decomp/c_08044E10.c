@@ -65,7 +65,7 @@ struct Unk08044E10Proc
  *    the top and an unconditional `b` back to it -- the un-rotated shape.
  *    `for (j = ...; ; j++)` with the guard inside the body does NOT give it:
  *    gcc puts the increment BEFORE the test and adds an entry branch to skip
- *    it, and the giv (`j * 0x3c`, the gUnknown_08499598 element offset) is
+ *    it, and the giv (`j * 0x3c`, the gArmyRecords element offset) is
  *    then never strength-reduced, so the multiply moves inside the loop.
  *    Written as `while (1) { if (j > 4) {...return;} ...; j++; }` the exit
  *    test stays at the top, `adds r6, #0x3c` appears in the bottom block
@@ -97,7 +97,7 @@ struct Unk08044F24Proc
 void sub_08044E10(struct Unk08044E10Proc *proc)
 {
     int i;
-    struct Unk08499594 *unit;
+    struct UnitRecord *unit;
 
     if (proc->unk2e == 0)
     {
@@ -123,7 +123,7 @@ void sub_08044E10(struct Unk08044E10Proc *proc)
 
     for (i = proc->unk29; i <= 0x32; i++)
     {
-        unit = &gUnknown_08499594[(u16)gUnknown_084995FE[proc->unk2c] + i];
+        unit = &gUnitRecords[(u16)gUnknown_084995FE[proc->unk2c] + i];
 
         if (unit->unk00 == 0)
             continue;
@@ -155,7 +155,7 @@ void sub_08044F24(struct Unk08044F24Proc *proc)
 {
     int i;
     int j;
-    struct Unk08499594 *unit;
+    struct UnitRecord *unit;
 
     if (proc->unk2d == 0)
     {
@@ -184,7 +184,7 @@ void sub_08044F24(struct Unk08044F24Proc *proc)
         }
 
         if (sub_080266DC(j) != 0
-            && gUnknown_08499598[j].unk2a != gUnknown_08499598[proc->unk2c].unk2a)
+            && gArmyRecords[j].unk2a != gArmyRecords[proc->unk2c].unk2a)
             break;
 
         j++;
@@ -194,7 +194,7 @@ void sub_08044F24(struct Unk08044F24Proc *proc)
 
     for (i = proc->unk29; i <= 0x32; i++)
     {
-        unit = &gUnknown_08499594[(u16)gUnknown_084995FE[proc->unk2a] + i];
+        unit = &gUnitRecords[(u16)gUnknown_084995FE[proc->unk2a] + i];
 
         if (unit->unk00 == 0)
             continue;

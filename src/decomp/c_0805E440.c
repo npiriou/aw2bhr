@@ -11,14 +11,14 @@
  *
  * gUnknown_0816DA6C / _0816DA70 are NOT globals -- the ROM words there hold
  * 0x030040D8 and 0x08499590, so they are agbcc's own -fforce-addr constants for
- * gUnknown_030040D8 and gUnknown_08499590.  Promotion must carry them:
+ * gUnknown_030040D8 and gMapData.  Promotion must carry them:
  *   "rodata": ["0x0816DA6C", "0x0816DA70"]
  *
  * Both `unk04` reads are 7-BIT BITFIELDS and the ROM reads each of them TWICE
  * off one `ldrb` with two different extractions -- `movs r0,#0x7f; ands` where
  * it is only tested against zero, and `lsls #0x19; lsrs #0x19` where the value
  * reaches Div.  That is exactly the discriminating evidence recorded on
- * struct Unk030040D8's unk04 and struct Unk08499594's unk04_0, and both already
+ * struct Unk030040D8's unk04 and struct UnitRecord's unk04_0, and both already
  * carry it, so nothing needed declaring.
  *
  * THE ONE THING THAT COST ANYTHING: `n + 1 + Div(...)`.  agbcc's fold()
@@ -56,24 +56,24 @@ void sub_0805E440(void)
     int y;
     int id;
     int n;
-    struct Unk08499594 *u;
+    struct UnitRecord *u;
 
     sub_080202A4(gUnknown_030040D8);
 
-    for (y = 0; y < ((struct Map *)gUnknown_08499590)->unk02; y++)
+    for (y = 0; y < ((struct Map *)gMapData)->unk02; y++)
     {
-        for (x = 0; x < ((struct Map *)gUnknown_08499590)->unk00; x++)
+        for (x = 0; x < ((struct Map *)gMapData)->unk00; x++)
         {
             if ((s8)gUnknown_03003340[y][x] < 0)
                 continue;
-            id = ((struct Map *)gUnknown_08499590)->unk0012[((struct Map *)gUnknown_08499590)->unk417A[y] + x];
+            id = ((struct Map *)gMapData)->unk0012[((struct Map *)gMapData)->unk417A[y] + x];
             if (id == 0)
                 continue;
             if ((id & 0xc0) != gUnknown_03003F2C)
                 continue;
             if (sub_0804236C(x, y) == 0)
                 continue;
-            u = gUnknown_08499594 + id;
+            u = gUnitRecords + id;
             if (u->unk04_0 != 0)
             {
                 if (Div(u->unk04_0 - 1, 10) == 9)
@@ -110,25 +110,25 @@ void sub_0805E5AC(void)
     s16 x;
     s16 y;
     int id;
-    struct Unk08499594 *u;
+    struct UnitRecord *u;
 
-    if ((((struct Map *)gUnknown_08499590)->unk1432[((struct Map *)gUnknown_08499590)->unk417A[gUnknown_030040D8->unk03] + gUnknown_030040D8->unk02] & 0xe0) != gUnknown_03004084)
+    if ((((struct Map *)gMapData)->unk1432[((struct Map *)gMapData)->unk417A[gUnknown_030040D8->unk03] + gUnknown_030040D8->unk02] & 0xe0) != gUnknown_03004084)
         return;
-    if (gUnknown_085767B8[((struct Map *)gUnknown_08499590)->unk1432[((struct Map *)gUnknown_08499590)->unk417A[gUnknown_030040D8->unk03] + gUnknown_030040D8->unk02] & 0x1f] != 0)
+    if (gUnknown_085767B8[((struct Map *)gMapData)->unk1432[((struct Map *)gMapData)->unk417A[gUnknown_030040D8->unk03] + gUnknown_030040D8->unk02] & 0x1f] != 0)
         return;
 
     gUnknown_030013EC(gUnknown_030040D8->unk02, gUnknown_030040D8->unk03, 1, 3, 0);
 
-    for (y = 0; y < ((struct Map *)gUnknown_08499590)->unk02; y++)
+    for (y = 0; y < ((struct Map *)gMapData)->unk02; y++)
     {
-        for (x = 0; x < ((struct Map *)gUnknown_08499590)->unk00; x++)
+        for (x = 0; x < ((struct Map *)gMapData)->unk00; x++)
         {
             if ((s8)gUnknown_03003340[y][x] < 0)
                 continue;
-            if (((struct Map *)gUnknown_08499590)->unk0012[((struct Map *)gUnknown_08499590)->unk417A[y] + x] != 0)
+            if (((struct Map *)gMapData)->unk0012[((struct Map *)gMapData)->unk417A[y] + x] != 0)
             {
-                u = gUnknown_08499594 + (id = ((struct Map *)gUnknown_08499590)->unk0012[((struct Map *)gUnknown_08499590)->unk417A[y] + x]);
-                if (sub_08026F9C(gUnknown_03003F38, u - gUnknown_08499594) == 0)
+                u = gUnitRecords + (id = ((struct Map *)gMapData)->unk0012[((struct Map *)gMapData)->unk417A[y] + x]);
+                if (sub_08026F9C(gUnknown_03003F38, u - gUnitRecords) == 0)
                 {
                     if (u->unk00 == 1)
                         sub_0805D648(gUnknown_030040D8->unk02, gUnknown_030040D8->unk03, 2, 0, 0);

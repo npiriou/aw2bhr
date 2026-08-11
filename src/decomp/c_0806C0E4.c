@@ -22,7 +22,7 @@ struct Unk6C114Proc
 };
 
 /* gUnknown_0858265C is indexed with `lsls #2` off the BARE symbol -- no load in
- * front of it -- so the symbol is the array itself; contrast gUnknown_08499590,
+ * front of it -- so the symbol is the array itself; contrast gMapData,
  * which is a pointer and always shows an `ldr r3, [r1]` first. The word loaded
  * out is then dereferenced at +0x30, so the elements are pointers.
  *

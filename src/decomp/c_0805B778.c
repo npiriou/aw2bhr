@@ -33,7 +33,7 @@ loop:
     if (v.pos.unk00 == 0x270F)
         sub_0805F7B8();
     if ((s8)gUnknown_03003340[v.pos.unk02][v.pos.unk00]
-        <= sub_08058224((struct Unk08499594 *)gUnknown_030040D8))
+        <= sub_08058224((struct UnitRecord *)gUnknown_030040D8))
         goto loop;
     sub_080591E4(&v);
 }

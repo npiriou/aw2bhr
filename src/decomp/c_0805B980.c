@@ -38,9 +38,9 @@ struct Unk41EA8Map
     /* 0x1432 */ u8 terrain[0x2D48];
     /* 0x417A */ u16 rowOffset[1];
 };
-/* The blob struct Unk085D5ABC's unk14 points at; only the +0x1a table of
+/* The blob struct UnitTypeData's unk14 points at; only the +0x1a table of
  * per-terrain-code permission bytes is proved here. */
-struct Unk085D5ABCUnk14
+struct UnitTypeDataUnk14
 {
     /* 0x00 */ u8 filler_00[0x1a];
     /* 0x1a */ u8 terrainOk[0x20];
@@ -59,13 +59,13 @@ void sub_0805B980(void)
 
     out = (struct Unk5B980Cell *)gUnknown_03003F20;
 
-    for (y = 0; y < *(u16 *)(gUnknown_08499590 + 2); y++)
+    for (y = 0; y < *(u16 *)(gMapData + 2); y++)
     {
-        for (x = 0; x < *(u16 *)gUnknown_08499590; x++)
+        for (x = 0; x < *(u16 *)gMapData; x++)
         {
             if ((s8)gUnknown_03003340[y][x] >= 0)
             {
-                p = gUnknown_08499590;
+                p = gMapData;
                 t = y * 2;
                 rows = p + 0x417a;
                 off = *(u16 *)(rows + t) + x;
@@ -86,23 +86,23 @@ void sub_0805B980(void)
 
 u8 sub_0805BA34(int x, int y, u16 *out)
 {
-    struct Unk08499594 *unit;
-    struct Unk085D5ABCUnk14 *tbl;
+    struct UnitRecord *unit;
+    struct UnitTypeDataUnk14 *tbl;
     int idx;
     int best;
 
-    idx = ((struct Unk41EA8Map *)gUnknown_08499590)->rowOffset[y] + x;
+    idx = ((struct Unk41EA8Map *)gMapData)->rowOffset[y] + x;
 
-    if (((struct Unk41EA8Map *)gUnknown_08499590)->unit[idx] != 0)
+    if (((struct Unk41EA8Map *)gMapData)->unit[idx] != 0)
         return 0;
 
-    tbl = (struct Unk085D5ABCUnk14 *)gUnknown_085D5ABC[23].unk14;
+    tbl = (struct UnitTypeDataUnk14 *)gUnitTypeData[23].unk14;
 
-    if (tbl->terrainOk[((struct Unk41EA8Map *)gUnknown_08499590)->terrain[idx]
+    if (tbl->terrainOk[((struct Unk41EA8Map *)gMapData)->terrain[idx]
                        & 0x1f] == 0)
         return 0;
 
-    unit = &gUnknown_08499594[gUnknown_030040D8->unk07[0]];
+    unit = &gUnitRecords[gUnknown_030040D8->unk07[0]];
 
     best = 9999;
     out[0] = best;
@@ -129,20 +129,20 @@ void sub_0805BAFC(int x, int y, int t, u16 *out)
     if (y < 0)
         return;
 
-    if (x >= ((struct Unk41EA8Map *)gUnknown_08499590)->width)
+    if (x >= ((struct Unk41EA8Map *)gMapData)->width)
         return;
-    if (y >= ((struct Unk41EA8Map *)gUnknown_08499590)->height)
-        return;
-
-    idx = ((struct Unk41EA8Map *)gUnknown_08499590)->rowOffset[y] + x;
-
-    if (((struct Unk41EA8Map *)gUnknown_08499590)->unit[idx] != 0)
+    if (y >= ((struct Unk41EA8Map *)gMapData)->height)
         return;
 
-    costs = gUnknown_085D3DD0[1].unk38[0].unk18[0];
+    idx = ((struct Unk41EA8Map *)gMapData)->rowOffset[y] + x;
 
-    c = (((struct Unk41EA8Map *)gUnknown_08499590)->terrain[idx] & 0x1f)
-        + gUnknown_085D5ABC[t].unk19 * 32;
+    if (((struct Unk41EA8Map *)gMapData)->unit[idx] != 0)
+        return;
+
+    costs = gCoDataTable[1].unk38[0].unk18[0];
+
+    c = (((struct Unk41EA8Map *)gMapData)->terrain[idx] & 0x1f)
+        + gUnitTypeData[t].unk19 * 32;
 
     if (costs[c] == -1)
         return;
@@ -155,8 +155,8 @@ u8 sub_0805BB8C(int x, int y)
 {
     int n;
 
-    if (((struct Unk41EA8Map *)gUnknown_08499590)
-            ->unit[((struct Unk41EA8Map *)gUnknown_08499590)->rowOffset[y] + x]
+    if (((struct Unk41EA8Map *)gMapData)
+            ->unit[((struct Unk41EA8Map *)gMapData)->rowOffset[y] + x]
         != 0)
         return 0;
 
@@ -180,20 +180,20 @@ int sub_0805BBF8(int x, int y)
     if (y < 0)
         return 0;
 
-    if (x >= ((struct Unk41EA8Map *)gUnknown_08499590)->width)
+    if (x >= ((struct Unk41EA8Map *)gMapData)->width)
         return 0;
-    if (y >= ((struct Unk41EA8Map *)gUnknown_08499590)->height)
-        return 0;
-
-    idx = ((struct Unk41EA8Map *)gUnknown_08499590)->rowOffset[y] + x;
-
-    if (((struct Unk41EA8Map *)gUnknown_08499590)->unit[idx] != 0)
+    if (y >= ((struct Unk41EA8Map *)gMapData)->height)
         return 0;
 
-    costs = gUnknown_085D3DD0[1].unk38[0].unk18[0];
+    idx = ((struct Unk41EA8Map *)gMapData)->rowOffset[y] + x;
 
-    c = (((struct Unk41EA8Map *)gUnknown_08499590)->terrain[idx] & 0x1f)
-        + gUnknown_085D5ABC[1].unk19 * 32;
+    if (((struct Unk41EA8Map *)gMapData)->unit[idx] != 0)
+        return 0;
+
+    costs = gCoDataTable[1].unk38[0].unk18[0];
+
+    c = (((struct Unk41EA8Map *)gMapData)->terrain[idx] & 0x1f)
+        + gUnitTypeData[1].unk19 * 32;
 
     if (costs[c] == -1)
         return 0;

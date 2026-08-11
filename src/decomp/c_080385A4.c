@@ -34,7 +34,7 @@ void sub_080385A4(void)
 {
     s16 i;
 
-    gUnknown_08499598[0].unk1a = 0;
+    gArmyRecords[0].unk1a = 0;
 
     for (i = 1; i <= 4; i++)
         gUnknown_03003FC0.unk33[i] = i;

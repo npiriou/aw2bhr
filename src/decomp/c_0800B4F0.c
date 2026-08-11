@@ -19,7 +19,7 @@ int sub_0800B4F0(int x, int y)
     int t;
     int idx;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417A;
     idx = *(u16 *)(rows + t) + x;

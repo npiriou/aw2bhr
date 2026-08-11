@@ -51,7 +51,7 @@ bool8 sub_0802CBC8(void)
 
 /* sub_0802CBC8's twin: byte-identical apart from the callee, sub_0804223C
  * instead of sub_080421D0. The two callees are themselves near-duplicates --
- * same prologue, same 0x5c-stride gUnknown_085D5ABC lookup, differing only in
+ * same prologue, same 0x5c-stride gUnitTypeData lookup, differing only in
  * which byte of the leading pointer they forward (+7 vs +8).
  */
 

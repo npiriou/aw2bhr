@@ -12,7 +12,7 @@
  */
 bool8 sub_08026F9C(s16 a, s16 b)
 {
-    if (gUnknown_08499598[(a >> 6) + 1].unk2a == gUnknown_08499598[(b >> 6) + 1].unk2a)
+    if (gArmyRecords[(a >> 6) + 1].unk2a == gArmyRecords[(b >> 6) + 1].unk2a)
         return TRUE;
 
     return FALSE;
@@ -33,7 +33,7 @@ bool8 sub_08026FD0(s16 a, u8 b)
     if (t == 0)
         return FALSE;
 
-    if (gUnknown_08499598[(a >> 6) + 1].unk2a == gUnknown_08499598[t].unk2a)
+    if (gArmyRecords[(a >> 6) + 1].unk2a == gArmyRecords[t].unk2a)
         return TRUE;
 
     return FALSE;

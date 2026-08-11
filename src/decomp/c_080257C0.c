@@ -50,7 +50,7 @@
  *    why `rows` and `t` cannot be folded away. */
 u8 sub_080257C0(u16 id)
 {
-    struct Unk08499594 *unit = &gUnknown_08499594[id];
+    struct UnitRecord *unit = &gUnitRecords[id];
     u16 total = 0;
     s16 x = unit->unk02;
     s16 y = unit->unk03;
@@ -66,11 +66,11 @@ u8 sub_080257C0(u16 id)
     if (!(unit->unk01 & 0x20))
         return 1;
 
-    if (sub_08026F5C(unit - gUnknown_08499594))
+    if (sub_08026F5C(unit - gUnitRecords))
         return 1;
 
-    if (sub_08026FD0(gUnknown_084995FE[gUnknown_030033EC],
-                     (p = gUnknown_08499590, t = y * 2, rows = p + 0x417A,
+    if (sub_08026FD0(gUnknown_084995FE[gCurrentArmyIndex],
+                     (p = gMapData, t = y * 2, rows = p + 0x417A,
                       idx = *(u16 *)(rows + t) + x, cells = p + 0x1432,
                       *(cells + idx))))
         return 1;
@@ -81,10 +81,10 @@ u8 sub_080257C0(u16 id)
     if (y > 0)
         total += sub_08025744(x, y - 1);
 
-    if (x < *(u16 *)gUnknown_08499590 - 1)
+    if (x < *(u16 *)gMapData - 1)
         total += sub_08025744(x + 1, y);
 
-    if (y < *(u16 *)(gUnknown_08499590 + 2) - 1)
+    if (y < *(u16 *)(gMapData + 2) - 1)
         total += sub_08025744(x, y + 1);
 
     if (total != 0)

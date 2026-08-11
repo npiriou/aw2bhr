@@ -14,7 +14,7 @@
  * cost} record through the gUnknown_03003F64 queue cursor and records the cost.
  *
  * `idx` IS ASSIGNED INSIDE THE EXPRESSION, and that is the whole ordering fact.
- * As its own preceding statement it loads gUnknown_08499590 first; the ROM
+ * As its own preceding statement it loads gMapData first; the ROM
  * loads gUnknown_084999C8 first, because that pointer is the OUTERMOST base of
  * the cost term and the map is only reached inside its index. Written as a
  * separate statement everything else is identical and the two pool words come
@@ -56,17 +56,17 @@ void sub_0801F6F0(u8 a1, u8 a2, u8 a3)
     x = a2 + gUnknown_0300409C->unk00;
     y = a3 + gUnknown_0300409C->unk01;
 
-    v = gUnknown_084999C8->unk00[((struct Map *)gUnknown_08499590)->unk1432[
-            idx = ((struct Map *)gUnknown_08499590)->unk417A[y] + x] & 0x1F]
+    v = gUnknown_084999C8->unk00[((struct Map *)gMapData)->unk1432[
+            idx = ((struct Map *)gMapData)->unk417A[y] + x] & 0x1F]
         + (s8)gUnknown_03003340[gUnknown_0300409C->unk01][gUnknown_0300409C->unk00];
 
     if ((s16)v >= gUnknown_03003340[y][x])
         return;
 
     if (gUnknown_084999C8->unk22 != 0
-        && ((struct Map *)gUnknown_08499590)->unk0012[idx] != 0
+        && ((struct Map *)gMapData)->unk0012[idx] != 0
         && (gUnknown_084999C8->unk2a
-            & gUnknown_084999C8->unk24[((struct Map *)gUnknown_08499590)->unk0012[idx] >> 6]))
+            & gUnknown_084999C8->unk24[((struct Map *)gMapData)->unk0012[idx] >> 6]))
         return;
 
     if ((s16)v > gUnknown_084999C8->unk20)

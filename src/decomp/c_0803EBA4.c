@@ -34,14 +34,14 @@ struct Unk3EBA4Proc
 void sub_0803EBA4(struct Unk3EBA4Proc *proc)
 {
     struct Unk03003338 *p;
-    struct Unk08499594 *u;
+    struct UnitRecord *u;
     struct Unk02028360 *q;
     int i;
 
     p = gUnknown_03003338;
     for (i = 0; p[i].unk00 == 0; i++)
         ;
-    u = &gUnknown_08499594[p[i].unk00];
+    u = &gUnitRecords[p[i].unk00];
     if (p[proc->unk4c].unk00 != 0)
         return;
     switch (p[proc->unk4c].unk02)

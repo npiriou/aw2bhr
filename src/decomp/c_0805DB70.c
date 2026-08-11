@@ -11,7 +11,7 @@
  *
  * gUnknown_0816DA4C is not an object: the ROM word at 0x0816DA4C holds
  * 0x030033EC, agbcc's own -fforce-addr address constant for
- * gUnknown_030033EC. Naming the global honestly reproduces the double load.
+ * gCurrentArmyIndex. Naming the global honestly reproduces the double load.
  *
  * `n` is ONE local assigned twice -- the terrain difference and then Div's
  * quotient. That is what the `adds r3, r0, #0` after the `bl Div` records: a
@@ -19,7 +19,7 @@
  * gets r0-r2 instead of r1-r3. Two separate locals coalesce the copy away and
  * shift every register in the chain by one.
  *
- * gUnknown_085D3DD0[..].unk1c is a function pointer called through
+ * gCoDataTable[..].unk1c is a function pointer called through
  * `bl _call_via_r1`, and the veneer's register index is what fixes its arity at
  * one argument.
  */
@@ -29,35 +29,35 @@ void sub_0805DB70(void)
     int v;
     int n;
 
-    if ((u8)sub_08044280(gUnknown_030033EC))
+    if ((u8)sub_08044280(gCurrentArmyIndex))
     {
-        fn = gUnknown_085D3DD0[gUnknown_08499598[gUnknown_030033EC].unk1d].unk1c;
+        fn = gCoDataTable[gArmyRecords[gCurrentArmyIndex].unk1d].unk1c;
         if (fn != 0 && fn(2) == 1)
         {
             if (gUnknown_03003FC0.unk32 != 0)
-                sub_08034534(0x10, 0, gUnknown_030033EC, 0);
-            sub_0804438C(gUnknown_030033EC, 2);
+                sub_08034534(0x10, 0, gCurrentArmyIndex, 0);
+            sub_0804438C(gCurrentArmyIndex, 2);
             return;
         }
     }
 
-    if (sub_0804423C(gUnknown_030033EC))
+    if (sub_0804423C(gCurrentArmyIndex))
     {
-        v = sub_080441D4(gUnknown_030033EC);
-        n = sub_08044208(gUnknown_030033EC) - v;
-        n = Div(n * gUnknown_085D3DD0[gUnknown_08499598[gUnknown_030033EC].unk1d].unk17,
+        v = sub_080441D4(gCurrentArmyIndex);
+        n = sub_08044208(gCurrentArmyIndex) - v;
+        n = Div(n * gCoDataTable[gArmyRecords[gCurrentArmyIndex].unk1d].unk17,
                 100);
         v += n;
-        if (v >= (int)sub_08044094(gUnknown_030033EC)
+        if (v >= (int)sub_08044094(gCurrentArmyIndex)
             && sub_080129E0() % 100
-                   < gUnknown_085D3DD0[gUnknown_08499598[gUnknown_030033EC].unk1d].unk18)
+                   < gCoDataTable[gArmyRecords[gCurrentArmyIndex].unk1d].unk18)
         {
-            fn = gUnknown_085D3DD0[gUnknown_08499598[gUnknown_030033EC].unk1d].unk1c;
+            fn = gCoDataTable[gArmyRecords[gCurrentArmyIndex].unk1d].unk1c;
             if (fn != 0 && fn(1) == 1)
             {
                 if (gUnknown_03003FC0.unk32 != 0)
-                    sub_08034534(0xf, 0, gUnknown_030033EC, 0);
-                sub_0804438C(gUnknown_030033EC, 1);
+                    sub_08034534(0xf, 0, gCurrentArmyIndex, 0);
+                sub_0804438C(gCurrentArmyIndex, 1);
             }
         }
     }

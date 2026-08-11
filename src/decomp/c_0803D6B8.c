@@ -39,7 +39,7 @@ void sub_0803D6D0(void)
     int i;
 
     for (i = 0; i < 5; i++)
-        gUnknown_030040F8[i] = gUnknown_08499598[i].unk1a;
+        gUnknown_030040F8[i] = gArmyRecords[i].unk1a;
 }
 
 void sub_0803D6FC(struct Unk3D6FC *s)

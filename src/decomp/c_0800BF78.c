@@ -16,7 +16,7 @@
  * `c_08001158.c` idiom unchanged (rows at +0x417A, tiles at +0xA22).
  *
  * `pp`, `q` and `s` are the -fforce-addr workaround and none of them is the
- * original source: `gUnknown_08499590` spelled by name is byte-for-byte exact
+ * original source: `gMapData` spelled by name is byte-for-byte exact
  * here on the FIRST try, and only its pool word relocates against this unit's
  * own .rodata, which the .text-only split cannot place.  Naming the ROM's word
  * instead means reproducing by hand the CSE the original got for free, and the

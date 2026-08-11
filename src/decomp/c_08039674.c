@@ -13,7 +13,7 @@
  * gUnknown_0849D7FC script with the same terrain byte, then arms the blend and
  * the fade counters.
  *
- * gUnknown_08499598[i].unk1d is read TWICE -- the ROM CSEs the ELEMENT ADDRESS
+ * gArmyRecords[i].unk1d is read TWICE -- the ROM CSEs the ELEMENT ADDRESS
  * into r1 and issues two `ldrb r2,[r1,#0x1d]`, which is two source reads of one
  * member, not one read held in a register.
  *
@@ -51,9 +51,9 @@ void sub_08039674(struct Unk39674Proc *proc)
     proc->unk64 = 0;
 
     p = Proc_Start(gUnknown_0849D6D4, proc);
-    p->unk54 = gUnknown_08499598[i].unk1d;
+    p->unk54 = gArmyRecords[i].unk1d;
 
-    sub_08039930(gUnknown_08499598[i].unk1d, proc);
+    sub_08039930(gArmyRecords[i].unk1d, proc);
     sub_08024584();
 
     gUnknown_030030E0.bits.effect = 1;

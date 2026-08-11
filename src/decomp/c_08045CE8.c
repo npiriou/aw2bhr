@@ -15,7 +15,7 @@ int sub_08045CE8(void)
     u8 *p;
     int v;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     v = (p + *(u16 *)(p + 0x417C))[0x1E];
 
     if (v == 0)

@@ -19,8 +19,8 @@
  * include/unknown-functions.h. */
 void sub_08026588(u8 a, u8 b, u8 c)
 {
-    gUnknown_08499598[a].unk16++;
+    gArmyRecords[a].unk16++;
 
-    if (gUnknown_08499598[a].unk16 > gUnknown_08499598[a].unk18)
-        gUnknown_08499598[a].unk18 = gUnknown_08499598[a].unk16;
+    if (gArmyRecords[a].unk16 > gArmyRecords[a].unk18)
+        gArmyRecords[a].unk18 = gArmyRecords[a].unk16;
 }

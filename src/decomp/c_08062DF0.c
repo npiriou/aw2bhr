@@ -38,7 +38,7 @@
  * differently here on purpose -- do not merge them.
  *
  * The map planes go through the `struct Map` cast of c_08000BF8.c. Plain `u8 *`
- * arithmetic on gUnknown_08499590 reassociates the 0x417A / 0x12 constants past
+ * arithmetic on gMapData reassociates the 0x417A / 0x12 constants past
  * the index and does not match.
  */
 
@@ -66,7 +66,7 @@ struct Unk8062DF0Bits
                u8 unk09_3 : 3;
                u8 unk09_6 : 2;
 };
-#define MAP ((struct Map *)gUnknown_08499590)
+#define MAP ((struct Map *)gMapData)
 #define BITS(p) ((struct Unk8062DF0Bits *)(p))
 
 void sub_08062DF0(void)
@@ -99,13 +99,13 @@ void sub_08062DF0(void)
         {
             gUnknown_03003F38 = MAP->unk0012[MAP->unk417A[gUnknown_030033E4.unk02]
                                              + gUnknown_030033E4.unk00];
-            gUnknown_030040D8 = (struct Unk030040D8 *)&gUnknown_08499594[gUnknown_03003F38];
+            gUnknown_030040D8 = (struct Unk030040D8 *)&gUnitRecords[gUnknown_03003F38];
 
             if (gUnknown_030040D8->unk07[0] != 0)
-                a = (struct Unk030040D8 *)&gUnknown_08499594[gUnknown_030040D8->unk07[0]];
+                a = (struct Unk030040D8 *)&gUnitRecords[gUnknown_030040D8->unk07[0]];
 
             if (gUnknown_030040D8->unk07[1] != 0)
-                b = (struct Unk030040D8 *)&gUnknown_08499594[gUnknown_030040D8->unk07[1]];
+                b = (struct Unk030040D8 *)&gUnitRecords[gUnknown_030040D8->unk07[1]];
 
             sub_08013428(2, 4, gUnknown_0816DB40);
             sub_08013428(2, 5, gUnknown_0816DB50, BITS(gUnknown_030040D8)->unk09_0);

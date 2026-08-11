@@ -7,7 +7,7 @@
  * sub_08061E54 @ 0x08061E54
  */
 
-/* A pointer-parameter type. +0x00 is the gUnknown_085D5ABC row index (`ldrb`,
+/* A pointer-parameter type. +0x00 is the gUnitTypeData row index (`ldrb`,
  * then `* 0x5c`), +0x06 carries a seven-bit field at bit 0 (`ldrb; lsls #0x19;
  * lsrs #0x19`) and +0x09 has three bits at bit 0 cleared (`mov #8; neg; and`,
  * mask ~0x07) -- the same +0x09 field sub_08061E80 clears.
@@ -25,6 +25,6 @@ struct Unk61E54
 
 void sub_08061E54(struct Unk61E54 *p)
 {
-    if (gUnknown_085D5ABC[p->unk00].unk10 - 5 < p->unk06_0)
+    if (gUnitTypeData[p->unk00].unk10 - 5 < p->unk06_0)
         p->unk09_0 = 0;
 }

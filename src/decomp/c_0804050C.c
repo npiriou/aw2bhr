@@ -9,7 +9,7 @@
 
 #include "proc.h"
 /* Scrolls the proc's animation up five pixels a frame and breaks the proc once
- * it has passed the top of the gUnknown_08499590 screen. The sub_0801C254
+ * it has passed the top of the gMapData screen. The sub_0801C254
  * result is discarded here -- no `lsls #0x18` follows the `bl`, which is what
  * distinguishes this from sub_08040150 beside it, where the same call is
  * tested.
@@ -48,7 +48,7 @@ struct Unk40554Proc
 };
 /* The proc's init: it converts the cell coordinates at unk2c/unk30 into the
  * pixel pair at unk54/unk58 (the same `cell * 16 + halfTile` the matched
- * sub_08040640 then reads back against gUnknown_08499590), snapshots the
+ * sub_08040640 then reads back against gMapData), snapshots the
  * screen's y scroll into unk66, and installs the animation.
  *
  * `proc->unk50 = sub_0801C210(...)` followed by `sub_0801C4D4(proc->unk50, 2)`
@@ -72,12 +72,12 @@ struct Unk40590Proc
 void sub_0804050C(struct Unk4050CProc *proc)
 {
     sub_0801C254(proc->unk50,
-                 proc->unk2c - *(s16 *)(gUnknown_08499590 + 4),
-                 proc->unk30 - *(s16 *)(gUnknown_08499590 + 6));
+                 proc->unk2c - *(s16 *)(gMapData + 4),
+                 proc->unk30 - *(s16 *)(gMapData + 6));
 
     proc->unk30 -= 5;
 
-    if (proc->unk30 - *(s16 *)(gUnknown_08499590 + 6) < 0)
+    if (proc->unk30 - *(s16 *)(gMapData + 6) < 0)
     {
         sub_0801C240(proc->unk50);
         Proc_Break(proc);
@@ -98,7 +98,7 @@ void sub_08040590(struct Unk40590Proc *proc)
 {
     proc->unk54 = (proc->unk2c << 4) + 8;
     proc->unk58 = (proc->unk30 << 4) + 0x10;
-    proc->unk66 = *(u16 *)(gUnknown_08499590 + 6);
+    proc->unk66 = *(u16 *)(gMapData + 6);
 
     proc->unk50 = sub_0801C210((void *)gUnknown_08111D94, 1, 1);
     sub_0801C4D4(proc->unk50, 2);

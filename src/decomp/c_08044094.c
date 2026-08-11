@@ -16,5 +16,5 @@
 
 u32 sub_08044094(int a1)
 {
-    return gUnknown_08499598[a1].unk20;
+    return gArmyRecords[a1].unk20;
 }

@@ -21,7 +21,7 @@ struct Unk3F44Map
     /* 0x1432 */ u8 cell[0x417A - 0x1432];
     /* 0x417A */ u16 rowOffset[1];
 };
-#define MAP ((struct Unk3F44Map *)gUnknown_08499590)
+#define MAP ((struct Unk3F44Map *)gMapData)
 
 void sub_08003ED0(void)
 {

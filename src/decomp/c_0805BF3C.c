@@ -52,7 +52,7 @@ struct Unk5BFDCCtl
 void sub_0805BF3C(int x, int y, u16 *out)
 {
     u8 buf[28];
-    struct Unk08499594 *e;
+    struct UnitRecord *e;
 
     sub_0808B6C4(buf, 0, 0x19);
     buf[1] = 8;
@@ -60,7 +60,7 @@ void sub_0805BF3C(int x, int y, u16 *out)
     buf[7] = 8;
     buf[9] = 9;
 
-    e = &gUnknown_08499594[gUnknown_030040D8->unk07[1]];
+    e = &gUnitRecords[gUnknown_030040D8->unk07[1]];
     gUnknown_030046D4 = e->unk00;
 
     if (gUnknown_030040D8->unk07[4] > 7)
@@ -78,16 +78,16 @@ void sub_0805BFDC(int x, int y, int a3, int a4)
     u16 t;
 
     v = (s8)gUnknown_03003340[y][x];
-    if (v <= sub_08042D1C(gUnknown_030033EC, gUnknown_030040D8->unk00) * 2)
+    if (v <= sub_08042D1C(gCurrentArmyIndex, gUnknown_030040D8->unk00) * 2)
         return;
 
     gUnknown_030013EC(gUnknown_030040D8->unk02, gUnknown_030040D8->unk03, a3,
                       0x78, 0);
     sub_0801FD9C(0x79);
 
-    t = ((s8)gUnknown_03003340[y][x] * 3) / sub_08042D1C(gUnknown_030033EC, a3);
+    t = ((s8)gUnknown_03003340[y][x] * 3) / sub_08042D1C(gCurrentArmyIndex, a3);
 
-    if ((s16)((v * 4) / sub_08042D1C(gUnknown_030033EC, gUnknown_030040D8->unk00))
+    if ((s16)((v * 4) / sub_08042D1C(gCurrentArmyIndex, gUnknown_030040D8->unk00))
         <= (s16)t)
         return;
 

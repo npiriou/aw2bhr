@@ -24,7 +24,7 @@ int sub_0800164C(int x, int y)
     int v;
     int r;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + t) + x;
@@ -52,7 +52,7 @@ int sub_0800168C(int x, int y)
     int v;
     int r;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + t) + x;
@@ -83,7 +83,7 @@ int sub_080016D0(int x, int y)
     int t;
     int off;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417A;
     off = (*(u16 *)(rows + t) + x) * 2;

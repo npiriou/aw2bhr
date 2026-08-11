@@ -48,8 +48,8 @@ void sub_080352B4(void)
 
     for (j = i; j < i + 0x10; j++)
     {
-        sub_0801BDB4(((gUnknown_02027C68[j].unk00 >> 8) - *(s16 *)(gUnknown_08499590 + 4)) & 0xff,
-                     ((gUnknown_02027C68[j].unk02 >> 8) - *(s16 *)(gUnknown_08499590 + 6)) & 0xff,
+        sub_0801BDB4(((gUnknown_02027C68[j].unk00 >> 8) - *(s16 *)(gMapData + 4)) & 0xff,
+                     ((gUnknown_02027C68[j].unk02 >> 8) - *(s16 *)(gMapData + 6)) & 0xff,
                      gUnknown_0849BD98,
                      gUnknown_02027C68[j].unk08);
     }

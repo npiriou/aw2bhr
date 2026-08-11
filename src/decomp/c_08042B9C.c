@@ -15,7 +15,7 @@
  * count -- the difference is entirely in the relocation addend.
  *
  * The element address is recomputed for the second store because the first
- * `strb` kills gUnknown_08499598's MEM (it is a non-const pointer global). */
+ * `strb` kills gArmyRecords's MEM (it is a non-const pointer global). */
 void sub_08042B9C(void)
 {
     u8 *q;
@@ -26,8 +26,8 @@ void sub_08042B9C(void)
 
     if (gUnknown_03003FC0.unk32 == 0)
     {
-        gUnknown_08499598[gUnknown_030033EC].unk2f = gUnknown_030033E4.unk00;
-        gUnknown_08499598[gUnknown_030033EC].unk30 = gUnknown_030033E4.unk02;
+        gArmyRecords[gCurrentArmyIndex].unk2f = gUnknown_030033E4.unk00;
+        gArmyRecords[gCurrentArmyIndex].unk30 = gUnknown_030033E4.unk02;
     }
 
     gUnknown_030032D8 = 1;

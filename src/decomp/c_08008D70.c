@@ -9,7 +9,7 @@
 
 int sub_08008D70(int x, int y)
 {
-    if (y < *(u16 *)(gUnknown_08499590 + 2) - 1)
+    if (y < *(u16 *)(gMapData + 2) - 1)
     {
         u8 *p;
         u8 *rows;
@@ -18,7 +18,7 @@ int sub_08008D70(int x, int y)
         int t;
         int off;
 
-        p = gUnknown_08499590;
+        p = gMapData;
         n = y + 1;
         t = n * 2;
         rows = p + 0x417A;
@@ -38,7 +38,7 @@ int sub_08008D70(int x, int y)
         int t;
         int off;
 
-        p = gUnknown_08499590;
+        p = gMapData;
         n = y - 1;
         t = n * 2;
         rows = p + 0x417A;
@@ -49,7 +49,7 @@ int sub_08008D70(int x, int y)
             return 0x36;
     }
 
-    if (x < *(u16 *)gUnknown_08499590 - 1)
+    if (x < *(u16 *)gMapData - 1)
     {
         u8 *p;
         u8 *rows;
@@ -57,7 +57,7 @@ int sub_08008D70(int x, int y)
         int t;
         int off;
 
-        p = gUnknown_08499590;
+        p = gMapData;
         t = y * 2;
         rows = p + 0x417A;
         off = (*(u16 *)(rows + t) + (x + 1)) * 2;
@@ -75,7 +75,7 @@ int sub_08008D70(int x, int y)
         int t;
         int off;
 
-        p = gUnknown_08499590;
+        p = gMapData;
         t = y * 2;
         rows = p + 0x417A;
         off = (*(u16 *)(rows + t) + (x - 1)) * 2;

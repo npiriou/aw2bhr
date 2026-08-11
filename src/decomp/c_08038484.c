@@ -20,7 +20,7 @@
  * actually supports, but it is a SHARED member (sub_0803C52C reads +0x10 twice,
  * sub_08016A54 zeroes both) and the brief forbids reshaping one to suit a
  * single function, so the layout is spelled locally instead -- the same device
- * src/decomp/c_08038848.c uses for gUnknown_08499590. Recorded rather than
+ * src/decomp/c_08038848.c uses for gMapData. Recorded rather than
  * changed; if a second function turns up subscripting the same pair, that is
  * the evidence to promote it to an array in the header.
  *
@@ -44,7 +44,7 @@ void sub_08038484(void)
     if (sub_0803861C())
     {
         sub_08038368(gUnknown_03003FC0.unk02 - 0x8a, gUnknown_03004080,
-                     gUnknown_08499598[sub_0807A908()].unk38);
+                     gArmyRecords[sub_0807A908()].unk38);
         sub_0807823C(gUnknown_03003FC0.unk02 - 0x8a);
         gUnknown_0202FDFC.unk0c = gUnknown_03003FC0.unk02 - 0x8a;
         gUnknown_0202FDFC.unk11 = 1;

@@ -49,20 +49,20 @@ void sub_08026924(void)
         gUnknown_03003FF8[j] = 0;
     }
 
-    gUnknown_08499598[1].unk1b = gUnknown_03003FC0.unk38[1];
-    gUnknown_08499598[2].unk1b = gUnknown_03003FC0.unk38[2];
-    gUnknown_08499598[3].unk1b = gUnknown_03003FC0.unk38[3];
-    gUnknown_08499598[4].unk1b = gUnknown_03003FC0.unk38[4];
+    gArmyRecords[1].unk1b = gUnknown_03003FC0.unk38[1];
+    gArmyRecords[2].unk1b = gUnknown_03003FC0.unk38[2];
+    gArmyRecords[3].unk1b = gUnknown_03003FC0.unk38[3];
+    gArmyRecords[4].unk1b = gUnknown_03003FC0.unk38[4];
 
     for (i = 1; i <= 4; i++)
     {
-        gUnknown_08499598[i].unk1a = gUnknown_03003FC0.unk33[i];
-        gUnknown_08499598[i].unk1d = gUnknown_03003FC0.unk3d[i];
-        gUnknown_08499598[i].unk2a = gUnknown_03003FC0.unk42[i];
-        gUnknown_08499598[i].unk2c = 0;
+        gArmyRecords[i].unk1a = gUnknown_03003FC0.unk33[i];
+        gArmyRecords[i].unk1d = gUnknown_03003FC0.unk3d[i];
+        gArmyRecords[i].unk2a = gUnknown_03003FC0.unk42[i];
+        gArmyRecords[i].unk2c = 0;
 
-        if (gUnknown_08499598[i].unk1b == 0)
-            gUnknown_08499598[i].unk1d = 1;
+        if (gArmyRecords[i].unk1b == 0)
+            gArmyRecords[i].unk1d = 1;
     }
 
     sub_08026A48();
@@ -74,7 +74,7 @@ void sub_08026924(void)
 
     for (i = 1; i <= 0xff; i++)
     {
-        if (gUnknown_08499594[i].unk00 != 0)
+        if (gUnitRecords[i].unk00 != 0)
             sub_08025D20((i >> 6) + 1);
     }
 }

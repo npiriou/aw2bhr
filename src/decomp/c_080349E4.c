@@ -16,7 +16,7 @@ void sub_080349E4(void)
 
     sub_08024584();
 
-    v = gUnknown_08499598[sub_08026704(gUnknown_030033EC)].unk1a;
+    v = gArmyRecords[sub_08026704(gCurrentArmyIndex)].unk1a;
 
     sub_0801F150(1, (void *)0x06010000, 0x1ca, 0x13);
     sub_0801F234(v + 0x3d);

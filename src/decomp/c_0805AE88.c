@@ -57,13 +57,13 @@ void sub_0805AE88(void)
 
         if (sub_08058318() < sub_0805848C())
         {
-            for (y = 0; y < *(u16 *)(gUnknown_08499590 + 2); y++)
+            for (y = 0; y < *(u16 *)(gMapData + 2); y++)
             {
-                for (x = 0; x < *(u16 *)gUnknown_08499590; x++)
+                for (x = 0; x < *(u16 *)gMapData; x++)
                 {
                     if ((s8)gUnknown_03003340[y][x] >= 0)
                     {
-                        p = gUnknown_08499590;
+                        p = gMapData;
                         t = y * 2;
                         rows = p + 0x417a;
                         off = *(u16 *)(rows + t) + x;
@@ -135,13 +135,13 @@ void sub_0805AF90(void)
 
         if (sub_08058318() < sub_080585D4() + 5)
         {
-            for (y = 0; y < *(u16 *)(gUnknown_08499590 + 2); y++)
+            for (y = 0; y < *(u16 *)(gMapData + 2); y++)
             {
-                for (x = 0; x < *(u16 *)gUnknown_08499590; x++)
+                for (x = 0; x < *(u16 *)gMapData; x++)
                 {
                     if ((s8)gUnknown_03003340[y][x] >= 0)
                     {
-                        p = gUnknown_08499590;
+                        p = gMapData;
                         t = y * 2;
                         rows = p + 0x417a;
                         off = *(u16 *)(rows + t) + x;
@@ -219,13 +219,13 @@ void sub_0805B0AC(void)
         n = sub_080583DC();
         if (n != 0 && sub_08058254() < n + 5)
         {
-            for (y = 0; y < *(u16 *)(gUnknown_08499590 + 2); y++)
+            for (y = 0; y < *(u16 *)(gMapData + 2); y++)
             {
-                for (x = 0; x < *(u16 *)gUnknown_08499590; x++)
+                for (x = 0; x < *(u16 *)gMapData; x++)
                 {
                     if ((s8)gUnknown_03003340[y][x] >= 0)
                     {
-                        p = gUnknown_08499590;
+                        p = gMapData;
                         t = y * 2;
                         rows = p + 0x417a;
                         off = *(u16 *)(rows + t) + x;
@@ -291,13 +291,13 @@ void sub_0805B1CC(void)
         n = sub_080585D4();
         if (n != 0 && sub_0805848C() < n + 2)
         {
-            for (y = 0; y < *(u16 *)(gUnknown_08499590 + 2); y++)
+            for (y = 0; y < *(u16 *)(gMapData + 2); y++)
             {
-                for (x = 0; x < *(u16 *)gUnknown_08499590; x++)
+                for (x = 0; x < *(u16 *)gMapData; x++)
                 {
                     if ((s8)gUnknown_03003340[y][x] >= 0)
                     {
-                        p = gUnknown_08499590;
+                        p = gMapData;
                         t = y * 2;
                         rows = p + 0x417a;
                         off = *(u16 *)(rows + t) + x;
@@ -363,13 +363,13 @@ void sub_0805B2EC(void)
 
         if (sub_080586CC() != 0)
         {
-            for (y = 0; y < *(u16 *)(gUnknown_08499590 + 2); y++)
+            for (y = 0; y < *(u16 *)(gMapData + 2); y++)
             {
-                for (x = 0; x < *(u16 *)gUnknown_08499590; x++)
+                for (x = 0; x < *(u16 *)gMapData; x++)
                 {
                     if ((s8)gUnknown_03003340[y][x] >= 0)
                     {
-                        p = gUnknown_08499590;
+                        p = gMapData;
                         t = y * 2;
                         rows = p + 0x417a;
                         off = *(u16 *)(rows + t) + x;

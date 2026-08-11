@@ -30,14 +30,14 @@ void sub_08023860(void)
 
     if (sub_08015BD0((s32)gUnknown_08499B4C) != -1)
     {
-        gUnknown_03001FF8 = *(u16 *)(gUnknown_08499590 + 4) - *(u16 *)(gUnknown_08499590 + 0xc) * 16;
-        gUnknown_03001418 = *(u16 *)(gUnknown_08499590 + 6) - *(u16 *)(gUnknown_08499590 + 0xe) * 16;
+        gUnknown_03001FF8 = *(u16 *)(gMapData + 4) - *(u16 *)(gMapData + 0xc) * 16;
+        gUnknown_03001418 = *(u16 *)(gMapData + 6) - *(u16 *)(gMapData + 0xe) * 16;
     }
 
-    gUnknown_03002B34 = -(*(u16 *)(gUnknown_08499590 + 0xc) * 16) + (x = *(u16 *)(gUnknown_08499590 + 4));
-    gUnknown_03002F18 = -(*(u16 *)(gUnknown_08499590 + 0xe) * 16) + (y = *(u16 *)(gUnknown_08499590 + 6)) + 3;
-    gUnknown_030030A0 = x - *(u16 *)(gUnknown_08499590 + 0xc) * 16;
-    gUnknown_03001400 = y - *(u16 *)(gUnknown_08499590 + 0xe) * 16;
-    gUnknown_0300200C = x - *(u16 *)(gUnknown_08499590 + 0xc) * 16;
-    gUnknown_03002000 = y - *(u16 *)(gUnknown_08499590 + 0xe) * 16;
+    gUnknown_03002B34 = -(*(u16 *)(gMapData + 0xc) * 16) + (x = *(u16 *)(gMapData + 4));
+    gUnknown_03002F18 = -(*(u16 *)(gMapData + 0xe) * 16) + (y = *(u16 *)(gMapData + 6)) + 3;
+    gUnknown_030030A0 = x - *(u16 *)(gMapData + 0xc) * 16;
+    gUnknown_03001400 = y - *(u16 *)(gMapData + 0xe) * 16;
+    gUnknown_0300200C = x - *(u16 *)(gMapData + 0xc) * 16;
+    gUnknown_03002000 = y - *(u16 *)(gMapData + 0xe) * 16;
 }

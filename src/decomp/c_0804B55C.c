@@ -9,7 +9,7 @@
 
 /* Two things here are not free choices.
  *
- * 1. The gUnknown_08499590 map is addressed through a STRUCT, not through the
+ * 1. The gMapData map is addressed through a STRUCT, not through the
  * `u8 *` locals src/decomp/c_0804B42C.c uses. Both models describe the same
  * bytes, but only the struct keeps `base + 0x417A` and `base + 0x1432`
  * grouped: with plain pointer arithmetic `fold` canonicalises `(base + C) + i`
@@ -47,7 +47,7 @@ u16 sub_0804B55C(u16 a, u8 *p, int unused)
     result = a;
     x = p[2];
     y = p[3];
-    m = (struct MapHdr *)gUnknown_08499590;
+    m = (struct MapHdr *)gMapData;
     t = sub_08024984(m->terrain[m->rows[y] + x]);
 
     switch (a)

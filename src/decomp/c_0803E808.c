@@ -10,7 +10,7 @@
 /* MATCHED (wave 49, W49-C), first attempt. 496/496 bytes.
  *
  * PROMOTION NOTE: the only reloc difference is agbcc's -fforce-addr copy of
- * &gUnknown_08499590 at 0x08091300 (the ROM word there contains 0x08499590),
+ * &gMapData at 0x08091300 (the ROM word there contains 0x08499590),
  * which gen_lds.py names gUnknown_08091300. Do NOT declare it. This entry needs
  *   "rodata": ["0x08091300"]
  * in data/promoted.json, then tools/split_rodata.py + tools/gen_lds.py.
@@ -45,11 +45,11 @@ struct Unk3E808Map
     /* 0x0012 */ u8 unit[0x417A - 0x12];
     /* 0x417A */ u16 rowOffset[1];
 };
-#define MAP ((struct Unk3E808Map *)gUnknown_08499590)
+#define MAP ((struct Unk3E808Map *)gMapData)
 
 void sub_0803E808(int a1, int a2, int a3, int a4, int a5)
 {
-    struct Unk08499594 *u;
+    struct UnitRecord *u;
     u32 best;
     u32 score;
     u16 bestX;
@@ -64,7 +64,7 @@ void sub_0803E808(int a1, int a2, int a3, int a4, int a5)
     bestX = 0;
     bestY = 0;
     bestT = 0;
-    sub_0801F92C(gUnknown_08499590 + 0x2852);
+    sub_0801F92C(gMapData + 0x2852);
     sub_0801F838(0xff);
     x = a1 + (int)sub_0803E7C0(a4, a5);
     y = a2 + (int)sub_0803E7E4(a4, a5);
@@ -77,11 +77,11 @@ void sub_0803E808(int a1, int a2, int a3, int a4, int a5)
                 continue;
             if (MAP->unit[MAP->rowOffset[j] + i] == 0)
                 continue;
-            if (sub_08026F28(gUnknown_030033EC, (MAP->unit[MAP->rowOffset[j] + i] >> 6) + 1) == 1)
+            if (sub_08026F28(gCurrentArmyIndex, (MAP->unit[MAP->rowOffset[j] + i] >> 6) + 1) == 1)
                 continue;
-            if (!sub_08020DBC(gUnknown_030033EC, i, j))
+            if (!sub_08020DBC(gCurrentArmyIndex, i, j))
                 continue;
-            u = &gUnknown_08499594[MAP->unit[MAP->rowOffset[j] + i]];
+            u = &gUnitRecords[MAP->unit[MAP->rowOffset[j] + i]];
             if (u->unk00 == 0x18)
             {
                 if ((u->unk01 & 0x20) != 0)
@@ -89,7 +89,7 @@ void sub_0803E808(int a1, int a2, int a3, int a4, int a5)
                 if (!sub_080257C0(MAP->unit[MAP->rowOffset[j] + i]))
                     continue;
             }
-            score = u->unk04_0 * (u16)(gUnknown_085D5ABC[u->unk00].unk06 / 10);
+            score = u->unk04_0 * (u16)(gUnitTypeData[u->unk00].unk06 / 10);
             if (best > score)
                 continue;
             best = score;

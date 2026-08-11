@@ -7,7 +7,7 @@
  * sub_080015E4 @ 0x080015E4
  */
 
-/* A walkability predicate over the gUnknown_08499590 map: the cell must not be
+/* A walkability predicate over the gMapData map: the cell must not be
  * kind 7, 0xd or 0x13, must pass sub_08008C34, and -- for kind 2 only -- must
  * pass sub_080094EC as well.
  *
@@ -32,7 +32,7 @@ int sub_080015E4(int x, int y)
     int s;
     int r;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + t) + x;

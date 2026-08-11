@@ -61,7 +61,7 @@ void sub_08039ACC(u16 a, u16 b, u16 c, int d)
     else
         proc = Proc_Start(gUnknown_0849D84C, PROC_TREE_3);
 
-    sub_0803B4DC(gUnknown_084A0090[gUnknown_08499598[gUnknown_030033EC].unk1d]
+    sub_0803B4DC(gUnknown_084A0090[gArmyRecords[gCurrentArmyIndex].unk1d]
                      .unk1c[d].unk10[gUnknown_030043F8]);
 
     proc->unk29 = a;

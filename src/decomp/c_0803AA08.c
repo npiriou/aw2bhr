@@ -36,9 +36,9 @@ void sub_0803AA08(u8 a)
     gUnknown_0849D89C->unk04 = &gUnknown_03004100;
 
     sub_0803A190(gUnknown_0849D89C->unk00,
-        (struct Unk08499594 *)gUnknown_03001470[slot].unk18);
+        (struct UnitRecord *)gUnknown_03001470[slot].unk18);
     sub_0803A2BC(gUnknown_0849D89C->unk00,
-        (struct Unk08499594 *)gUnknown_03001470[slot].unk18);
+        (struct UnitRecord *)gUnknown_03001470[slot].unk18);
 
     sub_08013AD4(0);
 }

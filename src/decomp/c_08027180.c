@@ -9,5 +9,5 @@
 
 void sub_08027180(int a1)
 {
-    gUnknown_08499598[a1].unk3b = 0;
+    gArmyRecords[a1].unk3b = 0;
 }

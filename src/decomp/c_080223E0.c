@@ -8,7 +8,7 @@
  */
 
 /* Clears the 2x2 tile block that (x, y) falls in, on the gUnknown_0849957C
- * tilemap. gUnknown_08499590 +0x0c / +0x0e is the scroll origin; the `& 0xf`
+ * tilemap. gMapData +0x0c / +0x0e is the scroll origin; the `& 0xf`
  * wraps into the 32x32 map.
  *
  * Three things are load-bearing and each was a near-miss on its own:
@@ -28,8 +28,8 @@ void sub_080223E0(u16 x, u16 y)
     int cx;
     int cy;
 
-    cx = (x - *(u16 *)(gUnknown_08499590 + 0xc)) & 0xf;
-    cy = (y - *(u16 *)(gUnknown_08499590 + 0xe)) & 0xf;
+    cx = (x - *(u16 *)(gMapData + 0xc)) & 0xf;
+    cy = (y - *(u16 *)(gMapData + 0xe)) & 0xf;
 
     *(gUnknown_0849957C + cx * 2 + cy * 64) = 0;
     *(gUnknown_0849957C + cx * 2 + cy * 64 + 1) = 0;

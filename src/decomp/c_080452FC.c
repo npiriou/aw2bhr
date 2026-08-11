@@ -39,7 +39,7 @@ void sub_080452FC(struct Unk452FC *proc)
         y = proc->unk40;
         flag = 0;
 
-        if (gUnknown_08499598[proc->unk2c].unk1f == 2)
+        if (gArmyRecords[proc->unk2c].unk1f == 2)
             flag = 1;
 
         sub_08044B08(x, y, flag);

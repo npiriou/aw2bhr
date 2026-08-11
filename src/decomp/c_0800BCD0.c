@@ -46,7 +46,7 @@ struct MapScreen
     /* 0x1432 */ u8 terrain[0x417A - 0x1432];
     /* 0x417A */ u16 rowOffset[1];
 };
-#define MAP ((struct MapScreen *)gUnknown_08499590)
+#define MAP ((struct MapScreen *)gMapData)
 
 int sub_0800BCD0(int x, int y)
 {

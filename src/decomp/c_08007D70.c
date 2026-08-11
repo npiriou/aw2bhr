@@ -12,7 +12,7 @@
  * and not two statements: sub_080016D0's result is moved to r2 and used as the
  * third argument -- see sub_080016D0's own note for why it returns at all.
  *
- * `*(u16 *)gUnknown_08499590` is the map width at +0 of the screen descriptor,
+ * `*(u16 *)gMapData` is the map width at +0 of the screen descriptor,
  * the same object c_08001158.c indexes at +0x417A. The `x++` is a real
  * mutation of the parameter: the ROM bumps r4 in place and both later calls use
  * the new value. */
@@ -20,7 +20,7 @@ void sub_08007D70(int x, int y)
 {
     sub_08001158(x, y, sub_080016D0(x, y));
 
-    if (x < *(u16 *)gUnknown_08499590 - 2)
+    if (x < *(u16 *)gMapData - 2)
     {
         x++;
         sub_08001158(x, y, sub_080016D0(x, y));

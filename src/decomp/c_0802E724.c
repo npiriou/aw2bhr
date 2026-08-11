@@ -9,18 +9,18 @@
 
 bool8 sub_0802E724(s16 a1, s16 a2)
 {
-    struct Unk08499594 **ptbl;
+    struct UnitRecord **ptbl;
     u8 *p;
     u8 *rows;
     u8 *tiles;
-    struct Unk08499594 *e;
+    struct UnitRecord *e;
     int t;
     int off;
     int army;
 
-    ptbl = &gUnknown_08499594;
+    ptbl = &gUnitRecords;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = a2 * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + t) + a1;
@@ -41,7 +41,7 @@ bool8 sub_0802E724(s16 a1, s16 a2)
     if ((tiles[off] & 0xc0) != army)
         return FALSE;
 
-    if ((u8)sub_08025FC0((struct Unk08499594 *)gUnknown_030040D8, e) == 1)
+    if ((u8)sub_08025FC0((struct UnitRecord *)gUnknown_030040D8, e) == 1)
         return TRUE;
 
     if ((u8)sub_080422A8(a1, a2) == 1)

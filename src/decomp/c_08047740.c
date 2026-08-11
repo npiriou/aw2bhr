@@ -10,7 +10,7 @@
 /* Counts the loaded-cargo links that a slot swap would break, weighted 1 for
  * the direct case and 2 for the transitive one.
  *
- * Same vocabulary as sub_0804769C (gUnknown_08499594 is a POINTER, stride 12;
+ * Same vocabulary as sub_0804769C (gUnitRecords is a POINTER, stride 12;
  * gUnknown_03003F2C is the army base for both the subscript and the two
  * `unk07 - base` / `unk08 - base` subtractions; the bound p->unk21 is an
  * unsigned u8), and the same ONE COUNTER, ONE RETURN POINT shape.
@@ -36,7 +36,7 @@ u16 sub_08047740(struct Unk0804769C *p, u16 a2, u16 a3, u16 a4)
     u16 i;
     u16 u;
     u16 v;
-    struct Unk08499594 *r;
+    struct UnitRecord *r;
 
     count = 0;
 
@@ -44,7 +44,7 @@ u16 sub_08047740(struct Unk0804769C *p, u16 a2, u16 a3, u16 a4)
     {
         for (i = 0; i < p->unk21; i++)
         {
-            r = &gUnknown_08499594[gUnknown_03003F2C + gUnknown_02028DD8[i]];
+            r = &gUnitRecords[gUnknown_03003F2C + gUnknown_02028DD8[i]];
             if (r->unk01 & 0x10)
             {
                 u = r->unk07 - gUnknown_03003F2C;
@@ -69,7 +69,7 @@ u16 sub_08047740(struct Unk0804769C *p, u16 a2, u16 a3, u16 a4)
     {
         for (i = 0; i < p->unk21; i++)
         {
-            r = &gUnknown_08499594[gUnknown_03003F2C + gUnknown_02028DD8[i]];
+            r = &gUnitRecords[gUnknown_03003F2C + gUnknown_02028DD8[i]];
             if (r->unk01 & 0x10)
             {
                 if (a2 == r->unk07 - gUnknown_03003F2C
@@ -78,7 +78,7 @@ u16 sub_08047740(struct Unk0804769C *p, u16 a2, u16 a3, u16 a4)
                     a2 = gUnknown_02028DD8[i];
                     for (i = 0; i < p->unk21; i++)
                     {
-                        r = &gUnknown_08499594[gUnknown_03003F2C
+                        r = &gUnitRecords[gUnknown_03003F2C
                                                + gUnknown_02028DD8[i]];
                         if (r->unk01 & 0x10)
                         {

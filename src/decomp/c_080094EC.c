@@ -24,7 +24,7 @@ int sub_080094EC(int x, int y)
     int off;
     int tile;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417A;
     off = (*(u16 *)(rows + t) + x) * 2;

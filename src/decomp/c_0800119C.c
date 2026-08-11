@@ -7,15 +7,15 @@
  * sub_0800119C @ 0x0800119C
  */
 
-/* A bounds-checked cell-kind test on the gUnknown_08499590 map: outside the
+/* A bounds-checked cell-kind test on the gMapData map: outside the
  * width/height stored at +0 and +2 the answer is 0, otherwise it is whether the
  * cell equals the caller's kind.
  *
- * gUnknown_08499590 IS NOT BOUND BEFORE THE GUARD. The ROM loads it only at the
+ * gMapData IS NOT BOUND BEFORE THE GUARD. The ROM loads it only at the
  * third test -- the first two compare the coordinates against zero and need
  * nothing -- and then keeps that one load across the whole tail. Naming it
  * inline in the guard and binding `p` only afterwards is what places the load
- * there; a `p = gUnknown_08499590;` at the top hoists it two compares early.
+ * there; a `p = gMapData;` at the top hoists it two compares early.
  *
  * `movs r2, #0` ahead of the cell compare is the shared result variable, the
  * same shape as c_0800164C.c next door; the row/tile arithmetic is that file's
@@ -29,11 +29,11 @@ int sub_0800119C(int x, int y, int k)
     int off;
     int r;
 
-    if (x < 0 || y < 0 || y > *(u16 *)(gUnknown_08499590 + 2) - 1
-        || x > *(u16 *)gUnknown_08499590 - 1)
+    if (x < 0 || y < 0 || y > *(u16 *)(gMapData + 2) - 1
+        || x > *(u16 *)gMapData - 1)
         return 0;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     r = 0;
     t = y * 2;
     rows = p + 0x417A;

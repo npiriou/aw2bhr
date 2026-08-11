@@ -11,7 +11,7 @@
  *
  * gUnknown_0816DA5C / _0816DA60 / _0816DA64 are NOT globals -- the ROM words
  * there hold 0x08499590, 0x030040D8 and 0x030013EC, so they are agbcc's own
- * -fforce-addr constants for gUnknown_08499590, gUnknown_030040D8 and
+ * -fforce-addr constants for gMapData, gUnknown_030040D8 and
  * gUnknown_030013EC.  The honest spelling reproduces all three and the
  * promotion must carry the three rodata words:
  *   "rodata": ["0x0816DA5C", "0x0816DA60", "0x0816DA64"]
@@ -74,7 +74,7 @@ void sub_0805E160(void)
     u8 r;
 
     list = gUnknown_03003F20;
-    sub_0801F92C(gUnknown_08499590 + 0x2852);
+    sub_0801F92C(gMapData + 0x2852);
 
     if ((gUnknown_030040D8->unk07[2] & 0xc0) == 0)
     {
@@ -90,14 +90,14 @@ void sub_0805E160(void)
             sub_0805E2AC();
             return;
         }
-        gUnknown_03004730[((struct Map *)gUnknown_08499590)->unk0012[((struct Map *)gUnknown_08499590)->unk417A[pos.y] + pos.x] & 0x3f]++;
+        gUnknown_03004730[((struct Map *)gMapData)->unk0012[((struct Map *)gMapData)->unk417A[pos.y] + pos.x] & 0x3f]++;
         r = sub_0805ACA8(pos.x, pos.y, (u16 *)&pos);
         if (r != 1)
             goto loop;
 
         gUnknown_030013EC(pos.x, pos.y, gUnknown_030040D8->unk00, 0x78, 1);
 
-        if ((s8)gUnknown_03003340[gUnknown_030040D8->unk03][gUnknown_030040D8->unk02] > sub_08058224((struct Unk08499594 *)gUnknown_030040D8))
+        if ((s8)gUnknown_03003340[gUnknown_030040D8->unk03][gUnknown_030040D8->unk02] > sub_08058224((struct UnitRecord *)gUnknown_030040D8))
             sub_080591E4(&pos);
         else
             sub_0805D648(pos.x, pos.y, 2, 0, 0);

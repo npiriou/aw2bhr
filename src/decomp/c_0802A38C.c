@@ -21,7 +21,7 @@
  *     the OR's destination moves to the shift's register. Only splitting the
  *     shift out gives the ROM's `ldrb; lsls; ldrb; orrs r1, r0`.
  *
- * (2) `q` -- binding gUnknown_030033EC's ADDRESS before the indirect call is
+ * (2) `q` -- binding gCurrentArmyIndex's ADDRESS before the indirect call is
  *     what makes it live ACROSS that call, so it takes a callee-saved register
  *     and its pool `ldr` is emitted at the top of the block, as in the ROM.
  *     Dereferenced in place the address is rematerialised into a scratch after
@@ -69,14 +69,14 @@ bool8 sub_0802A38C(struct Unk2A38C *p, int (*fn)(struct Unk2A38C *))
     int v;
     int t;
 
-    if (((struct Map *)gUnknown_08499590)->unk234A[
-            ((struct Map *)gUnknown_08499590)->unk417A[p->unk03] + p->unk02] == 0)
+    if (((struct Map *)gMapData)->unk234A[
+            ((struct Map *)gMapData)->unk417A[p->unk03] + p->unk02] == 0)
     {
         fn(p);
         return 0;
     }
 
-    q = &gUnknown_030033EC;
+    q = &gCurrentArmyIndex;
     r = fn(p);
 
     if (r == 0)

@@ -10,13 +10,13 @@
 #include "proc.h"
 
 /* The sub_080447EC shape (src/decomp/c_080447EC.c) with a payment in front:
- * half of the current army's gUnknown_08499598 record's first word goes to
+ * half of the current army's gArmyRecords record's first word goes to
  * sub_08025B58, then the 0x1F6 message, then the child is started under the
  * caller's proc. `lsrs r1,r1,#1` and not `asrs` -- unk00 is already declared
  * unsigned. */
 void sub_08044804(ProcPtr parent)
 {
-    sub_08025B58(gUnknown_030033EC, gUnknown_08499598[gUnknown_030033EC].unk00 >> 1);
+    sub_08025B58(gCurrentArmyIndex, gArmyRecords[gCurrentArmyIndex].unk00 >> 1);
     sub_0803B4DC(0x1F6);
     sub_080443C4(parent);
 }

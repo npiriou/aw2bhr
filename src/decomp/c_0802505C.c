@@ -9,7 +9,7 @@
 
 struct Unk30013D0
 {
-    /* 0x00 */ struct Unk08499594 *unk00;
+    /* 0x00 */ struct UnitRecord *unk00;
     /* 0x04 */ u8 filler_04[0x04];
     /* 0x08 */ s16 unk08;
     /* 0x0a */ u16 unk0a;
@@ -44,14 +44,14 @@ void sub_080250E8(void)
 {
     if (((struct Unk30013D0 *)gUnknown_030013D0)->unk08 <= 0)
         sub_08026588(
-            ((((struct Unk30013D0 *)gUnknown_030013B0)->unk00 - gUnknown_08499594) >> 6) + 1,
-            ((((struct Unk30013D0 *)gUnknown_030013D0)->unk00 - gUnknown_08499594) >> 6) + 1,
+            ((((struct Unk30013D0 *)gUnknown_030013B0)->unk00 - gUnitRecords) >> 6) + 1,
+            ((((struct Unk30013D0 *)gUnknown_030013D0)->unk00 - gUnitRecords) >> 6) + 1,
             ((struct Unk30013D0 *)gUnknown_030013D0)->unk00->unk00);
 
     if (((struct Unk30013D0 *)gUnknown_030013B0)->unk08 <= 0)
         sub_08026588(
-            ((((struct Unk30013D0 *)gUnknown_030013D0)->unk00 - gUnknown_08499594) >> 6) + 1,
-            ((((struct Unk30013D0 *)gUnknown_030013B0)->unk00 - gUnknown_08499594) >> 6) + 1,
+            ((((struct Unk30013D0 *)gUnknown_030013D0)->unk00 - gUnitRecords) >> 6) + 1,
+            ((((struct Unk30013D0 *)gUnknown_030013B0)->unk00 - gUnitRecords) >> 6) + 1,
             ((struct Unk30013D0 *)gUnknown_030013B0)->unk00->unk00);
 
     sub_0802505C(gUnknown_030013D0);

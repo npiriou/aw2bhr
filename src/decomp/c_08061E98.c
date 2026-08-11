@@ -25,7 +25,7 @@
  * shift.
  *
  * The unit record is reached through a file-local bitfield view cast onto the
- * shared symbol: struct Unk08499594 declares +0x09 as a plain byte, and only a
+ * shared symbol: struct UnitRecord declares +0x09 as a plain byte, and only a
  * real bitfield produces the ROM's SImode `movs #8; rsbs; ands` clear. Its
  * filler is padded to the shared struct's 12-byte stride, which is what the
  * loop's `adds r5, #0xc` giv confirms.
@@ -47,7 +47,7 @@ struct Unk61E98Unit
                u8 unk09_3 : 5;
     /* 0x0a */ u8 filler_0a[2];
 };
-/* Sweeps every cell of the gUnknown_08499590 map and accumulates two byte
+/* Sweeps every cell of the gMapData map and accumulates two byte
  * masks: gUnknown_030045C0 over the cells sub_0802700C rejects, and
  * gUnknown_030046B8 over every cell. `v` is the five-entry bit-mask table
  * copied off its ROM template with the repo's standard
@@ -63,7 +63,7 @@ struct Unk61E98Unit
  * The map MUST be reached through a struct laid over the header rather than by
  * byte arithmetic on the `u8 *` symbol -- the ROM computes `(map + 0x417A) +
  * y * 2` and `(map + 0x1432) + idx`, and only a COMPONENT_REF keeps that
- * association (the gUnknown_08499590 note in include/unknown-globals.h).
+ * association (the gMapData note in include/unknown-globals.h).
  *
  * The two clears are ONE chained assignment: the ROM loads both pool addresses
  * before materialising the 0, which is the operand-class grouping of a single
@@ -85,7 +85,7 @@ void sub_08061E98(void)
 
     for (i = gUnknown_03003F2C; i < gUnknown_03003F2C + 0x40; i++)
     {
-        p = &((struct Unk61E98Unit *)gUnknown_08499594)[i];
+        p = &((struct Unk61E98Unit *)gUnitRecords)[i];
         if (p->unk00 != 0)
         {
             gUnknown_03004784 = (u8 *)gUnknown_085766E0 + (p->unk00 * 12 + 4);
@@ -106,14 +106,14 @@ void sub_08061F34(void)
 
     gUnknown_030046B8 = gUnknown_030045C0 = 0;
 
-    for (y = 0; y < ((struct Unk61F34Map *)gUnknown_08499590)->height; y++)
+    for (y = 0; y < ((struct Unk61F34Map *)gMapData)->height; y++)
     {
-        for (x = 0; x < ((struct Unk61F34Map *)gUnknown_08499590)->width; x++)
+        for (x = 0; x < ((struct Unk61F34Map *)gMapData)->width; x++)
         {
-            if (sub_0802700C(gUnknown_030033EC, x, y) == 0)
-                gUnknown_030045C0 |= v[gUnknown_085767F2[((struct Unk61F34Map *)gUnknown_08499590)->plane[((struct Unk61F34Map *)gUnknown_08499590)->rowOffset[y] + x] & 0x1f] >> 1];
+            if (sub_0802700C(gCurrentArmyIndex, x, y) == 0)
+                gUnknown_030045C0 |= v[gUnknown_085767F2[((struct Unk61F34Map *)gMapData)->plane[((struct Unk61F34Map *)gMapData)->rowOffset[y] + x] & 0x1f] >> 1];
 
-            gUnknown_030046B8 |= v[gUnknown_085767F2[((struct Unk61F34Map *)gUnknown_08499590)->plane[((struct Unk61F34Map *)gUnknown_08499590)->rowOffset[y] + x] & 0x1f] >> 1];
+            gUnknown_030046B8 |= v[gUnknown_085767F2[((struct Unk61F34Map *)gMapData)->plane[((struct Unk61F34Map *)gMapData)->rowOffset[y] + x] & 0x1f] >> 1];
         }
     }
 }

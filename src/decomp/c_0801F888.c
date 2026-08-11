@@ -18,8 +18,8 @@ struct Map
 /* Loads the terrain movement-cost row for unit type a1 into the flood fill's
  * 0x20-byte cost table at gUnknown_084999C8->unk00 -- the table sub_0801F6F0
  * then charges each step against. The source row is
- * gUnknown_085D3DD0[..].unk38[..].unk18[..], indexed by the unit's movement
- * type gUnknown_085D5ABC[a1].unk19 * 32, with the terrain code as the column,
+ * gCoDataTable[..].unk38[..].unk18[..], indexed by the unit's movement
+ * type gUnitTypeData[a1].unk19 * 32, with the terrain code as the column,
  * so this is the per-type slice of the same table c_08041EA8.c reads per-cell.
  *
  * The whole lookup is re-done on every one of the 32 iterations because the
@@ -29,7 +29,7 @@ struct Map
  * The table selection is c_08038848.c's expression with a different army
  * index (gUnknown_03004480, no `+ 1`): the `?:` picks row unk1d or the literal
  * 1, which is why the else arm is the bare 0x104 == 1 * sizeof(struct
- * Unk085D3DD0), and `(unk1e * 17 + unk2c) << 2` is unk38's 0x44 stride sharing
+ * CoData), and `(unk1e * 17 + unk2c) << 2` is unk38's 0x44 stride sharing
  * an `lsls #2` with unk18's 4-byte element stride off the +0x50 member base.
  *
  * THE THREE LOCALS ARE LOAD-BEARING, in this order, and each was measured
@@ -39,7 +39,7 @@ struct Map
  *     see `costs`.
  *   - `costs`: binding the row pointer is what puts `ldr r1,[r0]` immediately
  *     after `add r0, sl`. Inlined, agbcc defers the load past the
- *     gUnknown_085D5ABC lookup and needs an extra `mov rN, sl` to hold the base
+ *     gUnitTypeData lookup and needs an extra `mov rN, sl` to hold the base
  *     (+2 bytes), because the ternary's result no longer dies into the load.
  *   - `c`: the cell index must be its own statement to keep `adds r0, r4, r0`,
  *     i + row. Written inline as `costs[i + ...]` the sum's target IS the
@@ -56,19 +56,19 @@ void sub_0801F888(int a1)
 
     for (i = 0; i < 32; i++) {
         dst = &gUnknown_084999C8->unk00[i];
-        costs = gUnknown_085D3DD0[gUnknown_03003FC0.unk08
-                    ? gUnknown_08499598[gUnknown_03004480].unk1d
+        costs = gCoDataTable[gUnknown_03003FC0.unk08
+                    ? gArmyRecords[gUnknown_03004480].unk1d
                     : 1]
-                .unk38[gUnknown_08499598[gUnknown_03004480].unk1e]
+                .unk38[gArmyRecords[gUnknown_03004480].unk1e]
                 .unk18[gUnknown_03003FC0.unk2c];
-        c = i + gUnknown_085D5ABC[a1].unk19 * 32;
+        c = i + gUnitTypeData[a1].unk19 * 32;
         *dst = costs[c];
     }
 }
 
 /* Rebuilds the gUnknown_03003340 row-pointer table sub_0801F838 and friends
  * write through: row y of the caller's plane starts at `a1 + rowOffset[y]`,
- * where rowOffset is the +0x417A halfword table of the gUnknown_08499590 map.
+ * where rowOffset is the +0x417A halfword table of the gMapData map.
  * Then it publishes the map's width and height as the u8 pair at
  * gUnknown_084999C8 +0x28 / +0x29 (the bounds sub_0801F6F0's flood fill reads).
  *
@@ -87,11 +87,11 @@ void sub_0801F888(int a1)
  * The `->rowOffset[y]` COMPONENT_REF is load-bearing: it is what keeps the
  * address association `(map + 0x417A) + y * 2` that the ROM has, with 0x417A
  * living in its own callee-saved register. Writing
- * `*(u16 *)(gUnknown_08499590 + 0x417A + y * 2)` reassociates to
+ * `*(u16 *)(gMapData + 0x417A + y * 2)` reassociates to
  * `(map + y * 2) + 0x417A` (wave 34, W34-F).
  *
  * The three-level load chain at the guard (`ldr rN,=<word>; ldr r2,[rN];
- * ldr r1,[r2]`) is agbcc's own -fforce-addr copy of &gUnknown_08499590 -- the
+ * ldr r1,[r2]`) is agbcc's own -fforce-addr copy of &gMapData -- the
  * ROM word at 0x08090934 -- supplying the middle level. The honest spelling
  * reproduces it; naming a `u8 **` pool word here would add a fourth level.
  * Both bounds are re-read every iteration, as c_0801F838 describes. */
@@ -99,13 +99,13 @@ void sub_0801F92C(u8 *a1)
 {
     int y;
 
-    for (y = 0; y < ((struct Map *)gUnknown_08499590)->height; y++)
-        gUnknown_03003340[y] = a1 + ((struct Map *)gUnknown_08499590)->rowOffset[y];
-    gUnknown_084999C8->unk28 = ((struct Map *)gUnknown_08499590)->width;
-    gUnknown_084999C8->unk29 = ((struct Map *)gUnknown_08499590)->height;
+    for (y = 0; y < ((struct Map *)gMapData)->height; y++)
+        gUnknown_03003340[y] = a1 + ((struct Map *)gMapData)->rowOffset[y];
+    gUnknown_084999C8->unk28 = ((struct Map *)gMapData)->width;
+    gUnknown_084999C8->unk29 = ((struct Map *)gMapData)->height;
 }
 
-/* A busy-wait sized by the gUnknown_08499590 screen: the nested loop has an
+/* A busy-wait sized by the gMapData screen: the nested loop has an
  * EMPTY body and exists only to burn width * height iterations.
  *
  * The inner loop reads as a countdown (`subs r0,#1; cmp r0,#0; bne`) but the
@@ -126,7 +126,7 @@ void sub_0801F98C(void)
     int x;
     int y;
 
-    for (y = 0; y < *(u16 *)(gUnknown_08499590 + 2); y++)
-        for (x = 0; x < *(u16 *)gUnknown_08499590; x++)
+    for (y = 0; y < *(u16 *)(gMapData + 2); y++)
+        for (x = 0; x < *(u16 *)gMapData; x++)
             ;
 }

@@ -7,7 +7,7 @@
  * sub_0801759C @ 0x0801759C
  */
 
-/* Rebuilds the whole terrain plane of the gUnknown_08499590 map from its tile
+/* Rebuilds the whole terrain plane of the gMapData map from its tile
  * plane, then kicks the three subsystems that cache it and re-selects the
  * current cursor target.
  *
@@ -17,10 +17,10 @@
  * +0x0A22 indexes a global byte table and the result lands in the +0x1432
  * byte plane at the SAME index.
  *
- * The local struct cast is the wave-34 spelling recorded on gUnknown_08499590
+ * The local struct cast is the wave-34 spelling recorded on gMapData
  * in include/unknown-globals.h: only a COMPONENT_REF keeps the ROM's
- * `(map + K) + idx` association: plain `gUnknown_08499590[0x1432 + idx]` folds
- * K into the load displacement, and `*(u16 *)(gUnknown_08499590 + 0x417A +
+ * `(map + K) + idx` association: plain `gMapData[0x1432 + idx]` folds
+ * K into the load displacement, and `*(u16 *)(gMapData + 0x417A +
  * y * 2)` reassociates the constant outward past the variable. The tag is
  * file-local and its 0x0A22 member splits what c_08041EA8.c's layout calls
  * `unit`; both spellings describe the same bytes and rescale nothing.
@@ -43,20 +43,20 @@ void sub_0801759C(void)
     int x;
     int y;
 
-    for (y = 0; y < ((struct Unk1759CMap *)gUnknown_08499590)->height; y++)
+    for (y = 0; y < ((struct Unk1759CMap *)gMapData)->height; y++)
     {
-        for (x = 0; x < ((struct Unk1759CMap *)gUnknown_08499590)->width; x++)
+        for (x = 0; x < ((struct Unk1759CMap *)gMapData)->width; x++)
         {
             int idx;
 
-            idx = ((struct Unk1759CMap *)gUnknown_08499590)->rowOffset[y] + x;
-            ((struct Unk1759CMap *)gUnknown_08499590)->terrain[idx] =
-                gUnknown_0849959C[((struct Unk1759CMap *)gUnknown_08499590)->tile[idx]];
+            idx = ((struct Unk1759CMap *)gMapData)->rowOffset[y] + x;
+            ((struct Unk1759CMap *)gMapData)->terrain[idx] =
+                gUnknown_0849959C[((struct Unk1759CMap *)gMapData)->tile[idx]];
         }
     }
 
     sub_080215B8();
     sub_08023348();
     sub_08024268();
-    sub_0801A548(gUnknown_030033EC);
+    sub_0801A548(gCurrentArmyIndex);
 }

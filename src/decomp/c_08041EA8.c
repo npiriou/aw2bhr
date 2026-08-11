@@ -28,20 +28,20 @@ u8 sub_08041EA8(s16 x, s16 y, int t)
     if (y < 0)
         return 0;
 
-    if (x >= ((struct Unk41EA8Map *)gUnknown_08499590)->width)
+    if (x >= ((struct Unk41EA8Map *)gMapData)->width)
         return 0;
-    if (y >= ((struct Unk41EA8Map *)gUnknown_08499590)->height)
-        return 0;
-
-    idx = ((struct Unk41EA8Map *)gUnknown_08499590)->rowOffset[y] + x;
-
-    if (((struct Unk41EA8Map *)gUnknown_08499590)->unit[idx] != 0)
+    if (y >= ((struct Unk41EA8Map *)gMapData)->height)
         return 0;
 
-    costs = gUnknown_085D3DD0[1].unk38[0].unk18[0];
+    idx = ((struct Unk41EA8Map *)gMapData)->rowOffset[y] + x;
 
-    c = (((struct Unk41EA8Map *)gUnknown_08499590)->terrain[idx] & 0x1f)
-        + gUnknown_085D5ABC[t].unk19 * 32;
+    if (((struct Unk41EA8Map *)gMapData)->unit[idx] != 0)
+        return 0;
+
+    costs = gCoDataTable[1].unk38[0].unk18[0];
+
+    c = (((struct Unk41EA8Map *)gMapData)->terrain[idx] & 0x1f)
+        + gUnitTypeData[t].unk19 * 32;
 
     if (costs[c] < 0)
         return 0;

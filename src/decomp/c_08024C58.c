@@ -17,9 +17,9 @@ void sub_08024C58(struct Unk030013D0 *a1, int a2, u8 a3)
     int r;
     int q;
 
-    idx = (a1->unk00 - gUnknown_08499594) >> 6;
-    x = *(s16 *)((u8 *)&gUnknown_08499598[idx] + 0x62);
-    y = *(s16 *)((u8 *)&gUnknown_08499598[idx] + 0x64);
+    idx = (a1->unk00 - gUnitRecords) >> 6;
+    x = *(s16 *)((u8 *)&gArmyRecords[idx] + 0x62);
+    y = *(s16 *)((u8 *)&gArmyRecords[idx] + 0x64);
     acc = 100;
 
     if (a1->unk00->unk04_0 != 0)
@@ -30,7 +30,7 @@ void sub_08024C58(struct Unk030013D0 *a1, int a2, u8 a3)
     a1->unk06 = sub_08043304((struct Unk43304 *)a1);
     a1->unk0e = Div(hp * a1->unk06, 10);
     a1->unk0e = a1->unk0e
-              + sub_08042CF8(((a1->unk00 - gUnknown_08499594) >> 6) + 1, a1->unk00->unk00)
+              + sub_08042CF8(((a1->unk00 - gUnitRecords) >> 6) + 1, a1->unk00->unk00)
               + y;
     a1->unk0c = a1->unk10;
 
@@ -48,8 +48,8 @@ void sub_08024C58(struct Unk030013D0 *a1, int a2, u8 a3)
         if (gUnknown_03003FC0.unk06 == 0 || a3 != 0)
         {
             r = DivRem(sub_080129E0(),
-                       sub_08042E64(((a1->unk00 - gUnknown_08499594) >> 6) + 1));
-            q = sub_08042EBC(((a1->unk00 - gUnknown_08499594) >> 6) + 1);
+                       sub_08042E64(((a1->unk00 - gUnitRecords) >> 6) + 1));
+            q = sub_08042EBC(((a1->unk00 - gUnitRecords) >> 6) + 1);
             if (q != 0)
                 q = DivRem(sub_080129E0(), q);
 

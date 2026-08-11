@@ -20,12 +20,12 @@ int sub_0804419C(int a1)
 
 int sub_080441D4(int a1)
 {
-    return sub_0804419C(a1) * gUnknown_085D3DD0[gUnknown_08499598[a1].unk1d].unk0c;
+    return sub_0804419C(a1) * gCoDataTable[gArmyRecords[a1].unk1d].unk0c;
 }
 
 int sub_08044208(int a1)
 {
-    return sub_0804419C(a1) * gUnknown_085D3DD0[gUnknown_08499598[a1].unk1d].unk10;
+    return sub_0804419C(a1) * gCoDataTable[gArmyRecords[a1].unk1d].unk10;
 }
 
 u8 sub_0804423C(int a1)

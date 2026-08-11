@@ -16,7 +16,7 @@
  * sub_0805C128 is the same shape again with a different tail.
  *
  * struct Map is the wave-35 canonical layout, copied verbatim from
- * c_08058BB4.c -- gUnknown_08499590 stays `u8 *` and the byte arithmetic is
+ * c_08058BB4.c -- gMapData stays `u8 *` and the byte arithmetic is
  * written through a locally declared struct cast onto it, which is what keeps
  * `(map + K) + idx` from folding K into the load displacement.
  *
@@ -89,7 +89,7 @@ void sub_0805ACFC(int x, int y, u16 * out)
     if (y < 0)
         return;
 
-    map = (struct Map *)gUnknown_08499590;
+    map = (struct Map *)gMapData;
 
     if (x >= map->unk00)
         return;

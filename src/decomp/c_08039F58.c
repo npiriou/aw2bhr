@@ -25,6 +25,6 @@ void sub_08039F58(void)
     gUnknown_03001FF8 = 0;
     gUnknown_03001418 = 0;
 
-    sub_08044144(gUnknown_030033EC);
+    sub_08044144(gCurrentArmyIndex);
     sub_08024268();
 }

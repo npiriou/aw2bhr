@@ -16,7 +16,7 @@
  * shared `i != 0xff` test.
  *
  * NOTE: this match needs its .rodata pool word placed --
- *   "rodata": ["0x0816D9C0"]   (that word holds &gUnknown_030033EC)
+ *   "rodata": ["0x0816D9C0"]   (that word holds &gCurrentArmyIndex)
  */
 
 struct Unk41EA8Map
@@ -45,12 +45,12 @@ u8 sub_0805B4D8(int a1, int *outX, int *outY)
 
     j = 0;
 
-    i = gUnknown_02029ED8[a1 * 0x20 + j + gUnknown_030033EC * 0xc00];
+    i = gUnknown_02029ED8[a1 * 0x20 + j + gCurrentArmyIndex * 0xc00];
 
     while (i != 0xff)
     {
         p = (struct Unk2029ED8Rec *)&gUnknown_02029ED8[i * 8 + a1 * 0x3e0
-                                                       + gUnknown_030033EC
+                                                       + gCurrentArmyIndex
                                                              * 0xc00];
         x = p->x;
 
@@ -59,23 +59,23 @@ u8 sub_0805B4D8(int a1, int *outX, int *outY)
             j++;
             if (j > 0x1f)
                 return 0;
-            i = gUnknown_02029ED8[j + a1 * 0x20 + gUnknown_030033EC * 0xc00];
+            i = gUnknown_02029ED8[j + a1 * 0x20 + gCurrentArmyIndex * 0xc00];
             continue;
         }
 
         y = p->y;
 
-        if ((((struct Unk41EA8Map *)gUnknown_08499590)
-                 ->terrain[((struct Unk41EA8Map *)gUnknown_08499590)
+        if ((((struct Unk41EA8Map *)gMapData)
+                 ->terrain[((struct Unk41EA8Map *)gMapData)
                                ->rowOffset[y]
                            + x]
              & 0x1f)
             == 8)
         {
             if (sub_08026FD0(gUnknown_03003F38,
-                             ((struct Unk41EA8Map *)gUnknown_08499590)
+                             ((struct Unk41EA8Map *)gMapData)
                                  ->terrain[((struct Unk41EA8Map *)
-                                                gUnknown_08499590)
+                                                gMapData)
                                                ->rowOffset[y]
                                            + x])
                 == 0)
@@ -99,12 +99,12 @@ int sub_0805B5BC(int *a1, int *a2, int *outX, int *outY)
     int x;
     int y;
 
-    i = gUnknown_02029ED8[*a2 + *a1 * 0x20 + gUnknown_030033EC * 0xc00];
+    i = gUnknown_02029ED8[*a2 + *a1 * 0x20 + gCurrentArmyIndex * 0xc00];
 
     while (i != 0xff)
     {
         p = (struct Unk2029ED8Rec *)&gUnknown_02029ED8[i * 8 + *a1 * 0x3e0
-                                                       + gUnknown_030033EC
+                                                       + gCurrentArmyIndex
                                                              * 0xc00];
         x = p->x;
 
@@ -114,15 +114,15 @@ int sub_0805B5BC(int *a1, int *a2, int *outX, int *outY)
             if (*a2 > 0x1f)
                 return 0;
             i = gUnknown_02029ED8[*a2 + *a1 * 0x20
-                                  + gUnknown_030033EC * 0xc00];
+                                  + gCurrentArmyIndex * 0xc00];
             continue;
         }
 
         y = p->y;
 
         if (sub_08026FD0(gUnknown_03003F38,
-                         ((struct Unk41EA8Map *)gUnknown_08499590)
-                             ->terrain[((struct Unk41EA8Map *)gUnknown_08499590)
+                         ((struct Unk41EA8Map *)gMapData)
+                             ->terrain[((struct Unk41EA8Map *)gMapData)
                                            ->rowOffset[y]
                                        + x])
             == 0)

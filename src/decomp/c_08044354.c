@@ -16,6 +16,6 @@
 
 void sub_08044354(int a1)
 {
-    if (gUnknown_08499598[a1].unk25 != 0xff)
-        gUnknown_08499598[a1].unk25++;
+    if (gArmyRecords[a1].unk25 != 0xff)
+        gArmyRecords[a1].unk25++;
 }

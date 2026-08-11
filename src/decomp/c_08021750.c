@@ -20,7 +20,7 @@
  *  - The seven zeroed fields at +4..+0x10 are seven separate assignments, one
  *    `strh` each -- an array plus a loop would not unroll.
  *
- * gUnknown_08499590 is named nine times here and still gets an ordinary inline
+ * gMapData is named nine times here and still gets an ordinary inline
  * pool word rather than a -fforce-addr .rodata word, so reference count alone
  * does not decide that; contrast sub_08022580 in this same block, which names
  * it twice and does get one.
@@ -52,24 +52,24 @@ void sub_08021750(int a)
     int y;
     u16 t;
 
-    sub_0803CF3C((u8)(a + 0x4c), (int)(gUnknown_08499590 + 0x421A));
+    sub_0803CF3C((u8)(a + 0x4c), (int)(gMapData + 0x421A));
 
-    ((struct Unk21750Map *)gUnknown_08499590)->unk04 = 0;
-    ((struct Unk21750Map *)gUnknown_08499590)->unk06 = 0;
-    ((struct Unk21750Map *)gUnknown_08499590)->unk08 = 0;
-    ((struct Unk21750Map *)gUnknown_08499590)->unk0a = 0;
-    ((struct Unk21750Map *)gUnknown_08499590)->unk0c = 0;
-    ((struct Unk21750Map *)gUnknown_08499590)->unk0e = 0;
-    ((struct Unk21750Map *)gUnknown_08499590)->unk10 = 0;
+    ((struct Unk21750Map *)gMapData)->unk04 = 0;
+    ((struct Unk21750Map *)gMapData)->unk06 = 0;
+    ((struct Unk21750Map *)gMapData)->unk08 = 0;
+    ((struct Unk21750Map *)gMapData)->unk0a = 0;
+    ((struct Unk21750Map *)gMapData)->unk0c = 0;
+    ((struct Unk21750Map *)gMapData)->unk0e = 0;
+    ((struct Unk21750Map *)gMapData)->unk10 = 0;
 
-    for (y = 0; y < ((struct Unk21750Map *)gUnknown_08499590)->height; y++)
+    for (y = 0; y < ((struct Unk21750Map *)gMapData)->height; y++)
     {
-        for (x = 0; x < ((struct Unk21750Map *)gUnknown_08499590)->width; x++)
+        for (x = 0; x < ((struct Unk21750Map *)gMapData)->width; x++)
         {
-            t = ((struct Unk21750Map *)gUnknown_08499590)->tile[
-                    ((struct Unk21750Map *)gUnknown_08499590)->rowOffset[y] + x];
-            ((struct Unk21750Map *)gUnknown_08499590)->plane[
-                ((struct Unk21750Map *)gUnknown_08499590)->rowOffset[y] + x] =
+            t = ((struct Unk21750Map *)gMapData)->tile[
+                    ((struct Unk21750Map *)gMapData)->rowOffset[y] + x];
+            ((struct Unk21750Map *)gMapData)->plane[
+                ((struct Unk21750Map *)gMapData)->rowOffset[y] + x] =
                 gUnknown_0849959C[t];
         }
     }

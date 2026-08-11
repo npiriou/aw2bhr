@@ -67,8 +67,8 @@ int sub_08042C68(int a, int b)
     lo = 2;
 
     if ((sub_08043050(a) & 0x80) != 0
-        && gUnknown_085D5ABC[b].unk18 <= hi
-        && gUnknown_085D5ABC[b].unk18 >= lo)
+        && gUnitTypeData[b].unk18 <= hi
+        && gUnitTypeData[b].unk18 >= lo)
         return -2;
 
     return 0;
@@ -81,23 +81,23 @@ int sub_08042C68(int a, int b)
 int sub_08042C9C(int a, int b)
 {
     return Div(sub_080433D8(b)
-        * (sub_08043270(gUnknown_08499598[a].unk1d, gUnknown_08499598[a].unk1e, b)
+        * (sub_08043270(gArmyRecords[a].unk1d, gArmyRecords[a].unk1e, b)
             + 0x64), 100);
 }
 
 /* The `lsls #4; subs; lsls #2` triple is the 0x3c stride of
- * struct Unk08499598, and gUnknown_08499598 is a pointer to it, so the pool
+ * struct ArmyRecord, and gArmyRecords is a pointer to it, so the pool
  * word is dereferenced once before the index is added. */
 int sub_08042CD4(int a, int b)
 {
-    return sub_080430B0(gUnknown_08499598[a].unk1d, gUnknown_08499598[a].unk1e, b)
+    return sub_080430B0(gArmyRecords[a].unk1d, gArmyRecords[a].unk1e, b)
         + 0x64;
 }
 
 /* sub_08042CD4's twin over sub_08043120. */
 int sub_08042CF8(int a, int b)
 {
-    return sub_08043120(gUnknown_08499598[a].unk1d, gUnknown_08499598[a].unk1e, b)
+    return sub_08043120(gArmyRecords[a].unk1d, gArmyRecords[a].unk1e, b)
         + 0x64;
 }
 
@@ -106,14 +106,14 @@ int sub_08042CF8(int a, int b)
 int sub_08042D1C(int a, int b)
 {
     return sub_080433B8(b)
-        + sub_08043190(gUnknown_08499598[a].unk1d, gUnknown_08499598[a].unk1e, b);
+        + sub_08043190(gArmyRecords[a].unk1d, gArmyRecords[a].unk1e, b);
 }
 
 /* sub_08042D1C's twin over sub_080433C8 / sub_08043200. */
 int sub_08042D50(int a, int b)
 {
     return sub_080433C8(b)
-        + sub_08043200(gUnknown_08499598[a].unk1d, gUnknown_08499598[a].unk1e, b);
+        + sub_08043200(gArmyRecords[a].unk1d, gArmyRecords[a].unk1e, b);
 }
 
 /* The floor is written `if (n > 1) return n; else return 1;` and not the other
@@ -129,7 +129,7 @@ int sub_08042D84(int a, int b)
     int n;
 
     n = sub_080433E8(b)
-        + sub_080432A8(gUnknown_08499598[a].unk1d, gUnknown_08499598[a].unk1e);
+        + sub_080432A8(gArmyRecords[a].unk1d, gArmyRecords[a].unk1e);
 
     if (gUnknown_03003FC0.unk2c == 2)
         n--;

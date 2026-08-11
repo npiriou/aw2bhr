@@ -16,5 +16,5 @@
 
 u8 sub_080248F8(void)
 {
-    return gUnknown_08499590[0x4233];
+    return gMapData[0x4233];
 }

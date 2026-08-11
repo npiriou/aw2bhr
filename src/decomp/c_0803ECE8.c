@@ -15,7 +15,7 @@ struct Unk803ECE8
 
 /* `unit` is declared BEFORE `rec` and spells its index out in full rather than
  * through `rec`, and that ordering is the whole match. -fforce-addr materialises
- * &gUnknown_08499594 when `unit`'s initialiser is expanded, so the pool `ldr`
+ * &gUnitRecords when `unit`'s initialiser is expanded, so the pool `ldr`
  * lands ahead of the index computation and is live across it -- which is why
  * the ROM has to spend r4 on the `ldrsh` zero index. Deriving `unit` from `rec`
  * instead (the obvious order) puts that pool `ldr` six instructions later and
@@ -24,7 +24,7 @@ struct Unk803ECE8
 void sub_0803ECE8(struct Unk803ECE8 *p)
 {
     struct Unk03003338 *tbl = gUnknown_03003338;
-    struct Unk08499594 *unit = &gUnknown_08499594[tbl[p->unk4c].unk00];
+    struct UnitRecord *unit = &gUnitRecords[tbl[p->unk4c].unk00];
     struct Unk03003338 *rec = &tbl[p->unk4c];
 
     if (unit->unk04_0 - rec->unk02 > 0)

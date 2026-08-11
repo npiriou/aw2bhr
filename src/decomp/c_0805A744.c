@@ -21,8 +21,8 @@
  * parameter.
  *
  * gUnknown_0816D99C IS NOT A GLOBAL. The ROM word there holds 0x08499590, i.e.
- * the ADDRESS of gUnknown_08499590 -- checked in baserom.gba, the same
- * -fforce-addr pattern c_0805A95C.c documents. gUnknown_08499590 is named
+ * the ADDRESS of gMapData -- checked in baserom.gba, the same
+ * -fforce-addr pattern c_0805A95C.c documents. gMapData is named
  * honestly here and the build places the word; `relocs` reports it as the same
  * address under a different symbol, which is the disassembly artefact, not a
  * difference in the ROM. Promotion must carry "rodata": ["0x0816D99C"].
@@ -65,22 +65,22 @@ void sub_0805A744(struct Unk5A514Cell *p)
     int t;
     int off;
 
-    sub_080581A4(gUnknown_08499590 + 0x3c72, 0x7f);
-    sub_0801F92C(gUnknown_08499590 + 0x2852);
+    sub_080581A4(gMapData + 0x3c72, 0x7f);
+    sub_0801F92C(gMapData + 0x2852);
 
     while (p->v != -1)
     {
         gUnknown_030013EC(p->x, p->y, 0x17, 0x78, -1);
 
-        for (y = 0; y < *(u16 *)(gUnknown_08499590 + 2); y++)
+        for (y = 0; y < *(u16 *)(gMapData + 2); y++)
         {
-            for (x = 0; x < *(u16 *)gUnknown_08499590; x++)
+            for (x = 0; x < *(u16 *)gMapData; x++)
             {
                 cell = gUnknown_03003340[y] + x;
                 v = *cell;
                 if (*(s8 *)cell >= 0)
                 {
-                    q = gUnknown_08499590;
+                    q = gMapData;
                     t = y * 2;
                     rows = q + 0x417a;
                     off = *(u16 *)(rows + t) + x;

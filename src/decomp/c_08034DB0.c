@@ -13,12 +13,12 @@ void sub_08034DB0(void)
         gUnknown_030032D8 = 5;
 }
 
-/* gUnknown_030033EC is a u16 read here with a bare `ldrb` -- the truncation
+/* gCurrentArmyIndex is a u16 read here with a bare `ldrb` -- the truncation
  * folded into the load that sub_08043DAC's u8 parameter forces. */
 void sub_08034DCC(void)
 {
     if (gUnknown_03004080 != 1)
-        sub_08043DAC(gUnknown_030033EC);
+        sub_08043DAC(gCurrentArmyIndex);
 
     sub_08074460();
     gUnknown_030032D8 = 6;

@@ -7,7 +7,7 @@
  * sub_08045BF0 @ 0x08045BF0
  */
 
-/* Reads the byte at +0x19 of the gUnknown_08499590 record the halfword at
+/* Reads the byte at +0x19 of the gMapData record the halfword at
  * +0x417E points to, and returns whether its top two bits are 0 while the byte
  * itself is non-zero.
  *
@@ -22,7 +22,7 @@ int sub_08045BF0(void)
     u8 *p;
     int v;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     v = (p + *(u16 *)(p + 0x417E))[0x19];
 
     if (v == 0)

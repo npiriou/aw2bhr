@@ -20,7 +20,7 @@ void sub_08024058(s16 a1, s16 a2)
     int idx;
     u8 v;
 
-    map = (struct Unk24058Map *)gUnknown_08499590;
+    map = (struct Unk24058Map *)gMapData;
     idx = map->rowOffset[a2] + a1;
     v = (map->plane[idx] & 0x1f) + gUnknown_03004084;
     map->plane[idx] = v;

@@ -9,7 +9,7 @@
 
 /* Retile a 2x2 block when the cell at (x, y) is one of the two halfword ids
  * 0x86 / 0x87.  The plane arithmetic is c_0800164C.c's sub_080016D0 read: the
- * `rowOffset[y] + x` index off gUnknown_08499590's +0x417A row table, doubled,
+ * `rowOffset[y] + x` index off gMapData's +0x417A row table, doubled,
  * into the halfword plane at +0xA22.
  *
  * `subs #0x86; lsls #0x10; lsrs #0x10; cmp #1; bhi` is gcc's range test for
@@ -34,7 +34,7 @@ void sub_0800EAF4(int x, int y)
     int idx;
     u16 v;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417A;
     idx = (*(u16 *)(rows + t) + x) * 2;

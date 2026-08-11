@@ -21,10 +21,10 @@ void sub_0803A5B8(void)
     switch (gUnknown_0849D89C->unk09)
     {
     case 4:
-        c = sub_08014CEC(gUnknown_08610A38[gUnknown_085D5ABC[gUnknown_0849D89C->unk04->unk00].unk02]);
+        c = sub_08014CEC(gUnknown_08610A38[gUnitTypeData[gUnknown_0849D89C->unk04->unk00].unk02]);
         break;
     case 0xb:
-        c = sub_08014CEC(gUnknown_08610A38[gUnknown_085D5ABC[gUnknown_0849D89C->unk04->unk00].unk04]);
+        c = sub_08014CEC(gUnknown_08610A38[gUnitTypeData[gUnknown_0849D89C->unk04->unk00].unk04]);
         break;
     }
     sub_08022AF8(a + gUnknown_0849D89C->unk00, b, c, d);

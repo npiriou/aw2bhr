@@ -12,7 +12,7 @@
  * pair live), then a two-argument call instead of a halfword store.
  *
  * This function is what corrected sub_08019940's prototype from `(int, int)` to
- * `(u8, u8)`. The ROM reads the u16 gUnknown_030033EC with a bare `ldrb`, which
+ * `(u8, u8)`. The ROM reads the u16 gCurrentArmyIndex with a bare `ldrb`, which
  * is the byte load only a u8 parameter produces out of a halfword global; the
  * callee's own prologue (`lsls r0,#0x18; lsrs r0,#0x18` twice) says the same
  * thing directly. The old declaration survived because every other promoted
@@ -23,5 +23,5 @@ void sub_0802CE70(int a1, u8 a2)
 {
     gUnknown_030044A0 = a2;
     sub_0801A168();
-    sub_08019940(gUnknown_030033EC, 8);
+    sub_08019940(gCurrentArmyIndex, 8);
 }

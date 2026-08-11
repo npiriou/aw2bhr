@@ -12,10 +12,10 @@
  * sub_080254AC's result. The restoring `strh` uses r4/r5 precisely so that the
  * returned pointer survives it. */
 
-struct Unk08499594 *sub_08025580(void)
+struct UnitRecord *sub_08025580(void)
 {
     u16 saved = gUnknown_030032C0;
-    struct Unk08499594 *r = sub_080254AC();
+    struct UnitRecord *r = sub_080254AC();
 
     gUnknown_030032C0 = saved;
 

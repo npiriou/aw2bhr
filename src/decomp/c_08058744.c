@@ -33,7 +33,7 @@ int sub_08058744(void)
 {
     int r = 0;
 
-    if (sub_08042D50(gUnknown_030033EC, gUnknown_030040D8->unk00) == 1)
+    if (sub_08042D50(gCurrentArmyIndex, gUnknown_030040D8->unk00) == 1)
     {
         sub_080202A4(gUnknown_030040D8);
         sub_0801FD9C(0x79);
@@ -42,13 +42,13 @@ int sub_08058744(void)
     {
         sub_0801F838(0xff);
         /* WAVE 36: third argument added. W35-H retyped sub_08020354 from
-         * (int, int) to (u16, u16, struct Unk08499594 *) on body-side
+         * (int, int) to (u16, u16, struct UnitRecord *) on body-side
          * evidence; this call site confirms it independently -- the ROM does
          * `ldr r2,[r4]` then reads r0/r1 through r2 and leaves r2 holding the
          * pointer, so the third argument IS the struct pointer and costs no
          * instruction to pass. */
         sub_08020354(gUnknown_030040D8->unk02, gUnknown_030040D8->unk03,
-                     (struct Unk08499594 *)gUnknown_030040D8);
+                     (struct UnitRecord *)gUnknown_030040D8);
         r = 1;
     }
     return r;

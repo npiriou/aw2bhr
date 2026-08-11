@@ -14,5 +14,5 @@ int sub_080249C8(int a)
     if (i == 0)
         return 0;
 
-    return gUnknown_08499598[i >> 5].unk1a;
+    return gArmyRecords[i >> 5].unk1a;
 }

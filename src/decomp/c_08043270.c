@@ -9,7 +9,7 @@
 
 /* Family F038, the shape of the dozen accessors in src/decomp/c_08042E2C.c.
  * The address arithmetic `(a * 65 + b * 17) * 4` is already encoded by
- * struct Unk085D3DD0 (0x104) holding struct Unk085D3DD0Entry unk38[3] (0x44),
+ * struct CoData (0x104) holding struct CoModeData unk38[3] (0x44),
  * so the only thing to read out of the assembly is the member: the ROM's
  * `adds r0, #0x4c` is 0x38 + 0x14, i.e. unk14.
  *
@@ -30,7 +30,7 @@ int sub_08043270(int a, int b, int c)
     if (gUnknown_03003FC0.unk08 == 0)
         return 0;
 
-    return gUnknown_085D3DD0[a].unk38[b].unk14;
+    return gCoDataTable[a].unk38[b].unk14;
 }
 
 /* Family F038, the twin of sub_08043270 one member down: the ROM's
@@ -41,5 +41,5 @@ int sub_080432A8(int a, int b)
     if (gUnknown_03003FC0.unk08 == 0)
         return 0;
 
-    return gUnknown_085D3DD0[a].unk38[b].unk0c;
+    return gCoDataTable[a].unk38[b].unk0c;
 }

@@ -15,9 +15,9 @@
  *   - `sel = &gUnknown_03003F38` up front. Under -fforce-addr the destination
  *     of `gUnknown_03003F38 = ...` has its address forced into a register
  *     BEFORE the right-hand side is expanded, so the pool word for it lands
- *     ahead of gUnknown_08499590's and the address survives the whole index
+ *     ahead of gMapData's and the address survives the whole index
  *     computation in r8. Spelling the two later reads through the global
- *     instead puts that pool word after gUnknown_08499590's and costs 45 bytes.
+ *     instead puts that pool word after gMapData's and costs 45 bytes.
  *   - `p += idx` rather than `p[idx]`. Both are one `adds`, but the compound
  *     assignment accumulates into the pointer's own register (`adds r1,r1,r0;
  *     ldrb r0,[r1]`) while the subscript picks the index's (`adds r0,r1,r0;
@@ -27,7 +27,7 @@
  * the call clobbers memory; only `sy * 2` and the two s16 casts survive as
  * common subexpressions, which is why they read as locals and p/rows do not.
  *
- * gUnknown_030040D8 is the same object as gUnknown_08499594[i] -- see the note
+ * gUnknown_030040D8 is the same object as gUnitRecords[i] -- see the note
  * on struct Unk030040D8 in unknown-globals.h for why the cast is here rather
  * than in the global's type. */
 void sub_0802E4B4(s16 x, s16 y)
@@ -49,14 +49,14 @@ void sub_0802E4B4(s16 x, s16 y)
     sel = &gUnknown_03003F38;
     sx = x;
     sy = y;
-    p = gUnknown_08499590;
+    p = gMapData;
     t = sy * 2;
     rows = p + 0x417A;
     idx = *(u16 *)(rows + t) + sx;
     p += 0x12;
     p += idx;
     gUnknown_03003F38 = *p;
-    gUnknown_030040D8 = (struct Unk030040D8 *)&gUnknown_08499594[*sel];
+    gUnknown_030040D8 = (struct Unk030040D8 *)&gUnitRecords[*sel];
 
     if (sub_080242B0(sx, sy))
     {
@@ -64,7 +64,7 @@ void sub_0802E4B4(s16 x, s16 y)
         return;
     }
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = sy * 2;
     rows = p + 0x417A;
     idx = *(u16 *)(rows + t) + sx;
@@ -82,9 +82,9 @@ void sub_0802E4B4(s16 x, s16 y)
     sub_08024454();
     sub_080258CC();
     gUnknown_03004480 = (*sel >> 6) + 1;
-    sub_0801F92C(gUnknown_08499590 + 0x2852);
+    sub_0801F92C(gMapData + 0x2852);
     sub_080202A4(gUnknown_030040D8);
-    gUnknown_03004480 = gUnknown_030033EC;
+    gUnknown_03004480 = gCurrentArmyIndex;
     sub_08022990((u16)sx, (u16)sy, 0);
     gUnknown_03003334 = 1;
     sub_08038C98();

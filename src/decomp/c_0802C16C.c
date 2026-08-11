@@ -8,18 +8,18 @@
  */
 
 /* Two bare statements. sub_0802C154 takes `int` (the promoted definition in
- * src/decomp/c_0802C154.c), so the u16 gUnknown_030033EC arrives as a plain
+ * src/decomp/c_0802C154.c), so the u16 gCurrentArmyIndex arrives as a plain
  * `ldrh` with no narrowing -- contrast sub_0802C118, whose callee takes u8 and
  * gets an `ldrb` out of the same global. `pop {r0}; bx r0`, so void.
  */
 
 void sub_0802C16C(void)
 {
-    sub_0802C154(gUnknown_030033EC);
+    sub_0802C154(gCurrentArmyIndex);
     sub_08028CD8();
 }
 
-/* sub_0802C16C's sibling: the same sub_0802C154(gUnknown_030033EC) opener, then
+/* sub_0802C16C's sibling: the same sub_0802C154(gCurrentArmyIndex) opener, then
  * a guarded four-argument call instead of a bare one.
  *
  * `adds r0, #0x32; ldrb r0, [r0]` rather than `ldrb r0, [r0, #0x32]` is not a
@@ -34,7 +34,7 @@ void sub_0802C16C(void)
 
 void sub_0802C184(void)
 {
-    sub_0802C154(gUnknown_030033EC);
+    sub_0802C154(gCurrentArmyIndex);
 
     if (gUnknown_03003FC0.unk32 != 0)
         sub_08034534(0x13, 0, 0, 0);

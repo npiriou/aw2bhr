@@ -23,6 +23,6 @@ struct Unk803D9EC
 
 void sub_0803D9EC(struct Unk803D9EC *p)
 {
-    p->unk1e = gUnknown_030033EC;
+    p->unk1e = gCurrentArmyIndex;
     p->unk20 = 1;
 }

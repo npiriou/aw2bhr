@@ -13,7 +13,7 @@ int sub_08027198(int a1)
 
     for (i = 1; i <= 4; i++)
     {
-        if (gUnknown_08499598[i].unk1b != 0 && gUnknown_08499598[i].unk1a == a1)
+        if (gArmyRecords[i].unk1b != 0 && gArmyRecords[i].unk1a == a1)
             return i;
     }
 }

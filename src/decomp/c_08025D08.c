@@ -18,5 +18,5 @@
  * sub_080264BC takes this result with a bare `adds r1, r0, #0`. */
 int sub_08025D08(int index)
 {
-    return gUnknown_08499598[index].unk3b;
+    return gArmyRecords[index].unk3b;
 }

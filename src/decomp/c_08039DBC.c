@@ -26,7 +26,7 @@
  *
  * The camera origin is read TWICE, once for the on-screen test and once for
  * the draw, because they are separate expressions; only the address of
- * gUnknown_08499590 is held (in r7) across both. +0x29 and +0x2a each need a
+ * gMapData is held (in r7) across both. +0x29 and +0x2a each need a
  * runtime `adds` because ldrb's displacement stops at 31. */
 struct Unk39DBCProc
 {
@@ -59,12 +59,12 @@ void sub_08039DBC(struct Unk39DBCProc *proc)
         return;
     }
 
-    if ((u8)sub_0801306C((proc->unk29 << 4) - *(s16 *)(gUnknown_08499590 + 4),
-                         (proc->unk2a << 4) - *(s16 *)(gUnknown_08499590 + 6),
+    if ((u8)sub_0801306C((proc->unk29 << 4) - *(s16 *)(gMapData + 4),
+                         (proc->unk2a << 4) - *(s16 *)(gMapData + 6),
                          0x40))
     {
-        sub_0801BD00(((proc->unk29 << 4) - *(s16 *)(gUnknown_08499590 + 4) + 8) & 0x1ff,
-                     ((proc->unk2a << 4) - *(s16 *)(gUnknown_08499590 + 6) + 8) & 0xff,
+        sub_0801BD00(((proc->unk29 << 4) - *(s16 *)(gMapData + 4) + 8) & 0x1ff,
+                     ((proc->unk2a << 4) - *(s16 *)(gMapData + 6) + 8) & 0xff,
                      gUnknown_0849D81C,
                      proc->unk2c);
     }

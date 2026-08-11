@@ -9,8 +9,8 @@
 
 #include "proc.h"
 /* Every fifth call (unk2b is a frame divider), advance to the next live army
- * whose gUnknown_08499598 unk2a differs from the current one's, then walk that
- * army's 50 gUnknown_08499594 slots from unk29 looking for the first live,
+ * whose gArmyRecords unk2a differs from the current one's, then walk that
+ * army's 50 gUnitRecords slots from unk29 looking for the first live,
  * unflagged unit; decay its unk04_0 by `unk2d * 10` with a floor of 1, start
  * the 0x080452C0 popup for it and stop. unk29 is the resume cursor and wraps
  * to 1 with unk2a++ once it passes 0x32.
@@ -47,7 +47,7 @@ void sub_08045090(struct Unk45090Proc *proc)
 {
     u8 i;
     u16 j;
-    struct Unk08499594 *unit;
+    struct UnitRecord *unit;
 
     proc->unk2b++;
 
@@ -68,7 +68,7 @@ void sub_08045090(struct Unk45090Proc *proc)
 
         if (sub_080266DC(i))
         {
-            if (gUnknown_08499598[i].unk2a != gUnknown_08499598[proc->unk2c].unk2a)
+            if (gArmyRecords[i].unk2a != gArmyRecords[proc->unk2c].unk2a)
                 break;
         }
 
@@ -79,7 +79,7 @@ void sub_08045090(struct Unk45090Proc *proc)
 
     for (j = proc->unk29; j <= 0x32; j++)
     {
-        unit = &gUnknown_08499594[(u16)gUnknown_084995FE[proc->unk2a] + j];
+        unit = &gUnitRecords[(u16)gUnknown_084995FE[proc->unk2a] + j];
 
         if (unit->unk00 == 0)
             continue;

@@ -10,11 +10,11 @@
 void sub_08025EA0(void)
 {
     int i;
-    struct Unk08499594 *p;
+    struct UnitRecord *p;
 
     for (i = gUnknown_03003F2C; i < gUnknown_03003F2C + 0x33; i++)
     {
-        p = &gUnknown_08499594[i];
+        p = &gUnitRecords[i];
         if (p->unk00 != 0 && !(p->unk01 & 8))
             p->unk01 &= ~1;
     }

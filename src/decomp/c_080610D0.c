@@ -32,10 +32,10 @@
 void sub_080610D0(void)
 {
     struct Unk802C57C pos;
-    struct Unk08499594 *unit;
+    struct UnitRecord *unit;
 
-    if (sub_08042C9C(gUnknown_030033EC, gUnknown_030046C0.unk06) * 10
-            <= gUnknown_08499598[gUnknown_030033EC].unk00
+    if (sub_08042C9C(gCurrentArmyIndex, gUnknown_030046C0.unk06) * 10
+            <= gArmyRecords[gCurrentArmyIndex].unk00
         && gUnknown_03004674 <= 0x3f)
     {
         do

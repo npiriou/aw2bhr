@@ -16,5 +16,5 @@
 
 u8 *sub_080248E4(void)
 {
-    return gUnknown_08499590 + 0x421a;
+    return gMapData + 0x421a;
 }

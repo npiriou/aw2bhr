@@ -25,7 +25,7 @@ void sub_08007BA4(int x, int y)
         int t;
         int idx;
 
-        p = gUnknown_08499590;
+        p = gMapData;
         t = y * 2;
         rows = p + 0x417A;
         idx = *(u16 *)(rows + t) + x;
@@ -51,7 +51,7 @@ void sub_08007C04(int x, int y)
 
         sub_08007BA4(x, n);
 
-        if (x < *(u16 *)gUnknown_08499590 - 1)
+        if (x < *(u16 *)gMapData - 1)
             sub_08007BA4(x + 1, n);
     }
 
@@ -60,10 +60,10 @@ void sub_08007C04(int x, int y)
 
     sub_08007BA4(x, y);
 
-    if (x < *(u16 *)gUnknown_08499590 - 1)
+    if (x < *(u16 *)gMapData - 1)
         sub_08007BA4(x + 1, y);
 
-    if (y < *(u16 *)(gUnknown_08499590 + 2) - 1)
+    if (y < *(u16 *)(gMapData + 2) - 1)
     {
         y++;
 
@@ -72,7 +72,7 @@ void sub_08007C04(int x, int y)
 
         sub_08007BA4(x, y);
 
-        if (x < *(u16 *)gUnknown_08499590 - 1)
+        if (x < *(u16 *)gMapData - 1)
             sub_08007BA4(x + 1, y);
     }
 }

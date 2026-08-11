@@ -14,10 +14,10 @@ void sub_08024F20(s16 a1, s16 a2, struct Unk802C57C *a3)
     int dy;
     int d;
 
-    saved = gUnknown_08499594[a1].unk02;
-    gUnknown_08499594[a1].unk02 = a3->unk00;
-    saved |= gUnknown_08499594[a1].unk03 << 16;
-    gUnknown_08499594[a1].unk03 = a3->unk02;
+    saved = gUnitRecords[a1].unk02;
+    gUnitRecords[a1].unk02 = a3->unk00;
+    saved |= gUnitRecords[a1].unk03 << 16;
+    gUnitRecords[a1].unk03 = a3->unk02;
 
     sub_08024A2C((struct Unk030013D0 *)gUnknown_030013D0, a1);
     sub_08024A2C((struct Unk030013D0 *)gUnknown_030013B0, a2);
@@ -42,7 +42,7 @@ void sub_08024F20(s16 a1, s16 a2, struct Unk802C57C *a3)
     sub_08024C58((struct Unk030013D0 *)gUnknown_030013B0, 1, 1);
 
     if ((sub_08043050(((((struct Unk030013D0 *)gUnknown_030013B0)->unk00
-                        - gUnknown_08499594) >> 6) + 1) & 4) != 0)
+                        - gUnitRecords) >> 6) + 1) & 4) != 0)
         sub_08024E60((struct Unk030013D0 *)gUnknown_030013B0,
                      (struct Unk030013D0 *)gUnknown_030013D0);
     else
@@ -52,6 +52,6 @@ void sub_08024F20(s16 a1, s16 a2, struct Unk802C57C *a3)
     sub_08024ED8((struct Unk030013D0 *)gUnknown_030013D0,
                  (struct Unk030013D0 *)gUnknown_030013B0);
 
-    gUnknown_08499594[a1].unk02 = saved;
-    gUnknown_08499594[a1].unk03 = saved >> 16;
+    gUnitRecords[a1].unk02 = saved;
+    gUnitRecords[a1].unk03 = saved >> 16;
 }

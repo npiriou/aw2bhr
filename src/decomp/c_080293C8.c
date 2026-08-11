@@ -51,8 +51,8 @@ void sub_080293C8(ProcPtr proc)
         if (gpKeySt->held & 1)
         {
             Proc_End(proc);
-            gUnknown_03003F40 = ((struct Map *)gUnknown_08499590)->unk051A[
-                ((struct Map *)gUnknown_08499590)->unk417A[gUnknown_030033E4.unk02]
+            gUnknown_03003F40 = ((struct Map *)gMapData)->unk051A[
+                ((struct Map *)gMapData)->unk417A[gUnknown_030033E4.unk02]
                 + gUnknown_030033E4.unk00];
             sub_08028EE4();
             return;
@@ -77,16 +77,16 @@ bool8 sub_08029490(ProcPtr proc)
 {
     int idx;
 
-    idx = ((struct Map *)gUnknown_08499590)->unk417A[gUnknown_030033E4.unk02]
+    idx = ((struct Map *)gMapData)->unk417A[gUnknown_030033E4.unk02]
         + gUnknown_030033E4.unk00;
 
-    if ((s8)((struct Map *)gUnknown_08499590)->unk2852[idx] >= 0)
+    if ((s8)((struct Map *)gMapData)->unk2852[idx] >= 0)
     {
-        if (((struct Map *)gUnknown_08499590)->unk1E42[idx] == 0)
+        if (((struct Map *)gMapData)->unk1E42[idx] == 0)
             return 1;
 
-        if (((struct Map *)gUnknown_08499590)->unk0012[idx] != 0
-            && sub_08026F5C(((struct Map *)gUnknown_08499590)->unk0012[idx]))
+        if (((struct Map *)gMapData)->unk0012[idx] != 0
+            && sub_08026F5C(((struct Map *)gMapData)->unk0012[idx]))
             return 1;
     }
 

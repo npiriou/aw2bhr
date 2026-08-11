@@ -14,7 +14,7 @@
  * second pass then clears every cell that did NOT get the 0x40 flag to -1.
  *
  * gUnknown_0809093C is NOT a global: the ROM word there holds 0x08499590, i.e.
- * it is agbcc's own -fforce-addr copy of &gUnknown_08499590 (same class as
+ * it is agbcc's own -fforce-addr copy of &gMapData (same class as
  * 0x08090934 in c_0801F888.c). The honest spelling reproduces it -- declaring a
  * symbol for it would add a fourth load level. The promotion must carry
  * "rodata": ["0x0809093C"].
@@ -34,7 +34,7 @@
  * src/decomp/c_0805AD90.c, and it is worth 4 bytes across BOTH halves even
  * though it wraps only the second one. Without it the function is 444 bytes
  * with instruction order, control flow and the literal pool already exact and
- * one allocation fact wrong throughout: the ROM parks &gUnknown_08499590 in r7
+ * one allocation fact wrong throughout: the ROM parks &gMapData in r7
  * and the loop-hoisted `y + 1` in ip, the plain candidate does the reverse, so
  * each of the four `ldr rN,[r7]` sites costs an extra `mov r7, ip` (+8), the
  * three `lsls` on y+1 save one `mov r1, ip` each (-6), and the hoisted 0x40 of
@@ -54,13 +54,13 @@ void sub_0801FE68(void)
     int t;
     int off;
 
-    for (y = 0; y < *(u16 *)(gUnknown_08499590 + 2); y++) {
-        for (x = 0; x < *(u16 *)gUnknown_08499590; x++) {
+    for (y = 0; y < *(u16 *)(gMapData + 2); y++) {
+        for (x = 0; x < *(u16 *)gMapData; x++) {
             c = (s8)gUnknown_03003340[y][x];
             if (c < 0 || c == 0x40)
                 continue;
             if (c != 0) {
-                p = gUnknown_08499590;
+                p = gMapData;
                 t = y * 2;
                 rows = p + 0x417a;
                 off = *(u16 *)(rows + t) + x;
@@ -72,7 +72,7 @@ void sub_0801FE68(void)
                 gUnknown_03003340[y][x - 1]++;
                 gUnknown_03003340[y][x - 1] |= 0x40;
             }
-            if (x != *(u16 *)gUnknown_08499590 - 1
+            if (x != *(u16 *)gMapData - 1
                 && (s8)gUnknown_03003340[y][x + 1] != 0x40) {
                 gUnknown_03003340[y][x + 1]++;
                 gUnknown_03003340[y][x + 1] |= 0x40;
@@ -81,7 +81,7 @@ void sub_0801FE68(void)
                 gUnknown_03003340[y - 1][x]++;
                 gUnknown_03003340[y - 1][x] |= 0x40;
             }
-            if (y != *(u16 *)(gUnknown_08499590 + 2) - 1
+            if (y != *(u16 *)(gMapData + 2) - 1
                 && (s8)gUnknown_03003340[y + 1][x] != 0x40) {
                 gUnknown_03003340[y + 1][x]++;
                 gUnknown_03003340[y + 1][x] |= 0x40;
@@ -89,9 +89,9 @@ void sub_0801FE68(void)
         }
     }
 
-    for (y = 0; y < *(u16 *)(gUnknown_08499590 + 2); y++) {
+    for (y = 0; y < *(u16 *)(gMapData + 2); y++) {
         do {
-            for (x = 0; x < *(u16 *)gUnknown_08499590; x++) {
+            for (x = 0; x < *(u16 *)gMapData; x++) {
                 if ((gUnknown_03003340[y][x] & 0x40) == 0)
                     ((s8 *)gUnknown_03003340[y])[x] = -1;
             }

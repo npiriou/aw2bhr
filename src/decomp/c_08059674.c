@@ -31,23 +31,23 @@ struct Unk0805DFF4Rec
 
 u8 sub_08059674(s16 x, s16 y)
 {
-    if (((struct Unk59674Map *)gUnknown_08499590)->unit[
-            ((struct Unk59674Map *)gUnknown_08499590)->rows[y] + x]
+    if (((struct Unk59674Map *)gMapData)->unit[
+            ((struct Unk59674Map *)gMapData)->rows[y] + x]
                 != gUnknown_03003F38
-        && ((struct Unk59674Map *)gUnknown_08499590)->unit[
-            ((struct Unk59674Map *)gUnknown_08499590)->rows[y] + x] != 0)
+        && ((struct Unk59674Map *)gMapData)->unit[
+            ((struct Unk59674Map *)gMapData)->rows[y] + x] != 0)
         return 0;
     if ((u8)sub_0805C988(x, y))
         return 0;
-    if (gUnknown_085767D5[((struct Unk59674Map *)gUnknown_08499590)->terrain[
-            ((struct Unk59674Map *)gUnknown_08499590)->rows[y] + x] & 0x1f] == 0)
+    if (gUnknown_085767D5[((struct Unk59674Map *)gMapData)->terrain[
+            ((struct Unk59674Map *)gMapData)->rows[y] + x] & 0x1f] == 0)
         return 1;
-    if ((((struct Unk59674Map *)gUnknown_08499590)->terrain[
-            ((struct Unk59674Map *)gUnknown_08499590)->rows[y] + x] & 0xe0)
+    if ((((struct Unk59674Map *)gMapData)->terrain[
+            ((struct Unk59674Map *)gMapData)->rows[y] + x] & 0xe0)
                 != gUnknown_03004084)
     {
-        if ((((struct Unk59674Map *)gUnknown_08499590)->terrain[
-                ((struct Unk59674Map *)gUnknown_08499590)->rows[y] + x] & 0xe0) == 0)
+        if ((((struct Unk59674Map *)gMapData)->terrain[
+                ((struct Unk59674Map *)gMapData)->rows[y] + x] & 0xe0) == 0)
             return 0;
         if (gUnknown_030040D8->unk00 <= 2)
             return 1;
@@ -55,11 +55,11 @@ u8 sub_08059674(s16 x, s16 y)
             return 1;
         return 0;
     }
-    if (gUnknown_085767B8[((struct Unk59674Map *)gUnknown_08499590)->terrain[
-            ((struct Unk59674Map *)gUnknown_08499590)->rows[y] + x] & 0x1f] == 0)
+    if (gUnknown_085767B8[((struct Unk59674Map *)gMapData)->terrain[
+            ((struct Unk59674Map *)gMapData)->rows[y] + x] & 0x1f] == 0)
         return 1;
-    if (gUnknown_085767B8[((struct Unk59674Map *)gUnknown_08499590)->terrain[
-            ((struct Unk59674Map *)gUnknown_08499590)->rows[y] + x] & 0x1f]
+    if (gUnknown_085767B8[((struct Unk59674Map *)gMapData)->terrain[
+            ((struct Unk59674Map *)gMapData)->rows[y] + x] & 0x1f]
                 == gUnknown_030046AC)
         return 1;
     if (!gUnknown_030045CC.unk00_1)
@@ -71,7 +71,7 @@ void sub_08059760(void)
 {
     union Unk802C57CBuf v;
 
-    sub_0801F92C(gUnknown_08499590 + 0x2d5a);
+    sub_0801F92C(gMapData + 0x2d5a);
     gUnknown_030013EC(gUnknown_030040D8->unk02, gUnknown_030040D8->unk03,
                       gUnknown_030040D8->unk00, 0x78, -1);
     sub_0801FD9C(0x79);
@@ -86,7 +86,7 @@ void sub_08059760(void)
         if (gUnknown_03004784[1] > (u8)(gUnknown_030040D8->unk07[3] % 100))
             sub_0805F914();
         if (gUnknown_03004784[0] > (u8)(gUnknown_030040D8->unk07[3] % 100)
-            || sub_0804415C(gUnknown_030033EC))
+            || sub_0804415C(gCurrentArmyIndex))
             sub_0805E718();
     }
     sub_0805F7B8();
@@ -96,7 +96,7 @@ void sub_08059824(void)
 {
     union Unk802C57CBuf v;
 
-    sub_0801F92C(gUnknown_08499590 + 0x2d5a);
+    sub_0801F92C(gMapData + 0x2d5a);
     gUnknown_030013EC(gUnknown_030040D8->unk02, gUnknown_030040D8->unk03,
                       gUnknown_030040D8->unk00, 0x78, 0);
     sub_0801FD9C(0x79);
@@ -122,7 +122,7 @@ void sub_080598BC(void)
 
     p = gUnknown_03003F20;
     sub_0805DCD4();
-    sub_0801F92C(gUnknown_08499590 + 0x2852);
+    sub_0801F92C(gMapData + 0x2852);
     gUnknown_030013EC(gUnknown_030040D8->unk02, gUnknown_030040D8->unk03,
                       gUnknown_030040D8->unk00, 0x78, 0);
     sub_08059A0C(p);
@@ -150,7 +150,7 @@ void sub_08059978(void)
 
     p = gUnknown_03003F20;
     sub_0805DCD4();
-    sub_0801F92C(gUnknown_08499590 + 0x2852);
+    sub_0801F92C(gMapData + 0x2852);
     gUnknown_030013EC(gUnknown_030040D8->unk02, gUnknown_030040D8->unk03,
                       gUnknown_030040D8->unk00, 0x78, 0);
     sub_08059A0C(p);

@@ -34,7 +34,7 @@ int sub_08042E2C(int a, int b)
     if (gUnknown_03003FC0.unk08 == 0)
         return 10;
 
-    return gUnknown_085D3DD0[a].unk38[b].unk0e;
+    return gCoDataTable[a].unk38[b].unk0e;
 }
 
 /* Promoted from assembly; each function below is byte-for-byte
@@ -46,7 +46,7 @@ int sub_08042E2C(int a, int b)
 
 int sub_08042E64(int a1)
 {
-    return sub_08042E2C(gUnknown_08499598[a1].unk1d, gUnknown_08499598[a1].unk1e);
+    return sub_08042E2C(gArmyRecords[a1].unk1d, gArmyRecords[a1].unk1e);
 }
 
 /* Promoted from assembly; each function below is byte-for-byte
@@ -61,7 +61,7 @@ int sub_08042E84(int a, int b)
     if (gUnknown_03003FC0.unk08 == 0)
         return 0;
 
-    return gUnknown_085D3DD0[a].unk38[b].unk10;
+    return gCoDataTable[a].unk38[b].unk10;
 }
 
 /* Promoted from assembly; each function below is byte-for-byte
@@ -73,7 +73,7 @@ int sub_08042E84(int a, int b)
 
 int sub_08042EBC(int a1)
 {
-    return sub_08042E84(gUnknown_08499598[a1].unk1d, gUnknown_08499598[a1].unk1e);
+    return sub_08042E84(gArmyRecords[a1].unk1d, gArmyRecords[a1].unk1e);
 }
 
 /* Promoted from assembly; each function below is byte-for-byte
@@ -88,7 +88,7 @@ int sub_08042EDC(int a, int b)
     if (gUnknown_03003FC0.unk08 == 0)
         return 100;
 
-    return gUnknown_085D3DD0[a].unk38[b].unk16 + 100;
+    return gCoDataTable[a].unk38[b].unk16 + 100;
 }
 
 /* Promoted from assembly; each function below is byte-for-byte
@@ -100,18 +100,18 @@ int sub_08042EDC(int a, int b)
 
 int sub_08042F14(int a1)
 {
-    return sub_08042EDC(gUnknown_08499598[a1].unk1d, gUnknown_08499598[a1].unk1e);
+    return sub_08042EDC(gArmyRecords[a1].unk1d, gArmyRecords[a1].unk1e);
 }
 
 /* The second argument is never used, but it stays in the signature: the
- * forwarder next door loads gUnknown_08499598[a1].unk1e and passes it, and
+ * forwarder next door loads gArmyRecords[a1].unk1e and passes it, and
  * that load is in the original's bytes. */
 int sub_08042F34(int a, int b)
 {
     if (gUnknown_03003FC0.unk08 == 0)
         return 0;
 
-    return gUnknown_085D3DD0[a].unk08;
+    return gCoDataTable[a].unk08;
 }
 
 /* Promoted from assembly; each function below is byte-for-byte
@@ -123,18 +123,18 @@ int sub_08042F34(int a, int b)
 
 int sub_08042F5C(int a1)
 {
-    return sub_08042F34(gUnknown_08499598[a1].unk1d, gUnknown_08499598[a1].unk1e);
+    return sub_08042F34(gArmyRecords[a1].unk1d, gArmyRecords[a1].unk1e);
 }
 
 /* The second argument is never used, but it stays in the signature: the
- * forwarder next door loads gUnknown_08499598[a1].unk1e and passes it, and
+ * forwarder next door loads gArmyRecords[a1].unk1e and passes it, and
  * that load is in the original's bytes. */
 int sub_08042F7C(int a, int b)
 {
     if (gUnknown_03003FC0.unk08 == 0)
         return 0;
 
-    return gUnknown_085D3DD0[a].unk06;
+    return gCoDataTable[a].unk06;
 }
 
 /* Promoted from assembly; each function below is byte-for-byte
@@ -146,7 +146,7 @@ int sub_08042F7C(int a, int b)
 
 int sub_08042FA4(int a1)
 {
-    return sub_08042F7C(gUnknown_08499598[a1].unk1d, gUnknown_08499598[a1].unk1e);
+    return sub_08042F7C(gArmyRecords[a1].unk1d, gArmyRecords[a1].unk1e);
 }
 
 /* Promoted from assembly; each function below is byte-for-byte
@@ -161,7 +161,7 @@ int sub_08042FC4(int a, int b)
     if (gUnknown_03003FC0.unk08 == 0)
         return 0;
 
-    return gUnknown_085D3DD0[a].unk38[b].unk12;
+    return gCoDataTable[a].unk38[b].unk12;
 }
 
 /* Promoted from assembly; each function below is byte-for-byte
@@ -173,7 +173,7 @@ int sub_08042FC4(int a, int b)
 
 int sub_08042FFC(int a1)
 {
-    return sub_08042FC4(gUnknown_08499598[a1].unk1d, gUnknown_08499598[a1].unk1e);
+    return sub_08042FC4(gArmyRecords[a1].unk1d, gArmyRecords[a1].unk1e);
 }
 
 /* Promoted from assembly; each function below is byte-for-byte
@@ -188,7 +188,7 @@ u32 sub_0804301C(int a, int b)
     if (gUnknown_03003FC0.unk08 == 0)
         return 0;
 
-    return gUnknown_085D3DD0[a].unk38[b].unk08;
+    return gCoDataTable[a].unk38[b].unk08;
 }
 
 /* Promoted from assembly; each function below is byte-for-byte
@@ -200,5 +200,5 @@ u32 sub_0804301C(int a, int b)
 
 u32 sub_08043050(int a1)
 {
-    return sub_0804301C(gUnknown_08499598[a1].unk1d, gUnknown_08499598[a1].unk1e);
+    return sub_0804301C(gArmyRecords[a1].unk1d, gArmyRecords[a1].unk1e);
 }

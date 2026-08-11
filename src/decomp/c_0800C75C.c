@@ -131,7 +131,7 @@ int sub_0800C7E8(int a)
 }
 
 /* sub_080016D0's shape over the BYTE plane instead of the halfword one: the
- * same `rowOffset[y] + x` addressing off gUnknown_08499590, the terrain byte
+ * same `rowOffset[y] + x` addressing off gMapData, the terrain byte
  * at +0x1432, and the low five bits of that byte handed to sub_0800C7E8.
  *
  * It RETURNS what sub_0800C7E8 returns, and the epilogue is the only thing
@@ -149,7 +149,7 @@ int sub_0800C840(int x, int y)
     int t;
     int off;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + t) + x;

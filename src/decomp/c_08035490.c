@@ -8,9 +8,9 @@
  */
 
 /* Rebuilds the two gUnknown_03004490 counters from the four armies'
- * gUnknown_08499598 records, then zeroes the per-army flag beside them.
+ * gArmyRecords records, then zeroes the per-army flag beside them.
  *
- * gUnknown_08499598 arrives through agbcc's own -fforce-addr word at
+ * gArmyRecords arrives through agbcc's own -fforce-addr word at
  * 0x08090EA0, whose ROM content is 0x08499598 (dereferenced in baserom.gba --
  * its neighbour 0x08090EA4 holds 0x08499590 instead, a DIFFERENT global, so
  * the two words are not interchangeable). Naming the global honestly gives the
@@ -39,7 +39,7 @@ void sub_08035490(void)
 
     for (i = 1; i < 5; i++)
     {
-        if (gUnknown_08499598[i].unk1b != 0)
+        if (gArmyRecords[i].unk1b != 0)
         {
             gUnknown_03004490[1]--;
             gUnknown_03004490[2]--;

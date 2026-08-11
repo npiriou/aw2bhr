@@ -17,7 +17,7 @@
 bool8 sub_08018838(s16 a)
 {
     gUnknown_03002F08.unk00 = 0xf;
-    sub_0802D5CC(gUnknown_08499598[gUnknown_030033EC].unk1a - 1, gUnknown_03002F08.unk00);
+    sub_0802D5CC(gArmyRecords[gCurrentArmyIndex].unk1a - 1, gUnknown_03002F08.unk00);
     gUnknown_0200C528[a].unk04++;
     return TRUE;
 }

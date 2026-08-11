@@ -50,14 +50,14 @@ int sub_08010B34(int x, int y)
     u16 t;
     u16 u;
 
-    t = ((struct Map *)gUnknown_08499590)->unk0A22[
-            ((struct Map *)gUnknown_08499590)->unk417A[y] + x];
+    t = ((struct Map *)gMapData)->unk0A22[
+            ((struct Map *)gMapData)->unk417A[y] + x];
     if (t == 0x142 || t == 0x143 || t == 0x140 || t == 0x141 || t == 0x160
         || t == 0x161 || t == 0x162 || t == 0x163 || t == 0x122 || t == 0x123
         || t == 0x121 || t == 0x120 || t == 0x103 || t == 0x102)
     {
-        u = ((struct Map *)gUnknown_08499590)->unk0A22[
-                ((struct Map *)gUnknown_08499590)->unk417A[y] + x];
+        u = ((struct Map *)gMapData)->unk0A22[
+                ((struct Map *)gMapData)->unk417A[y] + x];
         if (u == 0x162 || u == 0x163)
         {
             if (sub_0800F8D4(x, y))
@@ -188,7 +188,7 @@ void sub_08010D80(int x, int y)
  *
  * The word at 0x0808D8A8 is NOT a global: it is agbcc's own -fforce-addr
  * .rodata address constant and holds 0x08499590 in baserom.gba, so the honest
- * `gUnknown_08499590` spelling below reproduces the two-level load and
+ * `gMapData` spelling below reproduces the two-level load and
  * promotion must carry a rodata entry for it (0x0808D8A4, used by
  * sub_08010B34, is a second private copy of the same address). */
 int sub_08010DD4(int x, int y)
@@ -196,21 +196,21 @@ int sub_08010DD4(int x, int y)
     u16 t;
     u16 u;
 
-    t = ((struct Map *)gUnknown_08499590)->unk0A22[
-            ((struct Map *)gUnknown_08499590)->unk417A[y] + x];
+    t = ((struct Map *)gMapData)->unk0A22[
+            ((struct Map *)gMapData)->unk417A[y] + x];
     if (t == 0x142)
     {
         if (x - 1 >= 0)
         {
-            u = ((struct Map *)gUnknown_08499590)->unk0A22[
-                    ((struct Map *)gUnknown_08499590)->unk417A[y] + (x - 1)];
+            u = ((struct Map *)gMapData)->unk0A22[
+                    ((struct Map *)gMapData)->unk417A[y] + (x - 1)];
             if (u == 0x162 || u == 0x163)
                 return 1;
         }
-        if (x + 1 >= ((struct Map *)gUnknown_08499590)->unk00)
+        if (x + 1 >= ((struct Map *)gMapData)->unk00)
             return 0;
-        u = ((struct Map *)gUnknown_08499590)->unk0A22[
-                ((struct Map *)gUnknown_08499590)->unk417A[y] + (x + 1)];
+        u = ((struct Map *)gMapData)->unk0A22[
+                ((struct Map *)gMapData)->unk417A[y] + (x + 1)];
         if (u == 0x162 || u == 0x163)
             return 1;
     }
@@ -218,15 +218,15 @@ int sub_08010DD4(int x, int y)
     {
         if (y - 1 >= 0)
         {
-            u = ((struct Map *)gUnknown_08499590)->unk0A22[
-                    ((struct Map *)gUnknown_08499590)->unk417A[y - 1] + x];
+            u = ((struct Map *)gMapData)->unk0A22[
+                    ((struct Map *)gMapData)->unk417A[y - 1] + x];
             if (u == 0x162 || u == 0x163)
                 return 1;
         }
-        if (y + 1 >= ((struct Map *)gUnknown_08499590)->unk02)
+        if (y + 1 >= ((struct Map *)gMapData)->unk02)
             return 0;
-        u = ((struct Map *)gUnknown_08499590)->unk0A22[
-                ((struct Map *)gUnknown_08499590)->unk417A[y + 1] + x];
+        u = ((struct Map *)gMapData)->unk0A22[
+                ((struct Map *)gMapData)->unk417A[y + 1] + x];
         if (u == 0x162 || u == 0x163)
             return 1;
     }

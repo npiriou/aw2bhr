@@ -40,7 +40,7 @@ void sub_08002844(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
                          (void *)(0x06010000 + ((gUnknown_08485D20[a1] & 0x3FF) << 5)),
                          0x80);
         }
-        ApplyPalette((u16 *)(gUnknown_0810E6E0 + (gUnknown_08499598[cls].unk1a - 1) * 0x20), 22);
+        ApplyPalette((u16 *)(gUnknown_0810E6E0 + (gArmyRecords[cls].unk1a - 1) * 0x20), 22);
     }
     else
     {

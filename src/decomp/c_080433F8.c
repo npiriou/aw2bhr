@@ -16,5 +16,5 @@
 
 int sub_080433F8(int a, int b, int c)
 {
-    return gUnknown_085D5ABC[a].unk1e[c][b];
+    return gUnitTypeData[a].unk1e[c][b];
 }

@@ -23,7 +23,7 @@
  * header. The ROM computes `(map + 0x417A) + y * 2`, and that association only
  * survives through a COMPONENT_REF: `((u16 *)(map + 0x417A))[y]` reassociates
  * to `(map + y * 2) + 0x417A`, and binding a `u16 *` local fixes the
- * association but reorders the pool (gUnknown_08499590 ahead of
+ * association but reorders the pool (gMapData ahead of
  * gUnknown_020288B4) and drops the r6 the ROM spends on the constant. */
 struct Unk40790Map
 {
@@ -74,7 +74,7 @@ void sub_08040790(int a1, int a2, ProcPtr a3)
     proc->unk30 = a2;
     proc->unk64 = 6;
     proc->unk66 = gUnknown_020288B4[
-        ((struct Unk40790Map *)gUnknown_08499590)->rowOffset[a2] + a1];
+        ((struct Unk40790Map *)gMapData)->rowOffset[a2] + a1];
     proc->unk4c = NULL;
 }
 

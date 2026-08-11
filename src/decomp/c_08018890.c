@@ -10,7 +10,7 @@
 bool8 sub_08018890(s16 a)
 {
     gUnknown_03002F08.unk00 = 8;
-    sub_0801A57C(gUnknown_030033EC);
+    sub_0801A57C(gCurrentArmyIndex);
     gUnknown_0200C528[a].unk04++;
     return TRUE;
 }

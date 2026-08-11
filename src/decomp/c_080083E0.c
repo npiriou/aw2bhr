@@ -9,7 +9,7 @@
 
 /* sub_080081E0 is the same function against the previous pool word.
  *
- * This names gUnknown_08499590 DIRECTLY, which is what the original source did,
+ * This names gMapData DIRECTLY, which is what the original source did,
  * so agbcc's -fforce-addr parks the address in this unit's own .rodata.  That
  * word is the ROM's gUnknown_0808D7FC and the build now places it there --
  * see tools/split_rodata.py.  The `c_local` workaround spelling is NOT used
@@ -32,7 +32,7 @@ void sub_080083E0(int x, int y)
                 int t;
                 int off;
 
-                p = gUnknown_08499590;
+                p = gMapData;
                 t = n * 2;
                 rows = p + 0x417A;
                 off = (*(u16 *)(rows + t) + (x - 1)) * 2;
@@ -48,14 +48,14 @@ void sub_080083E0(int x, int y)
             int t;
             int off;
 
-            p = gUnknown_08499590;
+            p = gMapData;
             t = n * 2;
             rows = p + 0x417A;
             off = (*(u16 *)(rows + t) + (x)) * 2;
             tiles = p + 0xA22;
             sub_08007F14(x, n, *(u16 *)(tiles + off));
         }
-        if (x < *(u16 *)gUnknown_08499590 - 1)
+        if (x < *(u16 *)gMapData - 1)
         {
             if (sub_080015E4(x + 1, n))
             {
@@ -65,7 +65,7 @@ void sub_080083E0(int x, int y)
                 int t;
                 int off;
 
-                p = gUnknown_08499590;
+                p = gMapData;
                 t = n * 2;
                 rows = p + 0x417A;
                 off = (*(u16 *)(rows + t) + (x + 1)) * 2;
@@ -84,7 +84,7 @@ void sub_080083E0(int x, int y)
             int t;
             int off;
 
-            p = gUnknown_08499590;
+            p = gMapData;
             t = y * 2;
             rows = p + 0x417A;
             off = (*(u16 *)(rows + t) + (x - 1)) * 2;
@@ -92,7 +92,7 @@ void sub_080083E0(int x, int y)
             sub_08007F14(x - 1, y, *(u16 *)(tiles + off));
         }
     }
-    if (x < *(u16 *)gUnknown_08499590 - 1)
+    if (x < *(u16 *)gMapData - 1)
     {
         if (sub_080015E4(x + 1, y))
         {
@@ -102,7 +102,7 @@ void sub_080083E0(int x, int y)
             int t;
             int off;
 
-            p = gUnknown_08499590;
+            p = gMapData;
             t = y * 2;
             rows = p + 0x417A;
             off = (*(u16 *)(rows + t) + (x + 1)) * 2;
@@ -110,7 +110,7 @@ void sub_080083E0(int x, int y)
             sub_08007F14(x + 1, y, *(u16 *)(tiles + off));
         }
     }
-    if (y < *(u16 *)(gUnknown_08499590 + 2) - 1)
+    if (y < *(u16 *)(gMapData + 2) - 1)
     {
         int n = y + 1;
 
@@ -124,7 +124,7 @@ void sub_080083E0(int x, int y)
                 int t;
                 int off;
 
-                p = gUnknown_08499590;
+                p = gMapData;
                 t = n * 2;
                 rows = p + 0x417A;
                 off = (*(u16 *)(rows + t) + (x - 1)) * 2;
@@ -140,14 +140,14 @@ void sub_080083E0(int x, int y)
             int t;
             int off;
 
-            p = gUnknown_08499590;
+            p = gMapData;
             t = n * 2;
             rows = p + 0x417A;
             off = (*(u16 *)(rows + t) + (x)) * 2;
             tiles = p + 0xA22;
             sub_08007F14(x, n, *(u16 *)(tiles + off));
         }
-        if (x < *(u16 *)gUnknown_08499590 - 1)
+        if (x < *(u16 *)gMapData - 1)
         {
             if (sub_080015E4(x + 1, n))
             {
@@ -157,7 +157,7 @@ void sub_080083E0(int x, int y)
                 int t;
                 int off;
 
-                p = gUnknown_08499590;
+                p = gMapData;
                 t = n * 2;
                 rows = p + 0x417A;
                 off = (*(u16 *)(rows + t) + (x + 1)) * 2;

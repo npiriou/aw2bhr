@@ -28,10 +28,10 @@ bool8 sub_08045D10(void)
 
     for (i = (u16)gUnknown_084995FE[2] + 1; i < (u16)gUnknown_084995FE[2] + 0x33; i++)
     {
-        if (gUnknown_08499594[i].unk00 == 0)
+        if (gUnitRecords[i].unk00 == 0)
             continue;
 
-        if (gUnknown_08499594[i].unk00 == 0x15)
+        if (gUnitRecords[i].unk00 == 0x15)
             return FALSE;
     }
 

@@ -7,11 +7,11 @@
  * sub_08022974 @ 0x08022974
  */
 
-/* Two calls. gUnknown_030033EC arrives as a plain `ldrh` with no shift pair,
+/* Two calls. gCurrentArmyIndex arrives as a plain `ldrh` with no shift pair,
  * which is what sub_0801A548's u16 parameter costs -- a narrower or signed
  * parameter would have added one. */
 void sub_08022974(void)
 {
     sub_0801F178(0, 0xA);
-    sub_0801A548(gUnknown_030033EC);
+    sub_0801A548(gCurrentArmyIndex);
 }

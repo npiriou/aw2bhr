@@ -7,11 +7,11 @@
  * sub_08019940 @ 0x08019940
  */
 
-/* Run sub_08028874 for every army 1..4 whose gUnknown_08499598[i].unk2a
+/* Run sub_08028874 for every army 1..4 whose gArmyRecords[i].unk2a
  * differs from army `a`'s and which passes sub_080266DC, then close out with
  * sub_08028568 and post mode 0x12.
  *
- * gUnknown_08499598 is a POINTER global, so the ROM's two `ldr`s are the
+ * gArmyRecords is a POINTER global, so the ROM's two `ldr`s are the
  * `-fforce-addr` `.rodata` word (0x0808E5B4, which holds 0x08499598) followed
  * by the pointer load; both stay INSIDE the loop because the calls in the body
  * may repoint it. `a`'s element offset (`a * 0x3c`, as `(a << 4) - a << 2`) is
@@ -27,7 +27,7 @@ void sub_08019940(u8 a, u8 b)
 
     for (i = 1; i <= 4; i++)
     {
-        if (gUnknown_08499598[i].unk2a != gUnknown_08499598[a].unk2a
+        if (gArmyRecords[i].unk2a != gArmyRecords[a].unk2a
          && sub_080266DC(i))
             sub_08028874(i, b);
     }

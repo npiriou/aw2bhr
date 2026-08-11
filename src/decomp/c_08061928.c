@@ -10,7 +10,7 @@
 /* A 0x130-byte gUnknown_085771C4 record built from two others: the 0x10-byte
  * header is copied verbatim from the record selected DIRECTLY by a2, and the
  * 24 following 0xc-byte rows are the byte-wise sum of that record and the one
- * selected through gUnknown_0857690C[a3][gUnknown_08499598[a4].unk1d]. Both
+ * selected through gUnknown_0857690C[a3][gArmyRecords[a4].unk1d]. Both
  * strides are the `((x*4+x)*4-x)*16` synthesis of *0x130 that sub_08061788
  * already uses, so indexing gUnknown_085771C4[] directly reproduces them.
  *
@@ -49,7 +49,7 @@ void sub_08061928(struct Unk085771C4 *dst, u8 a2, u8 a3, u16 a4)
 
     d = (struct Unk8061928 *)dst;
     s1 = (const struct Unk8061928 *)&gUnknown_085771C4[a2];
-    s2 = (const struct Unk8061928 *)&gUnknown_085771C4[gUnknown_0857690C[a3][gUnknown_08499598[a4].unk1d]];
+    s2 = (const struct Unk8061928 *)&gUnknown_085771C4[gUnknown_0857690C[a3][gArmyRecords[a4].unk1d]];
 
     d->unk00[0] = s1->unk00[0];
     d->unk00[1] = s1->unk00[1];

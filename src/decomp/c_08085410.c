@@ -15,7 +15,7 @@
 
 int sub_08085410(int a1, int a2)
 {
-    switch (sub_080430B0(gUnknown_08499598[a1].unk1d, gUnknown_08499598[a1].unk1e, a2))
+    switch (sub_080430B0(gArmyRecords[a1].unk1d, gArmyRecords[a1].unk1e, a2))
     {
     case -10:
         return 0x9b;

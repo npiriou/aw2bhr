@@ -49,7 +49,7 @@ void sub_080080F8(int x, int y)
         int off;
         int v;
 
-        p = gUnknown_08499590;
+        p = gMapData;
         scale = 2;
         t = y * scale;
         rows = p + 0x417A;

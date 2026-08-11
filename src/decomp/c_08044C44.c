@@ -24,7 +24,7 @@
 void sub_08044C44(ProcPtr parent)
 {
     sub_08044D70(gUnknown_084A0994, gUnknown_08112F00, gUnknown_08113BC0,
-                 gUnknown_030033EC, 2, 0, 1, 0, parent);
+                 gCurrentArmyIndex, 2, 0, 1, 0, parent);
 }
 
 /* One of five wrappers over the nine-argument sub_08044D70 (four arguments in
@@ -42,7 +42,7 @@ void sub_08044C44(ProcPtr parent)
 void sub_08044C80(ProcPtr parent)
 {
     sub_08044D70(gUnknown_084A0994, gUnknown_0811315C, gUnknown_08113BA0,
-                 gUnknown_030033EC, 1, 0, -1, 1, parent);
+                 gCurrentArmyIndex, 1, 0, -1, 1, parent);
 }
 
 /* One of five wrappers over the nine-argument sub_08044D70 (four arguments in
@@ -60,7 +60,7 @@ void sub_08044C80(ProcPtr parent)
 void sub_08044CBC(ProcPtr parent)
 {
     sub_08044D70(gUnknown_084A0994, gUnknown_0811315C, gUnknown_08113BC0,
-                 gUnknown_030033EC, 2, 0, 2, 1, parent);
+                 gCurrentArmyIndex, 2, 0, 2, 1, parent);
 }
 
 /* One of five wrappers over the nine-argument sub_08044D70 (four arguments in
@@ -78,7 +78,7 @@ void sub_08044CBC(ProcPtr parent)
 void sub_08044CF8(ProcPtr parent)
 {
     sub_08044D70(gUnknown_084A0994, gUnknown_081133D0, gUnknown_08113BA0,
-                 gUnknown_030033EC, 1, 1, -1, 0, parent);
+                 gCurrentArmyIndex, 1, 1, -1, 0, parent);
 }
 
 /* One of five wrappers over the nine-argument sub_08044D70 (four arguments in
@@ -96,5 +96,5 @@ void sub_08044CF8(ProcPtr parent)
 void sub_08044D34(ProcPtr parent)
 {
     sub_08044D70(gUnknown_084A0994, gUnknown_081133D0, gUnknown_08113BC0,
-                 gUnknown_030033EC, 2, 2, -1, 0, parent);
+                 gCurrentArmyIndex, 2, 2, -1, 0, parent);
 }

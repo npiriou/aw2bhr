@@ -14,12 +14,12 @@
  */
 void sub_08025D20(int index)
 {
-    if (gUnknown_08499598[index].unk3a != 0xff)
-        gUnknown_08499598[index].unk3a++;
+    if (gArmyRecords[index].unk3a != 0xff)
+        gArmyRecords[index].unk3a++;
 }
 
 void sub_08025D40(int index)
 {
-    if (gUnknown_08499598[index].unk3b != 0xff)
-        gUnknown_08499598[index].unk3b++;
+    if (gArmyRecords[index].unk3b != 0xff)
+        gArmyRecords[index].unk3b++;
 }

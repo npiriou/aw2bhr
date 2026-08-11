@@ -11,7 +11,7 @@
  * reached at +0x14. See the CONFLICT note beside struct Unk085766E0 in
  * include/unknown-globals.h: that tag's declared extent (0x23) cannot carry
  * this stride, so the object is described here with a file-local view and cast
- * onto the shared symbol, exactly as the gUnknown_08499590 readers do.
+ * onto the shared symbol, exactly as the gMapData readers do.
  *
  * v[] is SEVEN bytes: the scan runs `cmp r2, #6; ble`, so indices 0..6. 0xFF
  * is both the "row absent" marker (tested at v[0] before the loop) and a

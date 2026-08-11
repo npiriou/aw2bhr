@@ -17,14 +17,14 @@ int sub_0800105C(void)
 
     r = 0;
 
-    if ((*(u16 *)(gUnknown_08499590 + 0x10) & 0xf) != 0)
+    if ((*(u16 *)(gMapData + 0x10) & 0xf) != 0)
         return 0;
 
     i = (gpKeySt->unk02 >> 4) & 0xf;
 
     v = gUnknown_030033E4.unk00 + gUnknown_08499C7C[i][0];
 
-    if (v >= 0 && v < *(u16 *)(gUnknown_08499590 + 0))
+    if (v >= 0 && v < *(u16 *)(gMapData + 0))
     {
         gUnknown_030032C4.unk00 += gUnknown_08499C7C[i][0] * 4;
         gUnknown_030033E4.unk00 = v;
@@ -35,7 +35,7 @@ int sub_0800105C(void)
 
     v = gUnknown_030033E4.unk02 + gUnknown_08499C7C[i][1];
 
-    if (v >= 0 && v < *(u16 *)(gUnknown_08499590 + 2))
+    if (v >= 0 && v < *(u16 *)(gMapData + 2))
     {
         gUnknown_030032C4.unk02 += gUnknown_08499C7C[i][1] * 4;
         gUnknown_030033E4.unk02 = v;

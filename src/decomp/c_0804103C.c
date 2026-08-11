@@ -10,7 +10,7 @@
 /* Loads one unit's sprite sheet and palette -- the sub_08041128 shape with a
  * switch. a1 packs an army in its top three bits and a class in its low five:
  * the class picks the ROM sheet, the army picks both sub_08024984's variant
- * index and the gUnknown_08499598 record whose unk1a is the palette bank.
+ * index and the gArmyRecords record whose unk1a is the palette bank.
  *
  * THE FIELD EXTRACTIONS MUST BOTH BE MASKED. Wave 35 parked this at 82.2% with
  * `u8 sel = a1;` and a bare `sel >> 5`, and every unmasked spelling measured
@@ -37,7 +37,7 @@ void sub_0804103C(int a1, int a2, int a3)
     int sel = (u8)a1;
     int k = sel & 0x1f;
     int i = sub_08024984(sel);
-    u8 pal = gUnknown_08499598[(sel >> 5) & 7].unk1a;
+    u8 pal = gArmyRecords[(sel >> 5) & 7].unk1a;
     u8 *src;
 
     switch (k)

@@ -11,7 +11,7 @@ void sub_08034D18(void)
 {
     sub_0802776C(0);
 
-    switch (gUnknown_08499598[gUnknown_030033EC].unk1b)
+    switch (gArmyRecords[gCurrentArmyIndex].unk1b)
     {
     case 1:
         gUnknown_030032D8 = 0xd;

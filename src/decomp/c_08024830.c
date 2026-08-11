@@ -10,7 +10,7 @@
 #include "hardware.h"
 
 /* The palette half of sub_08023360 (src/decomp/c_08023360.c) lifted out as its
- * own routine: the same four `gUnknown_0810E6E0 + (gUnknown_08499598[i].unk1a
+ * own routine: the same four `gUnknown_0810E6E0 + (gArmyRecords[i].unk1a
  * - 1) * 0x20` palette rows, on ApplyPaletteExt with a BYTE offset where the
  * exemplar uses ApplyPalette with a slot index -- 0x180/0x1A0/0x1C0/0x1E0 are
  * the exemplar's 12/13/14/15 times 0x20, and 0x240 is its 18.
@@ -24,13 +24,13 @@
 
 void sub_08024830(void)
 {
-    ApplyPaletteExt((u16 *)(gUnknown_0810E6E0 + (gUnknown_08499598[1].unk1a - 1) * 0x20),
+    ApplyPaletteExt((u16 *)(gUnknown_0810E6E0 + (gArmyRecords[1].unk1a - 1) * 0x20),
                     0x180, 0x20);
-    ApplyPaletteExt((u16 *)(gUnknown_0810E6E0 + (gUnknown_08499598[2].unk1a - 1) * 0x20),
+    ApplyPaletteExt((u16 *)(gUnknown_0810E6E0 + (gArmyRecords[2].unk1a - 1) * 0x20),
                     0x1A0, 0x20);
-    ApplyPaletteExt((u16 *)(gUnknown_0810E6E0 + (gUnknown_08499598[3].unk1a - 1) * 0x20),
+    ApplyPaletteExt((u16 *)(gUnknown_0810E6E0 + (gArmyRecords[3].unk1a - 1) * 0x20),
                     0x1C0, 0x20);
-    ApplyPaletteExt((u16 *)(gUnknown_0810E6E0 + (gUnknown_08499598[4].unk1a - 1) * 0x20),
+    ApplyPaletteExt((u16 *)(gUnknown_0810E6E0 + (gArmyRecords[4].unk1a - 1) * 0x20),
                     0x1E0, 0x20);
 
     sub_0803F80C(8);
@@ -41,7 +41,7 @@ void sub_08024830(void)
     sub_08035020(gUnknown_03003FC0.unk2c);
     sub_08022A34();
 
-    sub_0801A5B0(gUnknown_030033EC);
-    sub_08043834(gUnknown_030033EC);
-    sub_0801A57C(gUnknown_030033EC);
+    sub_0801A5B0(gCurrentArmyIndex);
+    sub_08043834(gCurrentArmyIndex);
+    sub_0801A57C(gCurrentArmyIndex);
 }

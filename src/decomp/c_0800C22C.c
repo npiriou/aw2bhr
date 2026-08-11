@@ -15,7 +15,7 @@
  * The struct is c_0800BEE4.c's, copied verbatim: only width at +0 and height
  * at +2 are read here.
  *
- * gUnknown_08499590 is read FOUR times, which is what puts its address in this
+ * gMapData is read FOUR times, which is what puts its address in this
  * unit's own `.rodata` under -fforce-addr -- hence the three-level chain
  * `ldr rN, =.LC; ldr rN, [rN]; ldr r0, [rN]; ldrh` where the neighbours with
  * one read get a plain inline pool word.  The `ldr r7, [r7]` that replaces the
@@ -31,7 +31,7 @@ struct MapScreen
     /* 0x1432 */ u8 terrain[0x417A - 0x1432];
     /* 0x417A */ u16 rowOffset[1];
 };
-#define MAP ((struct MapScreen *)gUnknown_08499590)
+#define MAP ((struct MapScreen *)gMapData)
 
 void sub_0800C22C(int x, int y)
 {

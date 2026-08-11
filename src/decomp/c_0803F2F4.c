@@ -38,7 +38,7 @@ void sub_0803F2F4(struct UnkF2F4Proc *proc)
     ApplyPaletteExt(gUnknown_081169B0, 0x2A0, 0x20);
     sub_0803B4DC(0x1D8);
     ((struct UnkF2F4Ret *)sub_0801C70C(gUnknown_081161CC,
-                 (proc->unk2c * 16 - ((struct MapScrollF2F4 *)gUnknown_08499590)->unk04 + 0x20) & 0x1FF,
-                 (proc->unk30 * 16 - ((struct MapScrollF2F4 *)gUnknown_08499590)->unk06 + 8) & 0xFF,
+                 (proc->unk2c * 16 - ((struct MapScrollF2F4 *)gMapData)->unk04 + 0x20) & 0x1FF,
+                 (proc->unk30 * 16 - ((struct MapScrollF2F4 *)gMapData)->unk06 + 8) & 0xFF,
                  0x51CA, 0, 1))->unk50->unk24 = gUnknown_0200FC50;
 }

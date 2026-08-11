@@ -12,7 +12,7 @@
  * 3-bit field equal to 1, and stand on a map cell whose signed terrain byte is
  * not -1.
  *
- * No store anywhere in the loop, so agbcc hoists the `ldr` of gUnknown_08499594
+ * No store anywhere in the loop, so agbcc hoists the `ldr` of gUnitRecords
  * and the `ldrh` of gUnknown_03003F2C into the preheader and check_dbra_loop
  * turns the exit test into a countdown -- none of which is authored. -1 lands
  * in a register (`movs #1; rsbs #0`) because `cmp` has no negative immediate.
@@ -23,14 +23,14 @@
 
 int sub_080586CC(void)
 {
-    struct Unk08499594 *p;
+    struct UnitRecord *p;
     int count;
     int i;
 
     count = 0;
     for (i = gUnknown_03003F2C; i < gUnknown_03003F2C + 0x40; i++)
     {
-        p = &gUnknown_08499594[i];
+        p = &gUnitRecords[i];
         if (p->unk00 != 0 && gUnknown_0857680F[p->unk00] == 2
             && (p->unk09 & 7) == 1
             && (s8)gUnknown_03003340[p->unk03][p->unk02] != -1)

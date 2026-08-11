@@ -51,17 +51,17 @@ void sub_0805AD90(void)
     if (sub_0805B4D8(sub_0805B4A8(), &a, &b) == 0)
         sub_0805F7B8();
 
-    sub_0801F92C(gUnknown_08499590 + 0x2852);
+    sub_0801F92C(gMapData + 0x2852);
 
     gUnknown_030013EC(a, b, gUnknown_030046D4, gUnknown_085766E0->unk0f, 0);
 
-    for (y = 0; y < *(u16 *)(gUnknown_08499590 + 2); y++)
+    for (y = 0; y < *(u16 *)(gMapData + 2); y++)
     {
-        for (x = 0; x < *(u16 *)gUnknown_08499590; x++)
+        for (x = 0; x < *(u16 *)gMapData; x++)
         {
             if ((s8)gUnknown_03003340[y][x] >= 0)
             {
-                p = gUnknown_08499590;
+                p = gMapData;
                 t = y * 2;
                 rows = p + 0x417a;
                 off = *(u16 *)(rows + t) + x;

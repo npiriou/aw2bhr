@@ -39,7 +39,7 @@ u8 sub_08042424(s16 x, s16 y)
     int t;
     int off;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417a;
     off = *(u16 *)(rows + t) + x;

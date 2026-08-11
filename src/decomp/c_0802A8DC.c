@@ -42,8 +42,8 @@ void sub_0802A8DC(int a1, int a2, int a3, int a4, int a5)
                  (void *)gUnknown_0849A240,
                  0x11ca);
 
-    if (((struct Map *)gUnknown_08499590)->unk234A[
-            ((struct Map *)gUnknown_08499590)->unk417A[a2] + a1] == 0 && k != 8)
+    if (((struct Map *)gMapData)->unk234A[
+            ((struct Map *)gMapData)->unk417A[a2] + a1] == 0 && k != 8)
         m = 0;
 
     sub_08011E54((void *)sub_0802A880(k, n), (void *)0x06013CC0, 0x100);

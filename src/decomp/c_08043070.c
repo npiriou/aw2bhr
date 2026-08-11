@@ -8,7 +8,7 @@
  */
 
 /* The per-army repair/income multiplier, applied as a percentage: the byte at
- * gUnknown_085D5ABC[c].unk1e[e][d] scales sub_080430B0's result, which is
+ * gUnitTypeData[c].unk1e[e][d] scales sub_080430B0's result, which is
  * itself a percentage that the `+ 100` turns into a multiplier.  A zero
  * product is raised to 1, so a matchup that "works at all" never rounds away
  * to nothing, but a zero scale byte short-circuits to 0 before that.
@@ -22,7 +22,7 @@
  */
 int sub_08043070(int a1, int a2, int a3, int a4, int a5)
 {
-    int v = gUnknown_085D5ABC[a3].unk1e[a5][a4];
+    int v = gUnitTypeData[a3].unk1e[a5][a4];
     int base = sub_080430B0(a1, a2, a3) + 100;
     int r;
 

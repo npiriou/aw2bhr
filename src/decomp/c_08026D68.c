@@ -8,12 +8,12 @@
  */
 
 /* The per-army terrain census. Clears each army's tallies, then walks every
- * cell of the gUnknown_08499590 map: the top three bits of the +0x1432 terrain
+ * cell of the gMapData map: the top three bits of the +0x1432 terrain
  * byte select the owning army and the low five are the terrain id, so an owned
  * property adds sub_08026C6C(id) to that army's income and bumps one counter
  * per kind. Terrain 8 (the HQ) records its cell instead of counting.
  *
- * The map is reached through a local overlay because gUnknown_08499590 is
+ * The map is reached through a local overlay because gMapData is
  * declared `u8 *`: unk00/unk02 are the width and height, +0x1432 is the cell
  * array and +0x417a the per-row start table, which is the same +0x1432 /
  * rowOffset pair sub_080253B0 and sub_08058A2C use.
@@ -42,29 +42,29 @@ void sub_08026D68(void)
     u8 b;
     u8 t;
     int kind;
-    struct Unk08499598 *army;
+    struct ArmyRecord *army;
 
     for (i = 0; i <= 4; i++)
     {
-        gUnknown_08499598[i].unk08 = 0;
-        gUnknown_08499598[i].unk0c = 0;
-        gUnknown_08499598[i].unk0d = 0;
-        gUnknown_08499598[i].unk0e = 0;
-        gUnknown_08499598[i].unk0f = 0;
-        gUnknown_08499598[i].unk2d |= 0x80;
+        gArmyRecords[i].unk08 = 0;
+        gArmyRecords[i].unk0c = 0;
+        gArmyRecords[i].unk0d = 0;
+        gArmyRecords[i].unk0e = 0;
+        gArmyRecords[i].unk0f = 0;
+        gArmyRecords[i].unk2d |= 0x80;
     }
 
-    for (j = 0; j < ((struct Unk26D68Map *)gUnknown_08499590)->height; j++)
+    for (j = 0; j < ((struct Unk26D68Map *)gMapData)->height; j++)
     {
-        for (k = 0; k < ((struct Unk26D68Map *)gUnknown_08499590)->width; k++)
+        for (k = 0; k < ((struct Unk26D68Map *)gMapData)->width; k++)
         {
-            b = ((struct Unk26D68Map *)gUnknown_08499590)->cells[
-                    ((struct Unk26D68Map *)gUnknown_08499590)->rowOffset[j] + k];
+            b = ((struct Unk26D68Map *)gMapData)->cells[
+                    ((struct Unk26D68Map *)gMapData)->rowOffset[j] + k];
 
             t = b & 0xe0;
             if (t != 0)
             {
-                army = &gUnknown_08499598[t >> 5];
+                army = &gArmyRecords[t >> 5];
                 kind = b & 0x1f;
 
                 switch (kind)

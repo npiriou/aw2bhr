@@ -22,8 +22,8 @@ struct UnkF43CProc
 void sub_0803F43C(struct UnkF43CProc *proc)
 {
     sub_0801C254(proc->unk50,
-                 (proc->unk54 - *(s16 *)(gUnknown_08499590 + 4)) & 0x1FF,
-                 (proc->unk58 - *(s16 *)(gUnknown_08499590 + 6)) & 0xFF);
+                 (proc->unk54 - *(s16 *)(gMapData + 4)) & 0x1FF,
+                 (proc->unk58 - *(s16 *)(gMapData + 6)) & 0xFF);
     proc->unk58 += 0xA;
     if (proc->unk30 * 16 + 0x10 < proc->unk58)
     {

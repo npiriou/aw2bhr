@@ -18,13 +18,13 @@ void sub_0808006C(struct Unk0808006C *proc)
 {
     if (Proc_Find(gUnknown_086167EC) == NULL)
     {
-        proc->unk58 = gUnknown_030033EC;
+        proc->unk58 = gCurrentArmyIndex;
         Proc_Break(proc);
     }
 }
 
 void sub_08080094(void)
 {
-    sub_0801A5B0(gUnknown_030033EC);
-    sub_08043834(gUnknown_030033EC);
+    sub_0801A5B0(gCurrentArmyIndex);
+    sub_08043834(gCurrentArmyIndex);
 }

@@ -18,7 +18,7 @@
 
 bool8 sub_0802571C(u16 a1)
 {
-    struct Unk08499594 *unit = &gUnknown_08499594[a1];
+    struct UnitRecord *unit = &gUnitRecords[a1];
 
     return sub_080255F4(unit, unit->unk02, unit->unk03);
 }

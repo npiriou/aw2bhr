@@ -13,7 +13,7 @@
  *
  * gUnknown_08090960 in the asm is NOT a global: the ROM word at 0x08090960
  * holds 0x08499598, so it is agbcc's own -fforce-addr address constant for
- * gUnknown_08499598 (the guard names it twice, the inner loop once, and only
+ * gArmyRecords (the guard names it twice, the inner loop once, and only
  * the guard gets the word).
  *
  * The `ldrb` on gUnknown_084995FE is combine narrowing a halfword load to the
@@ -43,20 +43,20 @@ void sub_080212AC(u16 faction)
     int x;
     int y;
 
-    if (gUnknown_08499598[faction].unk1b != 0 && gUnknown_08499598[faction].unk1c != 0)
+    if (gArmyRecords[faction].unk1b != 0 && gArmyRecords[faction].unk1c != 0)
     {
         for (i = 0; i <= 0x32; i++)
             sub_080211DC((u8)(gUnknown_084995FE[faction] + i), 1);
 
-        for (y = 0; y < ((struct Unk212ACMap *)gUnknown_08499590)->height; y++)
+        for (y = 0; y < ((struct Unk212ACMap *)gMapData)->height; y++)
         {
-            for (x = 0; x < ((struct Unk212ACMap *)gUnknown_08499590)->width; x++)
+            for (x = 0; x < ((struct Unk212ACMap *)gMapData)->width; x++)
             {
-                if ((((struct Unk212ACMap *)gUnknown_08499590)->plane[
-                         ((struct Unk212ACMap *)gUnknown_08499590)->rowOffset[y] + x] & 0xE0)
+                if ((((struct Unk212ACMap *)gMapData)->plane[
+                         ((struct Unk212ACMap *)gMapData)->rowOffset[y] + x] & 0xE0)
                     == gUnknown_084995F4[faction])
                 {
-                    sub_080210C8(x, y, 0, gUnknown_08499598[faction].unk1c, 1, 0);
+                    sub_080210C8(x, y, 0, gArmyRecords[faction].unk1c, 1, 0);
                 }
             }
         }

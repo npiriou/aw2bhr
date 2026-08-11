@@ -10,21 +10,21 @@
 /* MATCHED.
  *
  * The map planes go through the `struct Map` cast idiom of c_08000BF8.c. Plain
- * `u8 *` arithmetic on gUnknown_08499590 reassociates the 0x1432 / 0x417A /
+ * `u8 *` arithmetic on gMapData reassociates the 0x1432 / 0x417A /
  * 0x12 constants PAST the index -- the ROM adds the plane constant to the base
  * first, then the index -- and costs far more than the tail below.
- * gUnknown_08499590 is named directly at every use rather than bound to a local:
+ * gMapData is named directly at every use rather than bound to a local:
  * the ROM keeps only its ADDRESS in sl and re-loads the pointer each time.
  *
- * gUnknown_08499594 is a REAL declared global, not a pool word, and so is
- * gUnknown_08499590 -- both trip the "named pointer whose target is also named"
+ * gUnitRecords is a REAL declared global, not a pool word, and so is
+ * gMapData -- both trip the "named pointer whose target is also named"
  * false positive in the pool-word screen.
  *
  * THE LAST 8 BYTES, and the reason this is worth reading: hand-written C got to
  * 98.0% with the size exact, the relocations exact, the pool exact and all ten
  * words in order -- everything but four instructions:
  *
- *   original            plain `gUnknown_08499594[c].unk00`
+ *   original            plain `gUnitRecords[c].unk00`
  *   ldr  r0, [pc,#208]  ldr  r0, [pc,#208]
  *   lsls r1, r4, #1     ldr  r1, [r0]
  *   adds r1, r1, r4     lsls r0, r4, #1
@@ -32,7 +32,7 @@
  *   ldr  r0, [r0]       lsls r0, r0, #2
  *   adds r0, r0, r1     adds r0, r0, r1
  *
- * The ROM computes `c * 12` BETWEEN the pool load of &gUnknown_08499594 and the
+ * The ROM computes `c * 12` BETWEEN the pool load of &gUnitRecords and the
  * `ldr r0,[r0]` that dereferences it, hiding the load in the multiply, and gives
  * the multiply r1 rather than r0. No statement boundary reaches inside that
  * address expression, so no rewriting of the `&&` chain moves it.
@@ -64,38 +64,38 @@ struct Map
     /* 0x3C72 */ u8 unk3C72[0x0508];
     /* 0x417A */ u16 unk417A[0x100];
 };
-#define MAP ((struct Map *)gUnknown_08499590)
+#define MAP ((struct Map *)gMapData)
 
 void sub_08061B4C(void)
 {
     int i;
-    struct Unk08499594 *u;
+    struct UnitRecord *u;
     int j;
     int k;
     u8 c;
 
-    sub_0801F92C(gUnknown_08499590 + 0x2852);
-    sub_080581A4(gUnknown_08499590 + 0x376A, 0);
+    sub_0801F92C(gMapData + 0x2852);
+    sub_080581A4(gMapData + 0x376A, 0);
 
-    for (i = 0; gUnknown_084995A0[i].unk00 != 0xFF; i++)
+    for (i = 0; gPropertyList[i].unk00 != 0xFF; i++)
     {
-        if ((MAP->unk1432[MAP->unk417A[gUnknown_084995A0[i].unk02]
-                          + gUnknown_084995A0[i].unk01] & 0x1F) == 0x13)
+        if ((MAP->unk1432[MAP->unk417A[gPropertyList[i].unk02]
+                          + gPropertyList[i].unk01] & 0x1F) == 0x13)
             continue;
 
         if (sub_08026FD0(gUnknown_03003F2C,
-                         MAP->unk1432[MAP->unk417A[gUnknown_084995A0[i].unk02]
-                                      + gUnknown_084995A0[i].unk01]) == 1)
+                         MAP->unk1432[MAP->unk417A[gPropertyList[i].unk02]
+                                      + gPropertyList[i].unk01]) == 1)
             continue;
 
-        c = MAP->unk0012[MAP->unk417A[gUnknown_084995A0[i].unk02]
-                         + gUnknown_084995A0[i].unk01];
+        c = MAP->unk0012[MAP->unk417A[gPropertyList[i].unk02]
+                         + gPropertyList[i].unk01];
 
         if (c != 0 && sub_08026F9C(gUnknown_03003F2C, c) == 1
-            && (*(u = &gUnknown_08499594[c])).unk00 <= 2)
+            && (*(u = &gUnitRecords[c])).unk00 <= 2)
             continue;
 
-        gUnknown_030013EC(gUnknown_084995A0[i].unk01, gUnknown_084995A0[i].unk02, 1, 3, 0);
+        gUnknown_030013EC(gPropertyList[i].unk01, gPropertyList[i].unk02, 1, 3, 0);
 
         for (j = 0; j < MAP->unk02; j++)
         {

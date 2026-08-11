@@ -10,11 +10,11 @@
 /* Sums sub_080015E4 over the five in-bounds cells of one half-plane around
  * (x, y): the whole neighbouring column (dir 0 = west, 1 = east) or row
  * (2 = north, 4 = south), plus the two cells beside (x, y) on the other axis.
- * The map descriptor is `**pp` == gUnknown_08499590, whose header is
+ * The map descriptor is `**pp` == gMapData, whose header is
  * `u16 width` at +0 and `u16 height` at +2, so every guard is a bounds test.
  *
  * `pp`, `q` and `lim` are ALL the -fforce-addr workaround and none of them is
- * the original source, which simply named gUnknown_08499590 everywhere.  That
+ * the original source, which simply named gMapData everywhere.  That
  * spelling gives 416 of 416 bytes with every register right, but routes the
  * address through this unit's own .rodata, which the .text-only split cannot
  * place.  Reaching the ROM's relocation needs the pool word named, and then
@@ -27,7 +27,7 @@
  *    assignments, four pool words -- as the ROM has.
  *  - `q` is the MIDDLE level, bound explicitly, in cases 1 and 4 only.  Those
  *    are the two arms whose first read is in the arm's entry block, so the
- *    original's CSE kept &gUnknown_08499590 live across the calls (r8) and
+ *    original's CSE kept &gMapData live across the calls (r8) and
  *    reloaded only the inner pointer.  Cases 0 and 2 read first from inside a
  *    nested `if` and re-derive both levels, which is plain `**pp`.  Without
  *    `q` the draft is 44 bytes short; `**pp` after the merge is not optional

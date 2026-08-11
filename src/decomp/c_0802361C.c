@@ -21,7 +21,7 @@
  * 0x08499C7C, not objects; gUnknown_08090A14 in sub_08023860 is a second
  * private copy of the first of them. The map header is reached as a `u8 *`
  * with `*(u16 *)(p + k)` reads, which is the spelling c_0800119C.c and
- * c_08001158.c already use for gUnknown_08499590.
+ * c_08001158.c already use for gMapData.
  *
  * The guard is an early return and not a wrapping `if`: its branch goes
  * straight to the epilogue that both later bounds failures also reach. */
@@ -30,13 +30,13 @@ void sub_0802361C(void)
     int dir;
     int n;
 
-    if ((*(u16 *)(gUnknown_08499590 + 0x10) & 0xf) != 0)
+    if ((*(u16 *)(gMapData + 0x10) & 0xf) != 0)
         return;
 
     dir = (gpKeySt->unk02 >> 4) & 0xf;
 
     n = gUnknown_030033E4.unk00 + gUnknown_08499C7C[dir][0];
-    if (n >= 0 && n < *(u16 *)gUnknown_08499590)
+    if (n >= 0 && n < *(u16 *)gMapData)
     {
         gUnknown_030032C4.unk00 += gUnknown_08499C7C[dir][0] * 4;
         gUnknown_030033E4.unk00 = n;
@@ -45,7 +45,7 @@ void sub_0802361C(void)
     }
 
     n = gUnknown_030033E4.unk02 + gUnknown_08499C7C[dir][1];
-    if (n >= 0 && n < *(u16 *)(gUnknown_08499590 + 2))
+    if (n >= 0 && n < *(u16 *)(gMapData + 2))
     {
         gUnknown_030032C4.unk02 += gUnknown_08499C7C[dir][1] * 4;
         gUnknown_030033E4.unk02 = n;

@@ -15,7 +15,7 @@ void sub_0802C3D0(void)
     sub_08023518();
     sub_08023908(8);
 
-    if (*(u16 *)(gUnknown_08499590 + 0x10) & 0xf)
+    if (*(u16 *)(gMapData + 0x10) & 0xf)
         return;
 
     if (*(u32 *)&gUnknown_030033E0 & 0x00070007)

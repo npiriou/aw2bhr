@@ -9,7 +9,7 @@
 
 /* MATCHED, and the first of a byte-identical pair with sub_08044854. Applies
  * `c` points of damage to the unit standing on cell (x, y), flooring at 1:
- * bounds-check the cell against the gUnknown_08499590 screen header, look the
+ * bounds-check the cell against the gMapData screen header, look the
  * unit id up through the +0x51A plane, and clamp.
  *
  * The screen indexing is c_08001158.c's idiom exactly -- `rows = p + 0x417A`,
@@ -23,12 +23,12 @@
  * Three separate facts are read off the ROM and every one of them needs a
  * reference at a position no statement boundary can reach:
  *
- *  - `pp = &gUnknown_08499594` is the wave-17 anchor. gUnknown_08499594 is a
+ *  - `pp = &gUnitRecords` is the wave-17 anchor. gUnitRecords is a
  *    POINTER global whose address is materialised right after the height test
  *    and whose `ldr` is issued last; `pp` is never read, and what matters is
  *    only that the reference precedes `t = y * 2`. Without it the address load
  *    lands five instructions late, the height goes to r2 instead of r6 and the
- *    frame loses r6. An anchor spelled `u = gUnknown_08499594;` does NOT work
+ *    frame loses r6. An anchor spelled `u = gUnitRecords;` does NOT work
  *    -- that is a pointer LOAD (`ldr addr; ldr [addr]`), and the ROM's deref is
  *    at the end.
  *  - `t = y * 2` must sit after the anchor and before the 0x417A load, which
@@ -48,22 +48,22 @@ void sub_08026100(int x, int y, int c)
     u8 *cells;
     int t;
     int idx;
-    struct Unk08499594 *u;
-    struct Unk08499594 **pp;
+    struct UnitRecord *u;
+    struct UnitRecord **pp;
 
     if (x < 0)
         return;
     if (y < 0)
         return;
 
-    p = gUnknown_08499590;
+    p = gMapData;
 
     if (x >= *(u16 *)p)
         return;
     if (y >= *(u16 *)(p + 2))
         return;
 
-    u = &gUnknown_08499594[(pp = &gUnknown_08499594, t = y * 2,
+    u = &gUnitRecords[(pp = &gUnitRecords, t = y * 2,
         idx = *(u16 *)((rows = p + 0x417A) + t) + x,
         (cells = p + 0x51A)[idx])];
 

@@ -56,7 +56,7 @@ void sub_08043418(int x, int y, int id)
     case 0:
         x += 8;
         y += 8;
-        p = gUnknown_08499590;
+        p = gMapData;
         row = (y + *(s16 *)(p + 6)) >> 4;
         t = row * 2;
         rows = p + 0x417A;

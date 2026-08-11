@@ -8,7 +8,7 @@
  */
 
 /* Save-and-restore around one indirect call: raise gUnknown_03004480 to the
- * caller's value, dispatch, then put the global back to gUnknown_030033EC.
+ * caller's value, dispatch, then put the global back to gCurrentArmyIndex.
  *
  * `bl _call_via_r4` is ordinary agbcc output, not hand-written -- ARMv4T has no
  * `blx rN`, so every indirect THUMB call goes through a libgcc trampoline. The
@@ -22,5 +22,5 @@ void sub_0802026C(int a1, int a2, int a3, int a4, int a5, int a6)
 {
     gUnknown_03004480 = a1;
     gUnknown_030013EC(a2, a3, a4, a5, a6);
-    gUnknown_03004480 = gUnknown_030033EC;
+    gUnknown_03004480 = gCurrentArmyIndex;
 }

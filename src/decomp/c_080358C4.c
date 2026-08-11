@@ -7,7 +7,7 @@
  * sub_080358C4 @ 0x080358C4
  */
 
-/* Clamps the gUnknown_08499590 camera origin (+0x04, +0x06) so the point
+/* Clamps the gMapData camera origin (+0x04, +0x06) so the point
  * (a1, a2) stays inside a 0x20..0xc0 by 0x20..0x70 window of the screen, then
  * calls sub_08023860 to re-scroll. 10000 is the "no change on this axis"
  * sentinel, and when BOTH axes are still 10000 the function returns without
@@ -28,7 +28,7 @@
  * into MULT_EXPR but not into a shift. The same subexpression feeds the
  * comparison as a plain `lsls #4`, which is why it appears twice.
  *
- * gUnknown_08499590 is reached through agbcc's own -fforce-addr word at
+ * gMapData is reached through agbcc's own -fforce-addr word at
  * 0x08090EA4 (content 0x08499590, dereferenced in baserom.gba -- note its
  * neighbour 0x08090EA0 holds 0x08499598 instead, so the two are NOT
  * interchangeable). Naming the global honestly reproduces the ROM's
@@ -52,13 +52,13 @@ void sub_080358C4(s16 a1, s16 a2)
     nx = 10000;
     ny = 10000;
 
-    dx = a1 - ((struct Unk358C4Map *)gUnknown_08499590)->unk04;
+    dx = a1 - ((struct Unk358C4Map *)gMapData)->unk04;
     if (dx <= 0x1f)
         nx = a1 - 0x20;
     if (dx > 0xc0)
         nx = a1 - 0xc0;
 
-    dy = a2 - ((struct Unk358C4Map *)gUnknown_08499590)->unk06;
+    dy = a2 - ((struct Unk358C4Map *)gMapData)->unk06;
     if (dy <= 0x1f)
         ny = a2 - 0x20;
     if (dy > 0x70)
@@ -68,22 +68,22 @@ void sub_080358C4(s16 a1, s16 a2)
     {
         if ((s16)ny == (s16)nx)
             return;
-        nx = ((struct Unk358C4Map *)gUnknown_08499590)->unk04;
+        nx = ((struct Unk358C4Map *)gMapData)->unk04;
     }
     else if ((s16)nx < 0)
         nx = 0;
-    else if ((s16)nx > (((struct Unk358C4Map *)gUnknown_08499590)->unk00 - 0xf) * 16)
-        nx = (((struct Unk358C4Map *)gUnknown_08499590)->unk00 - 0xf) * 16;
+    else if ((s16)nx > (((struct Unk358C4Map *)gMapData)->unk00 - 0xf) * 16)
+        nx = (((struct Unk358C4Map *)gMapData)->unk00 - 0xf) * 16;
 
     if ((s16)ny == 10000)
-        ny = ((struct Unk358C4Map *)gUnknown_08499590)->unk06;
+        ny = ((struct Unk358C4Map *)gMapData)->unk06;
     else if ((s16)ny < 0)
         ny = 0;
-    else if ((s16)ny > (((struct Unk358C4Map *)gUnknown_08499590)->unk02 - 0xa) * 16)
-        ny = (((struct Unk358C4Map *)gUnknown_08499590)->unk02 - 0xa) * 16;
+    else if ((s16)ny > (((struct Unk358C4Map *)gMapData)->unk02 - 0xa) * 16)
+        ny = (((struct Unk358C4Map *)gMapData)->unk02 - 0xa) * 16;
 
-    ((struct Unk358C4Map *)gUnknown_08499590)->unk04 = nx;
-    ((struct Unk358C4Map *)gUnknown_08499590)->unk06 = ny;
+    ((struct Unk358C4Map *)gMapData)->unk04 = nx;
+    ((struct Unk358C4Map *)gMapData)->unk06 = ny;
 
     sub_08023860();
 }

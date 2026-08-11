@@ -31,10 +31,10 @@
  * usually ONE local" rule, and it was worth the entire register assignment.
  *
  * The map is reached through a LOCALLY DECLARED struct cast onto the `u8 *`
- * symbol, per gUnknown_08499590's note in unknown-globals.h: only a
+ * symbol, per gMapData's note in unknown-globals.h: only a
  * COMPONENT_REF keeps the ROM's `(map + K) + idx` association. Written as
- * pointer arithmetic, `gUnknown_08499590[0x12 + idx]` folds K into the load
- * displacement and `*(u16 *)(gUnknown_08499590 + 0x417A + y * 2)` reassociates
+ * pointer arithmetic, `gMapData[0x12 + idx]` folds K into the load
+ * displacement and `*(u16 *)(gMapData + 0x417A + y * 2)` reassociates
  * the constant outward. Same for gUnknown_030013D0: spelled
  * `*(s16 *)(gUnknown_030013D0 + 0x18)` agbcc folds +0x18 into the POOL WORD
  * (`.word gUnknown_030013D0+0x18`), where the ROM has a clean
@@ -58,7 +58,7 @@ struct Unk413E8Map
     /* 0x0012 */ u8 unit[0x417A - 0x0012];
     /* 0x417A */ u16 rowOffset[1];
 };
-#define MAP ((struct Unk413E8Map *)gUnknown_08499590)
+#define MAP ((struct Unk413E8Map *)gMapData)
 
 int sub_080413E8(void)
 {

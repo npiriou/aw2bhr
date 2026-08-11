@@ -9,7 +9,7 @@
 
 void sub_0803A07C(void)
 {
-    struct Unk08499594 *u;
+    struct UnitRecord *u;
     void **tbl;
     int x;
     int n;
@@ -25,8 +25,8 @@ void sub_0803A07C(void)
     sub_0801F34C(6, gUnknown_0849D89C->unk00 + 0x44, 0x28, 0, 0);
     d = (u->unk06_0 <= 9) ? -4 : 0;
     sub_0802BCF0(d + gUnknown_0849D89C->unk00 + 0x58, 0x28, u->unk06_0);
-    d = (gUnknown_085D5ABC[u->unk00].unk10 <= 9) ? -4 : 0;
-    sub_0802BCF0(d + gUnknown_0849D89C->unk00 + 0x64, 0x30, gUnknown_085D5ABC[u->unk00].unk10);
+    d = (gUnitTypeData[u->unk00].unk10 <= 9) ? -4 : 0;
+    sub_0802BCF0(d + gUnknown_0849D89C->unk00 + 0x64, 0x30, gUnitTypeData[u->unk00].unk10);
     sub_0801BD00(gUnknown_0849D89C->unk00 + 0x5b, 0x2c, gUnknown_0849D8A0, 0x13CA);
     sub_0803AB3C();
 }

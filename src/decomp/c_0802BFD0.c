@@ -10,8 +10,8 @@
 #include "proc.h"
 /* gUnknown_08090BD0 and gUnknown_08090BD4 are agbcc -fforce-addr address
  * words, not globals: the ROM holds 0x08499590 and 0x03003100 at those two
- * addresses. gUnknown_08499590 is itself a pointer, so naming it honestly
- * gives the ROM's THREE-level read (pool word -> &gUnknown_08499590 -> the
+ * addresses. gMapData is itself a pointer, so naming it honestly
+ * gives the ROM's THREE-level read (pool word -> &gMapData -> the
  * map), while gUnknown_03003100 is the object and gives two levels. */
 /* WAVE 35: CANONICAL `struct Map`. Eight drafts across blocks 0x08029-0x0802B
  * each invented their own body for this tag, with 2 to 7 named fields. Every
@@ -41,22 +41,22 @@ struct Map
 
 void sub_0802BFD0(int a1)
 {
-    if (!(gUnknown_08499598[gUnknown_030033EC].unk1c & 2)
-        && ((struct Map *)gUnknown_08499590)->unk234A[
-               ((struct Map *)gUnknown_08499590)->unk417A[gUnknown_03003100.pos.unk02]
+    if (!(gArmyRecords[gCurrentArmyIndex].unk1c & 2)
+        && ((struct Map *)gMapData)->unk234A[
+               ((struct Map *)gMapData)->unk417A[gUnknown_03003100.pos.unk02]
                + gUnknown_03003100.pos.unk00] == 0)
         return;
 
     if ((u32)(gUnknown_03003100.pos.unk00
-              - ((s16)((struct Map *)gUnknown_08499590)->unk04 >> 4)) > 0xe)
+              - ((s16)((struct Map *)gMapData)->unk04 >> 4)) > 0xe)
         return;
 
     if ((int)(gUnknown_03003100.pos.unk02
-              - ((s16)((struct Map *)gUnknown_08499590)->unk06 >> 4)) < 0)
+              - ((s16)((struct Map *)gMapData)->unk06 >> 4)) < 0)
         return;
 
     if ((int)(gUnknown_03003100.pos.unk02
-              - ((s16)((struct Map *)gUnknown_08499590)->unk06 >> 4)) > 9)
+              - ((s16)((struct Map *)gMapData)->unk06 >> 4)) > 9)
         return;
 
     if (a1 == 0)
@@ -69,9 +69,9 @@ void sub_0802BFD0(int a1)
     ApplyPaletteExt((u16 *)gUnknown_08125190, 0x260, 0x20);
     sub_0801C70C(gUnknown_08124FB8,
                  gUnknown_03003100.pos.unk00 * 16
-                     - (s16)((struct Map *)gUnknown_08499590)->unk04 + 8,
+                     - (s16)((struct Map *)gMapData)->unk04 + 8,
                  gUnknown_03003100.pos.unk02 * 16
-                     - (s16)((struct Map *)gUnknown_08499590)->unk06 + 8,
+                     - (s16)((struct Map *)gMapData)->unk06 + 8,
                  0x31CA, a1, 0);
     Proc_Start(gUnknown_0849A480, (ProcPtr)3);
 }

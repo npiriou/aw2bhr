@@ -26,8 +26,8 @@ int sub_0807A908(void)
     int i;
 
     if (gUnknown_03003FC0.unk01 != 1 || sub_08078E14() == 0x21 || sub_08078E14() == 0x22)
-        if (sub_080266DC(gUnknown_030033EC))
-            return gUnknown_030033EC;
+        if (sub_080266DC(gCurrentArmyIndex))
+            return gCurrentArmyIndex;
 
     i = 0;
     while (i < sub_080248F8())

@@ -13,9 +13,9 @@
  *
  *  - The army-mask test is INVERTED (`cmp r1,#0; beq` where the exemplar has
  *    `bne`), so this counts the armies whose bit in
- *    gUnknown_08499598[gUnknown_030033EC].unk2c is SET.
+ *    gArmyRecords[gCurrentArmyIndex].unk2c is SET.
  *  - The unit predicate is `unk00 == 0` (`ldrb; cmp #0; beq`), not `<= 2`.
- *  - The gUnknown_085D5ABC[unk00].unk0b cap test is absent, which is why this
+ *  - The gUnitTypeData[unk00].unk0b cap test is absent, which is why this
  *    function carries five pool words to the exemplar's six.
  *
  * Everything else is transcribed from c_08058254.c: the inner loop is
@@ -30,18 +30,18 @@ int sub_080583DC(void)
     int count;
     int i;
     int j;
-    struct Unk08499594 *u;
+    struct UnitRecord *u;
 
     count = 0;
 
     for (i = 0; i < 4; i++)
     {
-        if (((gUnknown_08499598[gUnknown_030033EC].unk2c >> i) & 1) == 0)
+        if (((gArmyRecords[gCurrentArmyIndex].unk2c >> i) & 1) == 0)
             continue;
 
         for (j = i * 64; j < i * 64 + 64; j++)
         {
-            u = &gUnknown_08499594[j];
+            u = &gUnitRecords[j];
 
             if (u->unk00 == 0)
                 continue;
@@ -66,14 +66,14 @@ int sub_080583DC(void)
  *    spelled with one branch (same idiom as c_0805CC88.c's
  *    `(u8)(unk00 - 0x10) <= 1`); a plain int `unk00 - 1 > 1` would drop the
  *    shift pair.
- *  - The gUnknown_0857680F class test and the gUnknown_085D5ABC cap test are
+ *  - The gUnknown_0857680F class test and the gUnitTypeData cap test are
  *    both absent -- four pool words to the exemplar's six.
  *
  * The army mask stays INLINE in the loop condition even though the ROM hoists
  * its whole address computation into the preheader: that hoist is gcc's own
  * LICM, not a source-level local. Binding it to a local before the loop is
  * observably different code -- it sinks the `movs r5, #0` loop init BELOW the
- * hoisted block and moves gUnknown_08499594's address into a callee-saved
+ * hoisted block and moves gUnitRecords's address into a callee-saved
  * register. The ROM's order (`movs r7,#0; movs r5,#0` and only then the mask
  * expression) is the tell that the for-init precedes the preheader.
  *
@@ -83,18 +83,18 @@ int sub_0805848C(void)
     int count;
     int i;
     int j;
-    struct Unk08499594 *u;
+    struct UnitRecord *u;
 
     count = 0;
 
     for (i = 0; i < 4; i++)
     {
-        if ((gUnknown_08499598[gUnknown_030033EC].unk2c >> i) & 1)
+        if ((gArmyRecords[gCurrentArmyIndex].unk2c >> i) & 1)
             continue;
 
         for (j = i * 64; j < i * 64 + 64; j++)
         {
-            u = &gUnknown_08499594[j];
+            u = &gUnitRecords[j];
 
             if ((u8)(u->unk00 - 1) > 1)
                 continue;
@@ -120,18 +120,18 @@ int sub_08058530(void)
     int count;
     int i;
     int j;
-    struct Unk08499594 *u;
+    struct UnitRecord *u;
 
     count = 0;
 
     for (i = 0; i < 4; i++)
     {
-        if (((gUnknown_08499598[gUnknown_030033EC].unk2c >> i) & 1) == 0)
+        if (((gArmyRecords[gCurrentArmyIndex].unk2c >> i) & 1) == 0)
             continue;
 
         for (j = i * 64; j < i * 64 + 64; j++)
         {
-            u = &gUnknown_08499594[j];
+            u = &gUnitRecords[j];
 
             if ((u8)(u->unk00 - 1) > 1)
                 continue;

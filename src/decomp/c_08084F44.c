@@ -48,14 +48,14 @@ void sub_08084F44(struct Unk8084F44 *p)
             sub_08043C28(p->unk2c + 0xB0, 0xA0, 0x516C, 4, 1);
 
             if (p->unk4c == 5)
-                sub_08043BA4(gUnknown_08499598[p->unk66].unk1d, 0xB6 * 2, 5);
+                sub_08043BA4(gArmyRecords[p->unk66].unk1d, 0xB6 * 2, 5);
 
             if (++p->unk4c == 8)
                 p->unk4e = 0;
         }
         else
         {
-            sub_08043BA4(gUnknown_08499598[p->unk66].unk1d, 0xB6 * 2, 5);
+            sub_08043BA4(gArmyRecords[p->unk66].unk1d, 0xB6 * 2, 5);
             p->unk4e = 0;
         }
     }

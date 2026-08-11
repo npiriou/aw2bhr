@@ -8,7 +8,7 @@
  */
 
 /* Draws the current gUnknown_03001470 slot's position relative to the
- * gUnknown_08499590 viewport.
+ * gMapData viewport.
  *
  * The index local must be `int`, not `s16`, and that is 6 bytes: with `s16 i`
  * agbcc groups the two pool `ldr`s back to back and the `ldrsh` scratch moves
@@ -30,7 +30,7 @@ void sub_08035B80(void)
 
     i = gUnknown_03001FBC;
     p = &gUnknown_03001470[i];
-    q = gUnknown_08499590;
+    q = gMapData;
 
     sub_080155C0(i,
                  p->unk1e - *(u16 *)(q + 4),

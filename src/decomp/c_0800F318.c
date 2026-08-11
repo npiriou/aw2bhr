@@ -20,7 +20,7 @@ int sub_0800F318(int x, int y)
     int tile;
     int r;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417A;
     idx = *(u16 *)(rows + t) + x;
@@ -49,7 +49,7 @@ int sub_0800F368(int x, int y)
     int tile;
     int r;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417A;
     idx = *(u16 *)(rows + t) + x;
@@ -73,9 +73,9 @@ int sub_0800F3B8(int x, int y)
         m |= sub_0800F368(x, y - 1) << 7;
     if (x > 0)
         m |= sub_0800F318(x - 1, y) << 5;
-    if (x < *(u16 *)gUnknown_08499590 - 1)
+    if (x < *(u16 *)gMapData - 1)
         m |= sub_0800F318(x + 1, y) << 3;
-    if (y < *(u16 *)(gUnknown_08499590 + 2) - 1)
+    if (y < *(u16 *)(gMapData + 2) - 1)
         m |= sub_0800F368(x, y + 1) << 1;
     return m;
 }
@@ -89,21 +89,21 @@ int sub_0800F418(int x, int y)
         int ny = y - 1;
 
         m |= sub_0800F368(x, ny) << 7;
-        if (x < *(u16 *)gUnknown_08499590 - 1)
+        if (x < *(u16 *)gMapData - 1)
             m |= sub_0800F2E0(x + 1, ny) << 6;
     }
     if (x > 0)
         m |= sub_0800F318(x - 1, y) << 5;
     m |= sub_0800F2E0(x, y) << 4;
-    if (x < *(u16 *)gUnknown_08499590 - 1)
+    if (x < *(u16 *)gMapData - 1)
         m |= sub_0800F318(x + 1, y) << 3;
-    if (y < *(u16 *)(gUnknown_08499590 + 2) - 1)
+    if (y < *(u16 *)(gMapData + 2) - 1)
     {
         y++;
         if (x > 0)
             m |= sub_0800F2E0(x - 1, y) << 2;
         m |= sub_0800F368(x, y) << 1;
-        if (x < *(u16 *)gUnknown_08499590 - 1)
+        if (x < *(u16 *)gMapData - 1)
             m |= sub_0800F2E0(x + 1, y);
     }
     return gUnknown_084865C4[m];

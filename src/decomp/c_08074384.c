@@ -12,7 +12,7 @@
 void sub_08074384(void)
 {
     gUnknown_03002F08.unk00 = 0xf;
-    sub_0802D5CC(gUnknown_08499598[gUnknown_030033EC].unk1a - 1, 0xf);
+    sub_0802D5CC(gArmyRecords[gCurrentArmyIndex].unk1a - 1, 0xf);
 }
 
 /* The proc pointer is only used for Proc_Break; the `bl sub_08019260` reads r0
@@ -23,7 +23,7 @@ void sub_080743B8(ProcPtr proc)
     if (!sub_08019260())
     {
         gUnknown_03002F08.unk00 = 8;
-        sub_0801A57C(gUnknown_030033EC);
+        sub_0801A57C(gCurrentArmyIndex);
         Proc_Break(proc);
     }
 }

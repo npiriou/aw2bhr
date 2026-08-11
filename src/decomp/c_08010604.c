@@ -8,7 +8,7 @@
  */
 
 /* The map header sub_0800F2E0 and its neighbours walk, seen through the LOCAL
- * struct spelling recorded on gUnknown_08499590 in include/unknown-globals.h.
+ * struct spelling recorded on gMapData in include/unknown-globals.h.
  * unk0A22 is a REFINEMENT of the canonical `u8 unk051A[0x0F18]` used by the
  * twelve promoted files that already declare `struct Map`: that run splits at
  * 0x0A22 into a u16 plane of the same 0x508 cells as unk0012, indexed by the
@@ -41,8 +41,8 @@ int sub_08010604(int x, int y)
 {
     u16 t;
 
-    t = ((struct Map *)gUnknown_08499590)->unk0A22[
-            ((struct Map *)gUnknown_08499590)->unk417A[y] + x];
+    t = ((struct Map *)gMapData)->unk0A22[
+            ((struct Map *)gMapData)->unk417A[y] + x];
     if (t == 0x142 || t == 0x162)
         return 0x162;
     if (t == 0x143 || t == 0x163)

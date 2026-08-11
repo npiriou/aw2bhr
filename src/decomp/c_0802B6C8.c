@@ -9,13 +9,13 @@
 
 /* Classifies the cell at (x, y). The `* 0x55555555; rsbs; asrs #8` run is ONE
  * expression, not two: agbcc folds the exact division by the 0x0c element
- * stride that `unit - gUnknown_08499594` needs into the `>> 6` that recovers
+ * stride that `unit - gUnitRecords` needs into the `>> 6` that recovers
  * the army, so the whole thing lands as a single shift-and-add chain.
  *
  * `army` has to be a BINDING LOCAL. Written inline as the third argument the
  * instructions are identical but agbcc emits it AFTER the two simple
  * arguments, where the ROM computes it first; the local also moves the
- * gUnknown_08499594 base from r3 to the r1 the ROM uses.
+ * gUnitRecords base from r3 to the r1 the ROM uses.
  *
  * The (u8) is real, not a tidy-up: sub_0802706C's third parameter is u16 and
  * the ROM truncates with `lsls #0x18; lsrs #0x18`. The prototype is right --
@@ -48,19 +48,19 @@ struct Map
 
 u8 sub_0802B6C8(u8 x, u8 y)
 {
-    struct Unk08499594 *unit;
+    struct UnitRecord *unit;
     u8 army;
     int idx;
 
-    idx = x + ((struct Map *)gUnknown_08499590)->unk417A[y];
+    idx = x + ((struct Map *)gMapData)->unk417A[y];
 
-    if (((struct Map *)gUnknown_08499590)->unk0012[idx] == 0)
+    if (((struct Map *)gMapData)->unk0012[idx] == 0)
         return 0;
 
-    unit = &gUnknown_08499594[((struct Map *)gUnknown_08499590)->unk0012[idx]];
-    army = ((unit - gUnknown_08499594) >> 6) + 1;
+    unit = &gUnitRecords[((struct Map *)gMapData)->unk0012[idx]];
+    army = ((unit - gUnitRecords) >> 6) + 1;
 
-    if (sub_0802706C(unit->unk00, gUnknown_030033EC, army))
+    if (sub_0802706C(unit->unk00, gCurrentArmyIndex, army))
         return 2;
 
     if (unit->unk07 | unit->unk08)

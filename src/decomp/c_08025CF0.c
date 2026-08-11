@@ -20,5 +20,5 @@
  * callee at every call site. Byte-identical here either way. */
 int sub_08025CF0(int index)
 {
-    return gUnknown_08499598[index].unk3a;
+    return gArmyRecords[index].unk3a;
 }

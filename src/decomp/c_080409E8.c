@@ -15,8 +15,8 @@
  * top three bits on the child.
  *
  * The map planes must be reached as MEMBERS of a struct cast onto
- * gUnknown_08499590, inline rather than through a `map` local (W34-F's rule,
- * and src/decomp/c_08003DC4.c's note). A flat `gUnknown_08499590[0x1432 + row +
+ * gMapData, inline rather than through a `map` local (W34-F's rule,
+ * and src/decomp/c_08003DC4.c's note). A flat `gMapData[0x1432 + row +
  * x]` reassociates to `(p + idx) + K` where the ROM has `(p + K) + idx`, which
  * is +4 bytes and a different high-register assignment. */
 struct Unk409E8Map
@@ -25,7 +25,7 @@ struct Unk409E8Map
     /* 0x1432 */ u8 cell[0x417A - 0x1432];
     /* 0x417A */ u16 rowOffset[1];
 };
-#define MAP ((struct Unk409E8Map *)gUnknown_08499590)
+#define MAP ((struct Unk409E8Map *)gMapData)
 struct Unk409E8Proc
 {
     /* 00 */ u8 filler_00[0x3c];
@@ -47,8 +47,8 @@ void sub_080409E8(int a1, int a2, int a3, int a4, int a5)
     int x;
     int y;
 
-    x = a1 * 16 - *(s16 *)(gUnknown_08499590 + 4) + 8;
-    y = a2 * 16 - *(s16 *)(gUnknown_08499590 + 6) + 0x10;
+    x = a1 * 16 - *(s16 *)(gMapData + 4) + 8;
+    y = a2 * 16 - *(s16 *)(gMapData + 6) + 0x10;
     if (x <= 0x1f)
         x = 0x20;
     if (x > 0xd0)

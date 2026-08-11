@@ -19,20 +19,20 @@
 
 int sub_080433B8(int a)
 {
-    return gUnknown_085D5ABC[a].unk0a;
+    return gUnitTypeData[a].unk0a;
 }
 
 int sub_080433C8(int a)
 {
-    return gUnknown_085D5ABC[a].unk0f;
+    return gUnitTypeData[a].unk0f;
 }
 
 int sub_080433D8(int a)
 {
-    return gUnknown_085D5ABC[a].unk06;
+    return gUnitTypeData[a].unk06;
 }
 
 int sub_080433E8(int a)
 {
-    return gUnknown_085D5ABC[a].unk0c;
+    return gUnitTypeData[a].unk0c;
 }

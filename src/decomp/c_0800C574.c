@@ -22,18 +22,18 @@ void sub_0800C574(int x, int y, int t)
 
     n = (s8)gUnknown_0200B0B0->unk12;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     u = y * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + u) + x;
     plane = p + 0x193A;
     plane[off] = (z = 0, n);
 
-    gUnknown_084995A0[n].unk00 = t;
-    gUnknown_084995A0[n].unk01 = x;
-    gUnknown_084995A0[n].unk02 = y;
-    gUnknown_084995A0[n].unk03[0] = z;
-    gUnknown_084995A0[n + 1].unk00 = 0xFF;
+    gPropertyList[n].unk00 = t;
+    gPropertyList[n].unk01 = x;
+    gPropertyList[n].unk02 = y;
+    gPropertyList[n].unk03[0] = z;
+    gPropertyList[n + 1].unk00 = 0xFF;
 
     gUnknown_03003150[n].flags = t;
     gUnknown_03003150[n].x = x;
@@ -57,7 +57,7 @@ void sub_0800C574(int x, int y, int t)
  * `cmp r4,#0x5b; bgt` bound runs BEFORE the 0xFF sentinel re-check, so this is
  * a bounded `for` whose body `break`s and not a `while (flags != 0xFF)`.  The
  * index survives as a real variable rather than becoming a pointer giv only
- * because gUnknown_084995A0's 8-byte stride needs it (`lsls r0, r4, #3`); the
+ * because gPropertyList's 8-byte stride needs it (`lsls r0, r4, #3`); the
  * 4-byte array still gets the giv.
  *
  * `(s8)gUnknown_0200B0B0->unk12` on the u8 member emits `movs r0,#0x12;
@@ -77,7 +77,7 @@ void sub_0800C608(int x, int y)
     int t;
     int i;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + t) + x;
@@ -94,7 +94,7 @@ void sub_0800C608(int x, int y)
         if (gUnknown_03003150[i].flags != 0 && gUnknown_03003150[i].x == x
          && gUnknown_03003150[i].y == y)
         {
-            gUnknown_084995A0[i].unk00 = 0;
+            gPropertyList[i].unk00 = 0;
             gUnknown_03003150[i].flags = 0;
             gUnknown_0200B0B0->unk12--;
             if ((s8)gUnknown_0200B0B0->unk12 < 0)

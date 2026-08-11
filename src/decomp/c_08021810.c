@@ -46,18 +46,18 @@ struct Unk21810Map
     /* 0x417A */ u16 rowOffset[1];
 };
 /* Rebuilds the two property lists from the map plane, in two passes over every
- * cell.  Pass one counts each army's properties into gUnknown_08499598[].unk11,
+ * cell.  Pass one counts each army's properties into gArmyRecords[].unk11,
  * stamps the list index into the map's second 0x508-byte plane at +0x193A, and
- * fills gUnknown_084995A0[] with (terrain, x, y); pass two fills
+ * fills gPropertyList[] with (terrain, x, y); pass two fills
  * gUnknown_03003150[] with (raw cell, x, y).  Both lists are 0xFF-terminated,
  * and the second is capped at 0x5C entries -- the counter still advances past
  * the cap, so the terminator can land exactly at [0x5b].
  *
  * gUnknown_08090974 in the asm is NOT a global: the ROM word there holds
- * 0x08499590, i.e. &gUnknown_08499590, and it is one of a run of three
+ * 0x08499590, i.e. &gMapData, and it is one of a run of three
  * consecutive words (0x08090970/74/78) all holding that same address --
  * -fforce-addr's one-word-per-(function, symbol) private copies. Spelling
- * gUnknown_08499590 honestly reproduces the ROM's three-level
+ * gMapData honestly reproduces the ROM's three-level
  * `ldr =word / ldr [r] / ldr [r]` for the loop-carried references while still
  * emitting the ordinary two-level inline pool word at the sites that get one.
  *
@@ -67,7 +67,7 @@ struct Unk21810Map
  *
  * That reset loop runs on `x`, the SAME local as the inner map loop, and that
  * is worth 4 bytes: with a separate `i` declared, x lands in ip and
- * &gUnknown_08499590's pool address in r6, which is the reverse of the ROM.
+ * &gMapData's pool address in r6, which is the reverse of the ROM.
  * Merging them adds the reset loop's references to x's allocno and moves it
  * ahead of the address constant they were tying with.  sub_08021810 in this
  * same block needed the identical fix; see docs/agbcc-codegen.md.
@@ -103,12 +103,12 @@ void sub_08021810(u8 *a, u8 *b)
     for (x = 0; x <= 5; x++)
         gUnknown_030032D0[x] = 0;
 
-    for (y = 0; y < ((struct Unk21810Map *)gUnknown_08499590)->height; y++)
+    for (y = 0; y < ((struct Unk21810Map *)gMapData)->height; y++)
     {
-        for (x = 0; x < ((struct Unk21810Map *)gUnknown_08499590)->width; x++)
+        for (x = 0; x < ((struct Unk21810Map *)gMapData)->width; x++)
         {
-            switch (((struct Unk21810Map *)gUnknown_08499590)->plane[
-                        ((struct Unk21810Map *)gUnknown_08499590)->rowOffset[y] + x] & 0x1f)
+            switch (((struct Unk21810Map *)gMapData)->plane[
+                        ((struct Unk21810Map *)gMapData)->rowOffset[y] + x] & 0x1f)
             {
             case 6:
             case 8:
@@ -118,8 +118,8 @@ void sub_08021810(u8 *a, u8 *b)
             case 20:
                 gUnknown_030032D0[5]++;
                 gUnknown_030032D0[
-                    ((struct Unk21810Map *)gUnknown_08499590)->plane[
-                        ((struct Unk21810Map *)gUnknown_08499590)->rowOffset[y] + x] >> 5]++;
+                    ((struct Unk21810Map *)gMapData)->plane[
+                        ((struct Unk21810Map *)gMapData)->rowOffset[y] + x] >> 5]++;
                 break;
             }
         }
@@ -149,18 +149,18 @@ void sub_080219AC(void)
 
     n = 0;
 
-    sub_0801F92C(gUnknown_08499590 + 0x193A);
+    sub_0801F92C(gMapData + 0x193A);
     sub_0801F838(0xff);
 
     for (x = 0; x <= 4; x++)
-        gUnknown_08499598[x].unk11 = 0;
+        gArmyRecords[x].unk11 = 0;
 
-    for (y = 0; y < ((struct Unk219ACMap *)gUnknown_08499590)->height; y++)
+    for (y = 0; y < ((struct Unk219ACMap *)gMapData)->height; y++)
     {
-        for (x = 0; x < ((struct Unk219ACMap *)gUnknown_08499590)->width; x++)
+        for (x = 0; x < ((struct Unk219ACMap *)gMapData)->width; x++)
         {
-            switch (((struct Unk219ACMap *)gUnknown_08499590)->plane[
-                        ((struct Unk219ACMap *)gUnknown_08499590)->rowOffset[y] + x] & 0x1f)
+            switch (((struct Unk219ACMap *)gMapData)->plane[
+                        ((struct Unk219ACMap *)gMapData)->rowOffset[y] + x] & 0x1f)
             {
             case 6:
             case 8:
@@ -169,34 +169,34 @@ void sub_080219AC(void)
             case 14:
             case 17:
             case 20:
-                gUnknown_08499598[
-                    ((struct Unk219ACMap *)gUnknown_08499590)->plane[
-                        ((struct Unk219ACMap *)gUnknown_08499590)->rowOffset[y] + x] >> 5].unk11++;
-                ((struct Unk219ACMap *)gUnknown_08499590)->owner[
-                    ((struct Unk219ACMap *)gUnknown_08499590)->rowOffset[y] + x] = n;
-                gUnknown_084995A0[n].unk00 =
-                    ((struct Unk219ACMap *)gUnknown_08499590)->plane[
-                        ((struct Unk219ACMap *)gUnknown_08499590)->rowOffset[y] + x] & 0x1f;
-                gUnknown_084995A0[n].unk01 = x;
-                gUnknown_084995A0[n].unk02 = y;
-                gUnknown_084995A0[n].unk03[0] = 0;
+                gArmyRecords[
+                    ((struct Unk219ACMap *)gMapData)->plane[
+                        ((struct Unk219ACMap *)gMapData)->rowOffset[y] + x] >> 5].unk11++;
+                ((struct Unk219ACMap *)gMapData)->owner[
+                    ((struct Unk219ACMap *)gMapData)->rowOffset[y] + x] = n;
+                gPropertyList[n].unk00 =
+                    ((struct Unk219ACMap *)gMapData)->plane[
+                        ((struct Unk219ACMap *)gMapData)->rowOffset[y] + x] & 0x1f;
+                gPropertyList[n].unk01 = x;
+                gPropertyList[n].unk02 = y;
+                gPropertyList[n].unk03[0] = 0;
                 n++;
                 break;
             }
         }
     }
 
-    gUnknown_084995A0[n].unk00 = 0xff;
+    gPropertyList[n].unk00 = 0xff;
     gUnknown_03003FC0.unk47 = 0;
 
     n = 0;
 
-    for (y = 0; y < ((struct Unk219ACMap *)gUnknown_08499590)->height; y++)
+    for (y = 0; y < ((struct Unk219ACMap *)gMapData)->height; y++)
     {
-        for (x = 0; x < ((struct Unk219ACMap *)gUnknown_08499590)->width; x++)
+        for (x = 0; x < ((struct Unk219ACMap *)gMapData)->width; x++)
         {
-            switch (((struct Unk219ACMap *)gUnknown_08499590)->plane[
-                        ((struct Unk219ACMap *)gUnknown_08499590)->rowOffset[y] + x] & 0x1f)
+            switch (((struct Unk219ACMap *)gMapData)->plane[
+                        ((struct Unk219ACMap *)gMapData)->rowOffset[y] + x] & 0x1f)
             {
             case 16:
                 if (gUnknown_03003FC0.unk01 != 5)
@@ -217,8 +217,8 @@ void sub_080219AC(void)
                 if (n <= 0x5b)
                 {
                     gUnknown_03003150[n].flags =
-                        ((struct Unk219ACMap *)gUnknown_08499590)->plane[
-                            ((struct Unk219ACMap *)gUnknown_08499590)->rowOffset[y] + x];
+                        ((struct Unk219ACMap *)gMapData)->plane[
+                            ((struct Unk219ACMap *)gMapData)->rowOffset[y] + x];
                     gUnknown_03003150[n].x = x;
                     gUnknown_03003150[n].y = y;
                 }

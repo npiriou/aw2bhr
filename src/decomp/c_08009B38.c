@@ -16,7 +16,7 @@ int sub_08009B38(int x, int y)
     int idx;
     int terrain;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417A;
     idx = *(u16 *)(rows + t) + x;

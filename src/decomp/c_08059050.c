@@ -16,18 +16,18 @@ void sub_08059050(int a1, s16 *best, void *out)
 
     if (sub_080266DC(army) && sub_08026D44(army))
     {
-        if ((s8)gUnknown_03003340[gUnknown_08499598[army].unk2e & 0x7f]
-                                 [gUnknown_08499598[army].unk2d & 0x7f] >= 0)
+        if ((s8)gUnknown_03003340[gArmyRecords[army].unk2e & 0x7f]
+                                 [gArmyRecords[army].unk2d & 0x7f] >= 0)
         {
-            v = gUnknown_03003340[gUnknown_08499598[army].unk2e & 0x7f]
-                                 [gUnknown_08499598[army].unk2d & 0x7f];
+            v = gUnknown_03003340[gArmyRecords[army].unk2e & 0x7f]
+                                 [gArmyRecords[army].unk2d & 0x7f];
 
             if (v < *best)
             {
-                struct Unk08499598 *base;
+                struct ArmyRecord *base;
 
                 *best = v;
-                base = gUnknown_08499598;
+                base = gArmyRecords;
                 ((u16 *)out)[0] = base[army].unk2d & 0x7f;
                 ((u16 *)out)[1] = base[army].unk2e & 0x7f;
             }

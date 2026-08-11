@@ -8,12 +8,12 @@
  */
 
 /* Binding the deref to a local is what keeps `ldr r3,[r2]` out of the second
- * and third statements: repeating gUnknown_08499598[a] would reload the
+ * and third statements: repeating gArmyRecords[a] would reload the
  * pointer after each store (see sub_08044178), and the target loads it once.
  */
 void sub_08025B28(u16 a, u32 b)
 {
-    struct Unk08499598 *arr = gUnknown_08499598;
+    struct ArmyRecord *arr = gArmyRecords;
 
     arr[a].unk00 -= b;
     arr[a].unk04 += b;
@@ -23,7 +23,7 @@ void sub_08025B28(u16 a, u32 b)
 
 void sub_08025B58(u16 a, u32 b)
 {
-    struct Unk08499598 *arr = gUnknown_08499598;
+    struct ArmyRecord *arr = gArmyRecords;
 
     arr[a].unk00 += b;
     if (arr[a].unk00 > 999999)
@@ -34,7 +34,7 @@ void sub_08025B58(u16 a, u32 b)
  * where a bare movs would have done, and the read is the two-instruction
  * `lsls #25; lsrs #25` double shift rather than a shift/mask triple.
  */
-void sub_08025B80(struct Unk08499594 *s, u8 b)
+void sub_08025B80(struct UnitRecord *s, u8 b)
 {
     if (s->unk06_0 >= b)
         s->unk06_0 -= b;

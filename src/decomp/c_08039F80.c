@@ -40,21 +40,21 @@
  */
 void sub_08039F80(void)
 {
-    struct Unk08499594 *q;
+    struct UnitRecord *q;
     int k;
     struct Unk0849D89C *p;
 
     q = gUnknown_0849D89C->unk04;
 
-    if (gUnknown_085D5ABC[q->unk00].unk0b != 0)
+    if (gUnitTypeData[q->unk00].unk0b != 0)
     {
         k = q->unk04_7 <= 9 ? 0xFC : 0;
         sub_0802BCF0((u16)((s8)k + 0x40 + gUnknown_0849D89C->unk00), 0x38, q->unk04_7);
 
-        k = gUnknown_085D5ABC[q->unk00].unk0b <= 9 ? 0xFC : 0;
+        k = gUnitTypeData[q->unk00].unk0b <= 9 ? 0xFC : 0;
         p = gUnknown_0849D89C;
         sub_0802BCF0((u16)((s8)k + 0x49 + p->unk00), 0x40,
-                     gUnknown_085D5ABC[q->unk00].unk0b);
+                     gUnitTypeData[q->unk00].unk0b);
 
         sub_0801BD00(gUnknown_0849D89C->unk00 + 0x41, 0x3c, gUnknown_0849D8A0, 0x13CA);
 
@@ -62,7 +62,7 @@ void sub_08039F80(void)
         {
             sub_0801F34C(0x3b, gUnknown_0849D89C->unk00 + 0x4c, 0x38, 0, 0);
             sub_0802BCF0(gUnknown_0849D89C->unk00 + 0x50, 0x40,
-                         gUnknown_085D5ABC[q->unk00].unk0e);
+                         gUnitTypeData[q->unk00].unk0e);
             sub_0801BD00(gUnknown_0849D89C->unk00 + 0x58, 0x41, gUnknown_0849D8A0, 0x13CB);
             sub_0802BCF0(gUnknown_0849D89C->unk00 + 0x60, 0x40,
                          sub_08042D50(gUnknown_0849D89C->unk08, q->unk00));

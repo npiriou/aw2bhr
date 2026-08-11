@@ -25,7 +25,7 @@ struct Unk29C38Proc
  *
  * a2 is never read -- r1 is overwritten with the literal 0 for sub_080152EC
  * before anything touches it -- so its WIDTH is invisible here and is settled
- * at the only call site: sub_0802A38C loads gUnknown_030033EC (a u16 global)
+ * at the only call site: sub_0802A38C loads gCurrentArmyIndex (a u16 global)
  * with `ldrb`, which is the u8 conversion of a halfword on a little-endian
  * target. It cannot be dropped either, since a3 arrives in r2 and a4 in r3. */
 struct Unk29CB8Proc
@@ -46,13 +46,13 @@ void sub_08029C38(struct Unk29C38Proc *proc)
     if (proc->unk24 > 0)
     {
         if (proc->unk30 == 1)
-            gUnknown_08499598[gUnknown_030033EC].unk00 -= proc->unk2c;
+            gArmyRecords[gCurrentArmyIndex].unk00 -= proc->unk2c;
 
         return;
     }
 
     if (proc->unk30 == 1)
-        gUnknown_08499598[gUnknown_030033EC].unk00 = proc->unk28;
+        gArmyRecords[gCurrentArmyIndex].unk00 = proc->unk28;
 
     sub_080272B4();
     sub_08015328(gUnknown_03001FBC);
@@ -65,7 +65,7 @@ void sub_08029CB8(struct Unk802C57C *a1, u8 a2, int a3, u8 a4)
 
     proc = (struct Unk29CB8Proc *)sub_080152EC(gUnknown_0849A0A8, 0);
     proc->unk24 = a3;
-    proc->unk28 = gUnknown_08499598[gUnknown_030033EC].unk00 - a3;
+    proc->unk28 = gArmyRecords[gCurrentArmyIndex].unk00 - a3;
     proc->unk20 = a1->unk00;
     proc->unk22 = a1->unk02;
 

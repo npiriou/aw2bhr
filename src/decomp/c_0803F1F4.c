@@ -19,8 +19,8 @@ struct UnkF1F4Proc
 void sub_0803F1F4(struct UnkF1F4Proc *proc)
 {
     sub_0801C70C(sub_0803F128(proc->unk6a),
-                 proc->unk64 * 16 - *(s16 *)(gUnknown_08499590 + 4) + 8,
-                 proc->unk66 * 16 - *(s16 *)(gUnknown_08499590 + 6) + 0x10,
+                 proc->unk64 * 16 - *(s16 *)(gMapData + 4) + 8,
+                 proc->unk66 * 16 - *(s16 *)(gMapData + 6) + 0x10,
                  0x31CA,
                  sub_0803F27C(proc->unk68) + 2,
                  0);

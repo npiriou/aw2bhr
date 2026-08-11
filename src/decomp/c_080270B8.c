@@ -13,7 +13,7 @@ bool8 sub_080270B8(void)
 
     for (i = 1; i <= 4; i++)
     {
-        if (gUnknown_08499598[i].unk1b != 0 && (gUnknown_08499598[i].unk13 & 0x20))
+        if (gArmyRecords[i].unk1b != 0 && (gArmyRecords[i].unk13 & 0x20))
             return TRUE;
     }
 
@@ -26,7 +26,7 @@ u8 sub_080270F0(void)
 
     for (i = 1; i <= 4; i++)
     {
-        if (gUnknown_08499598[i].unk1b == 1)
+        if (gArmyRecords[i].unk1b == 1)
             return i;
     }
 
@@ -44,9 +44,9 @@ void sub_08027118(void)
         {
             for (j = 1; j <= 4; j++)
             {
-                if (j != i && gUnknown_08499598[j].unk1b != 0
-                    && gUnknown_08499598[j].unk2a == gUnknown_08499598[i].unk2a)
-                    gUnknown_08499598[j].unk14 = 0;
+                if (j != i && gArmyRecords[j].unk1b != 0
+                    && gArmyRecords[j].unk2a == gArmyRecords[i].unk2a)
+                    gArmyRecords[j].unk14 = 0;
             }
         }
     }

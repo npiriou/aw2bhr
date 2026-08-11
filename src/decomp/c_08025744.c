@@ -18,7 +18,7 @@ u8 sub_08025744(int a1, int a2)
     int off;
     int id;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = (s16)a2 * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + t) + (s16)a1;
@@ -35,7 +35,7 @@ u8 sub_08025744(int a1, int a2)
 
     plane = p + 0x12;
 
-    if (plane[off] == 0 && (gUnknown_08499594[id].unk01 & 4) == 0)
+    if (plane[off] == 0 && (gUnitRecords[id].unk01 & 4) == 0)
         return 0;
 
     return sub_08026F5C(id);

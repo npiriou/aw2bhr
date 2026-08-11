@@ -14,13 +14,13 @@
  * falls through rather than branching past it.
  *
  * The snapshot is taken BEFORE the sub_0803FF48 call and held in a
- * callee-saved register: gUnknown_08499590 is not const, so every store and
+ * callee-saved register: gMapData is not const, so every store and
  * every call kills it, which is why the ROM reloads the base
  * (`ldr r1,[r6]`) for each of the four subsequent plane accesses while keeping
  * `y * 2`, 0x417A and 0xA22 live in r5, r8 and sb. That is the
  * `mov r7,sb; mov r6,r8` five-plus-live-values shape, not a loop.
  *
- * Plane addresses go through a struct laid over gUnknown_08499590 for the usual
+ * Plane addresses go through a struct laid over gMapData for the usual
  * reason: the ROM computes `(map + K) + idx`, which only a COMPONENT_REF
  * preserves. */
 struct Unk402B4Map
@@ -35,11 +35,11 @@ struct Unk402B4Map
  * loader pair (sub_08040430 / sub_0804046C) instead of sub_0803FF48.
  *
  * 0x1CA is written twice and CSEd into r4 across both calls. The snapshot is
- * taken BEFORE them because gUnknown_08499590 is not const and every call kills
+ * taken BEFORE them because gMapData is not const and every call kills
  * it -- which is also why the base is reloaded for each plane access afterwards
  * while `y * 2` and the plane constants stay live in sb/r8.
  *
- * Plane addresses go through a struct laid over gUnknown_08499590: the ROM
+ * Plane addresses go through a struct laid over gMapData: the ROM
  * computes `(map + K) + idx`, which only a COMPONENT_REF preserves. */
 struct Unk40380Map
 {
@@ -51,25 +51,25 @@ struct Unk40380Map
 
 void sub_080402B4(int x, int y, ProcPtr parent)
 {
-    u16 v = ((struct Unk402B4Map *)gUnknown_08499590)->unkA22[
-        ((struct Unk402B4Map *)gUnknown_08499590)->rowOffset[y] + x];
+    u16 v = ((struct Unk402B4Map *)gMapData)->unkA22[
+        ((struct Unk402B4Map *)gMapData)->rowOffset[y] + x];
 
     sub_0803FF48(x, y, -3, parent);
 
     if (v == 0x162)
     {
-        ((struct Unk402B4Map *)gUnknown_08499590)->terrain[
-            ((struct Unk402B4Map *)gUnknown_08499590)->rowOffset[y] + x] = 1;
-        ((struct Unk402B4Map *)gUnknown_08499590)->unkA22[
-            ((struct Unk402B4Map *)gUnknown_08499590)->rowOffset[y] + x] = 0x122;
+        ((struct Unk402B4Map *)gMapData)->terrain[
+            ((struct Unk402B4Map *)gMapData)->rowOffset[y] + x] = 1;
+        ((struct Unk402B4Map *)gMapData)->unkA22[
+            ((struct Unk402B4Map *)gMapData)->rowOffset[y] + x] = 0x122;
     }
 
     if (v == 0x163)
     {
-        ((struct Unk402B4Map *)gUnknown_08499590)->terrain[
-            ((struct Unk402B4Map *)gUnknown_08499590)->rowOffset[y] + x] = 1;
-        ((struct Unk402B4Map *)gUnknown_08499590)->unkA22[
-            ((struct Unk402B4Map *)gUnknown_08499590)->rowOffset[y] + x] = 0x123;
+        ((struct Unk402B4Map *)gMapData)->terrain[
+            ((struct Unk402B4Map *)gMapData)->rowOffset[y] + x] = 1;
+        ((struct Unk402B4Map *)gMapData)->unkA22[
+            ((struct Unk402B4Map *)gMapData)->rowOffset[y] + x] = 0x123;
     }
 
     sub_08024268();
@@ -78,18 +78,18 @@ void sub_080402B4(int x, int y, ProcPtr parent)
 
 void sub_08040380(int x, int y, ProcPtr parent)
 {
-    u16 v = ((struct Unk40380Map *)gUnknown_08499590)->unkA22[
-        ((struct Unk40380Map *)gUnknown_08499590)->rowOffset[y] + x];
+    u16 v = ((struct Unk40380Map *)gMapData)->unkA22[
+        ((struct Unk40380Map *)gMapData)->rowOffset[y] + x];
 
     sub_08040430(0x1CA, 5);
     sub_0804046C(x, y, 0x1CA, 5, parent);
 
     if (v == 0x180)
     {
-        ((struct Unk40380Map *)gUnknown_08499590)->terrain[
-            ((struct Unk40380Map *)gUnknown_08499590)->rowOffset[y] + x] = 0x12;
-        ((struct Unk40380Map *)gUnknown_08499590)->unkA22[
-            ((struct Unk40380Map *)gUnknown_08499590)->rowOffset[y] + x] = 0x1A0;
+        ((struct Unk40380Map *)gMapData)->terrain[
+            ((struct Unk40380Map *)gMapData)->rowOffset[y] + x] = 0x12;
+        ((struct Unk40380Map *)gMapData)->unkA22[
+            ((struct Unk40380Map *)gMapData)->rowOffset[y] + x] = 0x1A0;
     }
 
     sub_08021CB4();

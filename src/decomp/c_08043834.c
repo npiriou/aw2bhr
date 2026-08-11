@@ -15,14 +15,14 @@ void sub_08043834(int a)
     gUnknown_030005D0 = 0;
     sub_08011E54(gUnknown_08102824, (void *)0x06010000, 0x740);
     tbl = gUnknown_08104264;
-    i = gUnknown_08499598[a].unk1a - 1;
+    i = gArmyRecords[a].unk1a - 1;
     ApplyPaletteExt(tbl[i], 0x2e0, 0x20);
     sub_08011E54(gUnknown_081259CC, (void *)0x06010840, 0xc0);
 }
 
 void sub_08043898(int x, int y, int i)
 {
-    switch (gUnknown_08499598[i].unk1e)
+    switch (gArmyRecords[i].unk1e)
     {
     case 1:
     default:
@@ -44,7 +44,7 @@ void sub_080438FC(int a, int b, int c)
     int hi;
     int m;
 
-    vu = gUnknown_08499598[c].unk20;
+    vu = gArmyRecords[c].unk20;
     lo = sub_080441D4(c);
     hi = sub_08044208(c) - lo;
     m = sub_0804419C(c);

@@ -29,8 +29,8 @@ void sub_08044AB8(int a)
     int b0;
     int b1;
 
-    i = gUnknown_08499598[a].unk1d;
-    j = gUnknown_08499598[a].unk1f;
+    i = gArmyRecords[a].unk1d;
+    j = gArmyRecords[a].unk1f;
     p = (const u8 *)gUnknown_084A0090;
     m = (j - 1) * 5;
     p += (i * 17 + m) * 4;

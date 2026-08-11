@@ -7,8 +7,8 @@
  * sub_08043304 @ 0x08043304, sub_0804334C @ 0x0804334C, sub_0804338C @ 0x0804338C
  */
 
-/* The pointer parameter's +0x00 is a `struct Unk08499594 *` into the unit
- * table and +0x06 an s16.  `(p->unk00 - gUnknown_08499594) >> 6` is the
+/* The pointer parameter's +0x00 is a `struct UnitRecord *` into the unit
+ * table and +0x06 an s16.  `(p->unk00 - gUnitRecords) >> 6` is the
  * 0-based army number -- the table is grouped 64 entries to an army, the same
  * `>> 6` unknown-globals.h already records -- and the `+ 1` makes it the
  * 1-based one sub_08043050 indexes by.  The whole `sub/lsl/add/neg/asr #8`
@@ -18,14 +18,14 @@
  */
 struct Unk43304
 {
-    /* 0x00 */ struct Unk08499594 *unk00;
+    /* 0x00 */ struct UnitRecord *unk00;
     /* 0x04 */ u8 filler_04[0x02];
     /* 0x06 */ s16 unk06;
 };
 
 int sub_08043304(struct Unk43304 *p)
 {
-    if ((sub_08043050(((p->unk00 - gUnknown_08499594) >> 6) + 1) & 0x20) == 0)
+    if ((sub_08043050(((p->unk00 - gUnitRecords) >> 6) + 1) & 0x20) == 0)
         return p->unk06;
 
     return p->unk06 * 2;
@@ -35,7 +35,7 @@ int sub_0804334C(struct Unk43304 *p)
 {
     int r;
 
-    if (sub_08043050(((p->unk00 - gUnknown_08499594) >> 6) + 1) & 0x40)
+    if (sub_08043050(((p->unk00 - gUnitRecords) >> 6) + 1) & 0x40)
         r = p->unk06;
     else
         r = 0;
@@ -45,5 +45,5 @@ int sub_0804334C(struct Unk43304 *p)
 
 int sub_0804338C(struct Unk43304 *p)
 {
-    return sub_08042FFC(((p->unk00 - gUnknown_08499594) >> 6) + 1);
+    return sub_08042FFC(((p->unk00 - gUnitRecords) >> 6) + 1);
 }

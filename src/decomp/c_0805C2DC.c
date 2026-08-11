@@ -8,13 +8,13 @@
  */
 
 /* Scores every unit in the armies whose bit is set in
- * gUnknown_08499598[a1].unk2c and returns the slot number of the best one.
+ * gArmyRecords[a1].unk2c and returns the slot number of the best one.
  *
- * struct Map is the local cast-on view of gUnknown_08499590 that
+ * struct Map is the local cast-on view of gMapData that
  * include/unknown-globals.h prescribes: the ROM computes every plane address as
  * `(map + K) + idx`, and only a COMPONENT_REF preserves that association.
  * gUnknown_0816D9D8 is NOT a global -- the ROM word there holds 0x08499590, so
- * it is agbcc's own -fforce-addr constant for gUnknown_08499590; the honest
+ * it is agbcc's own -fforce-addr constant for gMapData; the honest
  * spelling reproduces it and the promotion carries the rodata word.
  *
  * Three things were each worth the whole match:
@@ -56,19 +56,19 @@ u8 sub_0805C2DC(u16 a1, u8 a2)
     int best;
     int score;
     u8 bestN;
-    struct Unk08499594 *e;
+    struct UnitRecord *e;
 
     best = 0;
     bestN = 0;
 
     for (i = 0; i <= 3; i++)
     {
-        if (((gUnknown_08499598[a1].unk2c >> i) & 1) == 0)
+        if (((gArmyRecords[a1].unk2c >> i) & 1) == 0)
             continue;
 
         for (n = i * 64; n < i * 64 + 64; n++)
         {
-            e = &gUnknown_08499594[n];
+            e = &gUnitRecords[n];
             if (e->unk00 == 0)
                 continue;
 
@@ -76,30 +76,30 @@ u8 sub_0805C2DC(u16 a1, u8 a2)
             sub_0801F838(0xff);
             sub_0801F9C0(e->unk02, e->unk03, 2, 0);
 
-            for (y = 0; y < ((struct Map *)gUnknown_08499590)->unk02; y++)
+            for (y = 0; y < ((struct Map *)gMapData)->unk02; y++)
             {
-                for (x = 0; x < ((struct Map *)gUnknown_08499590)->unk00; x++)
+                for (x = 0; x < ((struct Map *)gMapData)->unk00; x++)
                 {
                     if ((s8)gUnknown_03003340[y][x] < 0)
                         continue;
-                    if (((struct Map *)gUnknown_08499590)->unk051A[((struct Map *)gUnknown_08499590)->unk417A[y] + x] == 0)
+                    if (((struct Map *)gMapData)->unk051A[((struct Map *)gMapData)->unk417A[y] + x] == 0)
                         continue;
                     if (a2 != 0 && !sub_08020DBC(a1, x, y))
                         continue;
-                    e = &gUnknown_08499594[((struct Map *)gUnknown_08499590)->unk051A[((struct Map *)gUnknown_08499590)->unk417A[y] + x]];
+                    e = &gUnitRecords[((struct Map *)gMapData)->unk051A[((struct Map *)gMapData)->unk417A[y] + x]];
                     if (e->unk00 == 0x18)
                     {
                         if ((e->unk01 & 0x20) != 0)
                             continue;
-                        if (!sub_080257C0(((struct Map *)gUnknown_08499590)->unk0012[((struct Map *)gUnknown_08499590)->unk417A[y] + x]))
+                        if (!sub_080257C0(((struct Map *)gMapData)->unk0012[((struct Map *)gMapData)->unk417A[y] + x]))
                             continue;
                     }
                     if (e->unk04_0 <= 10)
                         continue;
-                    if (sub_08026F28(a1, (((struct Map *)gUnknown_08499590)->unk051A[((struct Map *)gUnknown_08499590)->unk417A[y] + x] >> 6) + 1) == 1)
-                        score -= e->unk04_0 * (sub_08042C9C(gUnknown_030033EC, e->unk00) / 10);
+                    if (sub_08026F28(a1, (((struct Map *)gMapData)->unk051A[((struct Map *)gMapData)->unk417A[y] + x] >> 6) + 1) == 1)
+                        score -= e->unk04_0 * (sub_08042C9C(gCurrentArmyIndex, e->unk00) / 10);
                     else
-                        score += e->unk04_0 * (sub_08042C9C(gUnknown_030033EC, e->unk00) / 10);
+                        score += e->unk04_0 * (sub_08042C9C(gCurrentArmyIndex, e->unk00) / 10);
                 }
             }
 
@@ -123,19 +123,19 @@ u8 sub_0805C514(u16 a1, u8 a2)
     int best;
     int score;
     u8 bestN;
-    struct Unk08499594 *e;
+    struct UnitRecord *e;
 
     best = 0;
     bestN = 0;
 
     for (i = 0; i <= 3; i++)
     {
-        if (((gUnknown_08499598[a1].unk2c >> i) & 1) == 0)
+        if (((gArmyRecords[a1].unk2c >> i) & 1) == 0)
             continue;
 
         for (n = i * 64; n < i * 64 + 64; n++)
         {
-            e = &gUnknown_08499594[n];
+            e = &gUnitRecords[n];
             if (e->unk00 == 0)
                 continue;
 
@@ -143,27 +143,27 @@ u8 sub_0805C514(u16 a1, u8 a2)
             sub_0801F838(0xff);
             sub_0801F9C0(e->unk02, e->unk03, 2, 0);
 
-            for (y = 0; y < ((struct Map *)gUnknown_08499590)->unk02; y++)
+            for (y = 0; y < ((struct Map *)gMapData)->unk02; y++)
             {
-                for (x = 0; x < ((struct Map *)gUnknown_08499590)->unk00; x++)
+                for (x = 0; x < ((struct Map *)gMapData)->unk00; x++)
                 {
                     if ((s8)gUnknown_03003340[y][x] < 0)
                         continue;
-                    if (((struct Map *)gUnknown_08499590)->unk051A[((struct Map *)gUnknown_08499590)->unk417A[y] + x] == 0)
+                    if (((struct Map *)gMapData)->unk051A[((struct Map *)gMapData)->unk417A[y] + x] == 0)
                         continue;
                     if (a2 != 0 && !sub_08020DBC(a1, x, y))
                         continue;
-                    e = &gUnknown_08499594[((struct Map *)gUnknown_08499590)->unk051A[((struct Map *)gUnknown_08499590)->unk417A[y] + x]];
+                    e = &gUnitRecords[((struct Map *)gMapData)->unk051A[((struct Map *)gMapData)->unk417A[y] + x]];
                     if (e->unk00 == 0x18)
                     {
                         if ((e->unk01 & 0x20) != 0)
                             continue;
-                        if (!sub_080257C0(((struct Map *)gUnknown_08499590)->unk0012[((struct Map *)gUnknown_08499590)->unk417A[y] + x]))
+                        if (!sub_080257C0(((struct Map *)gMapData)->unk0012[((struct Map *)gMapData)->unk417A[y] + x]))
                             continue;
                     }
                     if (e->unk04_0 <= 10)
                         continue;
-                    if (sub_08026F28(a1, (((struct Map *)gUnknown_08499590)->unk051A[((struct Map *)gUnknown_08499590)->unk417A[y] + x] >> 6) + 1) == 1)
+                    if (sub_08026F28(a1, (((struct Map *)gMapData)->unk051A[((struct Map *)gMapData)->unk417A[y] + x] >> 6) + 1) == 1)
                         score -= e->unk04_0;
                     else
                         score += e->unk04_0;
@@ -191,19 +191,19 @@ u8 sub_0805C720(u16 a1, u8 a2)
     int score;
     u8 bestN;
     int mul;
-    struct Unk08499594 *e;
+    struct UnitRecord *e;
 
     best = 0;
     bestN = 0;
 
     for (i = 0; i <= 3; i++)
     {
-        if (((gUnknown_08499598[a1].unk2c >> i) & 1) == 0)
+        if (((gArmyRecords[a1].unk2c >> i) & 1) == 0)
             continue;
 
         for (n = i * 64; n < i * 64 + 64; n++)
         {
-            e = &gUnknown_08499594[n];
+            e = &gUnitRecords[n];
             if (e->unk00 == 0)
                 continue;
 
@@ -211,33 +211,33 @@ u8 sub_0805C720(u16 a1, u8 a2)
             sub_0801F838(0xff);
             sub_0801F9C0(e->unk02, e->unk03, 2, 0);
 
-            for (y = 0; y < ((struct Map *)gUnknown_08499590)->unk02; y++)
+            for (y = 0; y < ((struct Map *)gMapData)->unk02; y++)
             {
-                for (x = 0; x < ((struct Map *)gUnknown_08499590)->unk00; x++)
+                for (x = 0; x < ((struct Map *)gMapData)->unk00; x++)
                 {
                     if ((s8)gUnknown_03003340[y][x] < 0)
                         continue;
-                    if (((struct Map *)gUnknown_08499590)->unk051A[((struct Map *)gUnknown_08499590)->unk417A[y] + x] == 0)
+                    if (((struct Map *)gMapData)->unk051A[((struct Map *)gMapData)->unk417A[y] + x] == 0)
                         continue;
                     if (a2 != 0 && !sub_08020DBC(a1, x, y))
                         continue;
-                    e = &gUnknown_08499594[((struct Map *)gUnknown_08499590)->unk051A[((struct Map *)gUnknown_08499590)->unk417A[y] + x]];
+                    e = &gUnitRecords[((struct Map *)gMapData)->unk051A[((struct Map *)gMapData)->unk417A[y] + x]];
                     if (e->unk00 == 0x18)
                     {
                         if ((e->unk01 & 0x20) != 0)
                             continue;
-                        if (!sub_080257C0(((struct Map *)gUnknown_08499590)->unk0012[((struct Map *)gUnknown_08499590)->unk417A[y] + x]))
+                        if (!sub_080257C0(((struct Map *)gMapData)->unk0012[((struct Map *)gMapData)->unk417A[y] + x]))
                             continue;
                     }
                     if (e->unk04_0 <= 10)
                         continue;
                     mul = 1;
-                    if (gUnknown_085D5ABC[e->unk00].unk0e > 1)
+                    if (gUnitTypeData[e->unk00].unk0e > 1)
                         mul = 2;
-                    if (sub_08026F28(a1, (((struct Map *)gUnknown_08499590)->unk051A[((struct Map *)gUnknown_08499590)->unk417A[y] + x] >> 6) + 1) == 1)
-                        score -= e->unk04_0 * (sub_08042C9C(gUnknown_030033EC, e->unk00) / 10) * mul;
+                    if (sub_08026F28(a1, (((struct Map *)gMapData)->unk051A[((struct Map *)gMapData)->unk417A[y] + x] >> 6) + 1) == 1)
+                        score -= e->unk04_0 * (sub_08042C9C(gCurrentArmyIndex, e->unk00) / 10) * mul;
                     else
-                        score += e->unk04_0 * (sub_08042C9C(gUnknown_030033EC, e->unk00) / 10) * mul;
+                        score += e->unk04_0 * (sub_08042C9C(gCurrentArmyIndex, e->unk00) / 10) * mul;
                 }
             }
 

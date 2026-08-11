@@ -8,13 +8,13 @@
  */
 
 /* Orders two units for a queue: by the cell column unk02 first, then by the
- * low seven bits of their army's gUnknown_08499598 record.
+ * low seven bits of their army's gArmyRecords record.
  *
- * `(p - gUnknown_08499594) >> 6` is the matched sub_0804203C's army idiom --
+ * `(p - gUnitRecords) >> 6` is the matched sub_0804203C's army idiom --
  * exact division by the 0x0c stride (`mul 0x55555555; neg; asr #2`) with the
  * `>> 6` merged into the single `asr #8`. The `+ 1` then indexes
- * gUnknown_08499598 ONE-BASED, which is what puts the member at a runtime
- * 0x3c + 0x2d == 0x69: exactly the reach struct Unk08499598's own unk2a note
+ * gArmyRecords ONE-BASED, which is what puts the member at a runtime
+ * 0x3c + 0x2d == 0x69: exactly the reach struct ArmyRecord's own unk2a note
  * records for sub_08026F9C/sub_08026FD0, which read element [n + 1] the same
  * way.
  *
@@ -22,7 +22,7 @@
  * the same predicate, but only this polarity leaves `return 1` inline ahead of
  * the literal pool with `return 0` after it; the other spelling swaps the two
  * blocks. Same lever c_0804203C.c documents for its own pair of returns. */
-int sub_08041D40(struct Unk08499594 *a, struct Unk08499594 *b)
+int sub_08041D40(struct UnitRecord *a, struct UnitRecord *b)
 {
     if (a->unk02 > b->unk02)
         return 1;
@@ -30,8 +30,8 @@ int sub_08041D40(struct Unk08499594 *a, struct Unk08499594 *b)
     if (a->unk02 != b->unk02)
         return 0;
 
-    if ((gUnknown_08499598[((a - gUnknown_08499594) >> 6) + 1].unk2d & 0x7f)
-     <= (gUnknown_08499598[((b - gUnknown_08499594) >> 6) + 1].unk2d & 0x7f))
+    if ((gArmyRecords[((a - gUnitRecords) >> 6) + 1].unk2d & 0x7f)
+     <= (gArmyRecords[((b - gUnitRecords) >> 6) + 1].unk2d & 0x7f))
         return 0;
 
     return 1;

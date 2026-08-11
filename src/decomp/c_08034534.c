@@ -16,7 +16,7 @@
  * not reorderable, which is what fixes this as one statement per line. */
 void sub_08034534(int a, u8 b, u8 c, u8 d)
 {
-    struct Unk08499594 *unit = &gUnknown_08499594[b];
+    struct UnitRecord *unit = &gUnitRecords[b];
 
     gUnknown_030044B0[0] = a;
     gUnknown_030044B0[2] = gUnknown_03003100.pos.unk00;

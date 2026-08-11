@@ -36,8 +36,8 @@ int sub_08045D4C(void)
     x = gUnknown_030040D8->unk02;
     y = gUnknown_030040D8->unk03;
 
-    switch (gUnknown_08499598[(((struct Unk08499594 *)gUnknown_030040D8
-                                - gUnknown_08499594) >> 6) + 1].unk1a)
+    switch (gArmyRecords[(((struct UnitRecord *)gUnknown_030040D8
+                                - gUnitRecords) >> 6) + 1].unk1a)
     {
     case 3:
         side = 1;
@@ -51,33 +51,33 @@ int sub_08045D4C(void)
 
     if (y > 0)
     {
-        c = ((struct Map *)gUnknown_08499590)->unk051A[
-                ((struct Map *)gUnknown_08499590)->unk417A[y - 1] + x];
-        if (c != 0 && gUnknown_08499598[(c >> 6) + 1].unk1a == side)
+        c = ((struct Map *)gMapData)->unk051A[
+                ((struct Map *)gMapData)->unk417A[y - 1] + x];
+        if (c != 0 && gArmyRecords[(c >> 6) + 1].unk1a == side)
             return 1;
     }
 
-    if (y < ((struct Map *)gUnknown_08499590)->unk02 - 1)
+    if (y < ((struct Map *)gMapData)->unk02 - 1)
     {
-        c = ((struct Map *)gUnknown_08499590)->unk051A[
-                ((struct Map *)gUnknown_08499590)->unk417A[y + 1] + x];
-        if (c != 0 && gUnknown_08499598[(c >> 6) + 1].unk1a == side)
+        c = ((struct Map *)gMapData)->unk051A[
+                ((struct Map *)gMapData)->unk417A[y + 1] + x];
+        if (c != 0 && gArmyRecords[(c >> 6) + 1].unk1a == side)
             return 1;
     }
 
     if (x > 0)
     {
-        oleft = ((struct Map *)gUnknown_08499590)->unk417A[y] - 1;
-        c = ((struct Map *)gUnknown_08499590)->unk051A[oleft + x];
-        if (c != 0 && gUnknown_08499598[(c >> 6) + 1].unk1a == side)
+        oleft = ((struct Map *)gMapData)->unk417A[y] - 1;
+        c = ((struct Map *)gMapData)->unk051A[oleft + x];
+        if (c != 0 && gArmyRecords[(c >> 6) + 1].unk1a == side)
             return 1;
     }
 
-    if (x < ((struct Map *)gUnknown_08499590)->unk00 - 1)
+    if (x < ((struct Map *)gMapData)->unk00 - 1)
     {
-        oright = ((struct Map *)gUnknown_08499590)->unk417A[y] + 1;
-        c = ((struct Map *)gUnknown_08499590)->unk051A[oright + x];
-        if (c != 0 && gUnknown_08499598[(c >> 6) + 1].unk1a == side)
+        oright = ((struct Map *)gMapData)->unk417A[y] + 1;
+        c = ((struct Map *)gMapData)->unk051A[oright + x];
+        if (c != 0 && gArmyRecords[(c >> 6) + 1].unk1a == side)
             return 1;
     }
 

@@ -62,7 +62,7 @@ struct Unk080287D0Proc
 
 void sub_080287D0(struct Unk080287D0Proc *proc)
 {
-    struct Unk08499594 *unit;
+    struct UnitRecord *unit;
 
     if (proc->unk66 == 1 || proc->unk66 == 0x10)
     {
@@ -74,7 +74,7 @@ void sub_080287D0(struct Unk080287D0Proc *proc)
         {
             do
             {
-                unit = &gUnknown_08499594[(u16)gUnknown_084995FE[proc->unk64] + proc->unk68];
+                unit = &gUnitRecords[(u16)gUnknown_084995FE[proc->unk64] + proc->unk68];
                 proc->unk68++;
                 sub_0802A54C(unit, proc);
             } while (0);

@@ -9,7 +9,7 @@
 
 /* One of the thirteen list builders at 0x0805CA60-0x0805D1F0.  This one is the odd member: its
  * third filter is a RANGE on the unit id itself rather than a lookup in
- * gUnknown_085D5ABC, so it carries no pool word for that table and saves only
+ * gUnitTypeData, so it carries no pool word for that table and saves only
  * one high register.  `(u8)(unk00 - 0x10) <= 1` is the ROM's
  * `subs #0x10; lsls #0x18; lsrs #0x18; cmp #1; bhi` -- a u8 truncation of the
  * difference and an UNSIGNED compare, which is exactly how a two-value id
@@ -32,9 +32,9 @@ void sub_0805CC88(void)
 
     for (i = gUnknown_03003F2C + 1; i < gUnknown_03003F2C + 0x40; i++)
     {{
-        if (gUnknown_08499594[i].unk00 != 0
-            && !(gUnknown_08499594[i].unk01 & 1)
-            && (u8)(gUnknown_08499594[i].unk00 - 0x10) <= 1)
+        if (gUnitRecords[i].unk00 != 0
+            && !(gUnitRecords[i].unk01 & 1)
+            && (u8)(gUnitRecords[i].unk00 - 0x10) <= 1)
         {{
             *gUnknown_030046B0++ = i;
         }}

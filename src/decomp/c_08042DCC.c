@@ -16,5 +16,5 @@
 
 int sub_08042DCC(int a1)
 {
-    return gUnknown_085D3DD0[a1].unk15 + 1;
+    return gCoDataTable[a1].unk15 + 1;
 }

@@ -8,13 +8,13 @@
  */
 
 /* Both arguments come off ONE index computation -- the repeated
- * `gUnknown_08499598[gUnknown_030033EC]` spelling is what gives that here,
+ * `gArmyRecords[gCurrentArmyIndex]` spelling is what gives that here,
  * because nothing between the two reads can invalidate the cached address (the
  * same reason src/decomp/c_08026588.c keeps the plain spelling). unk2f and
  * unk30 were filler until wave 29; they are named from this call. */
 
 void sub_0802A4DC(void)
 {
-    sub_08029088(gUnknown_08499598[gUnknown_030033EC].unk2f,
-                 gUnknown_08499598[gUnknown_030033EC].unk30);
+    sub_08029088(gArmyRecords[gCurrentArmyIndex].unk2f,
+                 gArmyRecords[gCurrentArmyIndex].unk30);
 }

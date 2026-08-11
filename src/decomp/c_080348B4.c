@@ -23,7 +23,7 @@
  *
  * The three guards are one `&&` chain rather than three early returns; both
  * spellings cross-jump onto the same `movs r0,#0`, so that is a readability
- * choice and not a measured one. `gUnknown_08499598` is the pointer-to-array
+ * choice and not a measured one. `gArmyRecords` is the pointer-to-array
  * global, so a plain `[i]` subscript is what produces the
  * `ldr rN,=sym; ldr rN,[rN]` pair -- see its note in unknown-globals.h. The
  * `(x*16 - x)*4` synthesis is agbcc's 60-byte stride multiply. */
@@ -46,13 +46,13 @@ bool8 sub_080348B4(void)
             {
                 if (found != 0)
                 {
-                    if (gUnknown_08499598[i].unk1b == 1
-                        && v != gUnknown_08499598[i].unk2a)
+                    if (gArmyRecords[i].unk1b == 1
+                        && v != gArmyRecords[i].unk2a)
                         return 1;
                 }
-                else if (gUnknown_08499598[i].unk1b == 1)
+                else if (gArmyRecords[i].unk1b == 1)
                 {
-                    v = gUnknown_08499598[i].unk2a;
+                    v = gArmyRecords[i].unk2a;
                     found = 1;
                 }
             }

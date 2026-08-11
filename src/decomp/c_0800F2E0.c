@@ -24,7 +24,7 @@ int sub_0800F2E0(int x, int y)
     int v;
     int r;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + t) + x;

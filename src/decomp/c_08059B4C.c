@@ -14,7 +14,7 @@
  *  - `(&arr[w])->unk03[k]` matches; `arr[w].unk03[k]` costs 4 bytes (an r0/r1
  *    swap around the `ldrsb`).  Do NOT tidy this into the member form.
  *  - `arr` must be bound in its OWN statement AFTER `w` is read.  Written as
- *    `&gUnknown_084995A0[w]` in place, the pool `ldr` is scheduled between the
+ *    `&gPropertyList[w]` in place, the pool `ldr` is scheduled between the
  *    pointer global's two loads instead of before them.
  *
  * gUnknown_03004788 is VOLATILE and this function is what proves it: the ROM
@@ -25,7 +25,7 @@
  *
  * The loop is a `goto` loop, as its sibling c_0805B778.c is: nothing is
  * LICM-hoisted into a preheader -- the 0x270F, the sp alias and
- * gUnknown_08499590 are all re-formed on every iteration.
+ * gMapData are all re-formed on every iteration.
  *
  * The cell lookup is c_08057F00.c's sub_08058144 idiom -- p, then t, then
  * rows, then idx, then cells -- keeping 0x417A and 0x193A in pool words.
@@ -34,7 +34,7 @@
 void sub_08059B4C(int a1, int a2, int a3, void *a4, void *a5)
 {
     union Unk802C57CBuf v;
-    struct Unk084995A0 *arr;
+    struct PropertyListEntry *arr;
     u8 *p;
     u8 *rows;
     u8 *cells;
@@ -58,13 +58,13 @@ loop:
     if (v.pos.unk00 == 0x270F)
         return;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = v.pos.unk02 * 2;
     rows = p + 0x417a;
     idx = *(u16 *)(rows + t) + v.pos.unk00;
     cells = p + 0x193a;
     w = *(s8 *)(cells + idx);
-    arr = gUnknown_084995A0;
+    arr = gPropertyList;
 
     if (n < (&arr[w])->unk03[k])
         goto loop;

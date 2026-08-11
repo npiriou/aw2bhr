@@ -17,22 +17,22 @@ void sub_08044854(int x, int y, int c)
     u8 *cells;
     int t;
     int idx;
-    struct Unk08499594 *u;
-    struct Unk08499594 **pp;
+    struct UnitRecord *u;
+    struct UnitRecord **pp;
 
     if (x < 0)
         return;
     if (y < 0)
         return;
 
-    p = gUnknown_08499590;
+    p = gMapData;
 
     if (x >= *(u16 *)p)
         return;
     if (y >= *(u16 *)(p + 2))
         return;
 
-    u = &gUnknown_08499594[(pp = &gUnknown_08499594, t = y * 2,
+    u = &gUnitRecords[(pp = &gUnitRecords, t = y * 2,
         idx = *(u16 *)((rows = p + 0x417A) + t) + x,
         (cells = p + 0x51A)[idx])];
 

@@ -16,7 +16,7 @@
  *
  * W35-A's park note had the tension exactly right: only a statement boundary
  * survived fold(), but a statement boundary also hoists the whole
- * `ldr =gUnknown_08499590; ldr r3,[r2]` chain and both `ldrsh`es above
+ * `ldr =gMapData; ldr r3,[r2]` chain and both `ldrsh`es above
  * `ldr r0,[r4,#0x50]`, where the ROM interleaves them inside arguments 2 and 3.
  * Writing the subtraction as `(dx = B - 8)` in the operand position resolves
  * both halves at once: fold()'s split_tree will not peel a literal out of a
@@ -52,8 +52,8 @@ void sub_08040150(struct Unk40150Proc *proc)
 
     if (!sub_0801C254(proc->unk50,
                       proc->unk2c * 16
-                          - (dx = ((struct Unk40150Map *)gUnknown_08499590)->unk04 - 8),
+                          - (dx = ((struct Unk40150Map *)gMapData)->unk04 - 8),
                       proc->unk30 * 16
-                          - (dy = ((struct Unk40150Map *)gUnknown_08499590)->unk06 - 0x10)))
+                          - (dy = ((struct Unk40150Map *)gMapData)->unk06 - 0x10)))
         Proc_Break(proc);
 }

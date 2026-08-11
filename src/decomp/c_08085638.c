@@ -9,7 +9,7 @@
 
 int sub_08085638(int a1, int a2)
 {
-    switch (sub_08043190(gUnknown_08499598[a1].unk1d, gUnknown_08499598[a1].unk1e, a2))
+    switch (sub_08043190(gArmyRecords[a1].unk1d, gArmyRecords[a1].unk1e, a2))
     {
     case -1:
         return 0x95;
@@ -28,7 +28,7 @@ int sub_08085638(int a1, int a2)
 
 int sub_080856A0(int a1, int a2)
 {
-    switch (sub_08043200(gUnknown_08499598[a1].unk1d, gUnknown_08499598[a1].unk1e, a2))
+    switch (sub_08043200(gArmyRecords[a1].unk1d, gArmyRecords[a1].unk1e, a2))
     {
     case -1:
         return 0x95;

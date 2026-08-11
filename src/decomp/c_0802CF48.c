@@ -49,7 +49,7 @@ void sub_0802CF6C(void)
  *
  * gUnknown_08090C00 is NOT a global and must not be declared as one: the ROM
  * word at 0x08090C00 is 0x03003FC0, i.e. &gUnknown_03003FC0, and its immediate
- * neighbours at 0x08090BF8/BFC/C04 hold &gUnknown_030033EC (twice) and
+ * neighbours at 0x08090BF8/BFC/C04 hold &gCurrentArmyIndex (twice) and
  * &gUnknown_030033E8 -- a `-fforce-addr` address-constant run. The honest
  * spelling is therefore just `gUnknown_03003FC0.unk2c`, and since wave 18 agbcc
  * parks its own copy of the address in this unit's `.rodata` and the split

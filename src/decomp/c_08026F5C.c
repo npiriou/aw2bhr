@@ -21,7 +21,7 @@
 
 bool8 sub_08026F5C(s16 a1)
 {
-    if (gUnknown_08499598[gUnknown_030033EC].unk2a == gUnknown_08499598[(a1 >> 6) + 1].unk2a)
+    if (gArmyRecords[gCurrentArmyIndex].unk2a == gArmyRecords[(a1 >> 6) + 1].unk2a)
         return TRUE;
 
     return FALSE;

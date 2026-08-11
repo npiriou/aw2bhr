@@ -16,13 +16,13 @@ struct Unk8044994
 
 void sub_08044994(struct Unk8044994 *proc)
 {
-    struct Unk08499594 *e;
+    struct UnitRecord *e;
     int col;
     int row;
 
     if (proc->unk66 > 0)
     {
-        e = &gUnknown_08499594[proc->unk66];
+        e = &gUnitRecords[proc->unk66];
         col = e->unk02;
         row = e->unk03;
 

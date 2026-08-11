@@ -24,7 +24,7 @@
 
 bool8 sub_080266DC(u8 index)
 {
-    if (gUnknown_08499598[index].unk1b != 0 && gUnknown_08499598[index].unk14 == 0)
+    if (gArmyRecords[index].unk1b != 0 && gArmyRecords[index].unk14 == 0)
         return TRUE;
 
     return FALSE;

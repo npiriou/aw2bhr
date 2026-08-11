@@ -24,7 +24,7 @@ void sub_08016D30(u16 a, u8 b)
         if (sub_08016CD8(a) == 0)
             sub_08016CEC(a, 1);
         if ((u8)(gUnknown_03003FC0.unk02 + 0x4c) <= 0xb)
-            sub_0803CF54(3, gUnknown_08499590 + 0x421A, 1);
+            sub_0803CF54(3, gMapData + 0x421A, 1);
         sub_08016F38(b);
         sub_0801A7D8(a, gUnknown_02000000, 0xE28);
         if (gUnknown_03003FC0.unk01 == 1)
@@ -47,7 +47,7 @@ void sub_08016DB8(u16 a)
         sub_0801AC58(a, gUnknown_02000000);
         sub_08017208();
         if ((u8)(gUnknown_03003FC0.unk02 + 0x4c) <= 0xb)
-            sub_0803CF04(3, (int)(gUnknown_08499590 + 0x421A));
+            sub_0803CF04(3, (int)(gMapData + 0x421A));
         sub_0801759C();
     }
 }

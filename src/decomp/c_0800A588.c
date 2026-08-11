@@ -22,7 +22,7 @@
  * The first block reaches `bl sub_08009B38` with r0 never written -- x is
  * still in it from the prologue -- exactly as in sub_0800A3D4.
  *
- * gUnknown_08499590 is named honestly; agbcc's own -fforce-addr copy is the
+ * gMapData is named honestly; agbcc's own -fforce-addr copy is the
  * ROM's gUnknown_0808D840 pool word (promotion needs "rodata":
  * ["0x0808D840"]).  That is why no `u8 **const *pp` local is needed here,
  * unlike the older c_0800A3D4.c / c_0800AA30.c spelling, and why
@@ -38,7 +38,7 @@ struct MapScreen
     /* 0x1432 */ u8 terrain[0x417A - 0x1432];
     /* 0x417A */ u16 rowOffset[1];
 };
-#define MAP ((struct MapScreen *)gUnknown_08499590)
+#define MAP ((struct MapScreen *)gMapData)
 
 void sub_0800A588(int x, int y)
 {

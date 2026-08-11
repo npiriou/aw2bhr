@@ -16,7 +16,7 @@
 
 int sub_08045984(void)
 {
-    if (gUnknown_08499598[1].unk13 == 8)
+    if (gArmyRecords[1].unk13 == 8)
         return 0;
 
     return 1;

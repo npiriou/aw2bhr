@@ -17,7 +17,7 @@ void sub_0802D5E8(s16 a1, s16 a2)
     int v;
 
     v = 0;
-    p = gUnknown_08499590;
+    p = gMapData;
     t = a2 * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + t);

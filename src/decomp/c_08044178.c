@@ -16,7 +16,7 @@
 
 void sub_08044178(int a1)
 {
-    gUnknown_08499598[a1].unk1e = 0;
-    gUnknown_08499598[a1].unk26 = 0;
-    gUnknown_08499598[a1].unk28 = 0;
+    gArmyRecords[a1].unk1e = 0;
+    gArmyRecords[a1].unk26 = 0;
+    gArmyRecords[a1].unk28 = 0;
 }

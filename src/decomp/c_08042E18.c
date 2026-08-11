@@ -23,5 +23,5 @@
  */
 int sub_08042E18(int a)
 {
-    return gUnknown_085D3DD0[a].unk16;
+    return gCoDataTable[a].unk16;
 }

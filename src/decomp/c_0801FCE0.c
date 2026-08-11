@@ -9,7 +9,7 @@
 
 /* Paints a 3-wide vertical bar of a3 into the gUnknown_03003340 row-pointer
  * screen, from row a2 down to the bottom edge (the +0x02 height of the
- * gUnknown_08499590 map), starting at column a1.
+ * gMapData map), starting at column a1.
  *
  * The row index IS the second parameter, walked in place: the `lsls #16;
  * lsrs #16` at the loop bottom is the u16 wrap of `a2++` and the guard/latch
@@ -34,7 +34,7 @@ void sub_0801FCE0(int a1, int a2, int a3)
     x = a1;
     y = a2;
     v = a3;
-    for (; y < *(u16 *)(gUnknown_08499590 + 2); y++)
+    for (; y < *(u16 *)(gMapData + 2); y++)
         for (i = 0; i < 3; i++)
             gUnknown_03003340[y][x + i] = v;
 }
@@ -65,10 +65,10 @@ void sub_0801FD30(int a1, int a2, int a3)
     x = a1;
     y = a2;
     v = a3;
-    for (i = 0; i < *(u16 *)gUnknown_08499590; i++)
+    for (i = 0; i < *(u16 *)gMapData; i++)
         if (i != x)
             gUnknown_03003340[y][i] = v;
-    for (i = 0; i < *(u16 *)(gUnknown_08499590 + 2); i++)
+    for (i = 0; i < *(u16 *)(gMapData + 2); i++)
         if (i != y)
             gUnknown_03003340[i][x] = v;
 }

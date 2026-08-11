@@ -14,7 +14,7 @@
  * 0x030033E8, i.e. &gUnknown_030033E8, so it is agbcc's own `-fforce-addr`
  * address-constant pool word -- the same thing already recorded for 0x08090D84
  * / 0x08090D88 / 0x08090D8C in unknown-globals.h, and its two neighbours here
- * (0x08090C00 = &gUnknown_03003FC0, 0x08090C0C = &gUnknown_030033EC) are more
+ * (0x08090C00 = &gUnknown_03003FC0, 0x08090C0C = &gCurrentArmyIndex) are more
  * of the same run. Naming gUnknown_030033E8 directly reproduces it: agbcc
  * emits the word into this unit's .rodata and holds its ADDRESS in r2 across
  * the branch, which is the `adds r2, r0, #0` / `ldr r2, [r2]` pair. */

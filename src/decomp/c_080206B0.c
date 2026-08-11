@@ -22,7 +22,7 @@ struct Unk206E4Map
     /* 0x0004 */ u8 filler_0004[0x417A - 0x0004];
     /* 0x417A */ u16 rowOffset[1];
 };
-#define MAP ((struct Unk206E4Map *)gUnknown_08499590)
+#define MAP ((struct Unk206E4Map *)gMapData)
 
 /* Linear scan of the 0x5c-stride ROM table for the entry whose unk2c[0] equals
  * the caller's word; returns its index, or the first index past the 0xbf bound

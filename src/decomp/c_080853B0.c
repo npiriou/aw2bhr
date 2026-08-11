@@ -10,7 +10,7 @@
 /* Draws one 8-wide sprite per army slot, 24 pixels apart down the column at
  * x = 0x10. Two readings are not free:
  *   - The `+ 0x56` off a 0x3c-stride record is `[i + 1]`, not a member at 0x56:
- *     0x56 - 0x3c = 0x1a, so this is gUnknown_08499598[i + 1].unk1a (the same
+ *     0x56 - 0x3c = 0x1a, so this is gArmyRecords[i + 1].unk1a (the same
  *     u8 palette/army key every other reader of that field uses) and slot 0 is
  *     skipped, which is why the loop counter starts at 0 while the record index
  *     does not.
@@ -28,5 +28,5 @@ void sub_080853B0(void)
     int i;
 
     for (i = 0; i < (gUnknown_03003FC0.unk01 == 2 ? sub_0802490C(gUnknown_03003FC0.unk02) : sub_080248F8()); i++)
-        sub_0801F34C(gUnknown_08499598[i + 1].unk1a + 0x3d, i * 24 + 0x10, 8, 0, 1);
+        sub_0801F34C(gArmyRecords[i + 1].unk1a + 0x3d, i * 24 + 0x10, 8, 0, 1);
 }

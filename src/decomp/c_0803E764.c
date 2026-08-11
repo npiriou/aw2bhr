@@ -49,9 +49,9 @@ void sub_0803E764(struct Unk02028360Pos *p, int a2)
     {
         x = p->unk00;
         y = p->unk02;
-        if (((struct Unk3E764Map *)gUnknown_08499590)->unit[((struct Unk3E764Map *)gUnknown_08499590)->rowOffset[y] + x] != 0)
+        if (((struct Unk3E764Map *)gMapData)->unit[((struct Unk3E764Map *)gMapData)->rowOffset[y] + x] != 0)
         {
-            t = ((struct Unk3E764Map *)gUnknown_08499590)->unit[((struct Unk3E764Map *)gUnknown_08499590)->rowOffset[y] + x];
+            t = ((struct Unk3E764Map *)gMapData)->unit[((struct Unk3E764Map *)gMapData)->rowOffset[y] + x];
             sub_0803E560(x, y, t, a2);
         }
         p++;

@@ -31,8 +31,8 @@ int sub_0805C208(void)
     {
         for (i = gUnknown_03003F2C + 1; i < gUnknown_03003F2C + 0x40; i++)
         {
-            if (gUnknown_08499594[i].unk00 != 0
-                && gUnknown_08499594[i].unk04_0 <= 0x5a)
+            if (gUnitRecords[i].unk00 != 0
+                && gUnitRecords[i].unk04_0 <= 0x5a)
                 count++;
         }
 

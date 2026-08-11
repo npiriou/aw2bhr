@@ -12,10 +12,10 @@
  * sub_080260D0 per quarter (64 records each). The `1, 2, 3, 4` early-out is a
  * debug guard and is reproduced as written.
  *
- * The copy loop is a STRUCT ASSIGNMENT of the 0x0c-byte struct Unk08499594,
+ * The copy loop is a STRUCT ASSIGNMENT of the 0x0c-byte struct UnitRecord,
  * which is where the `ldm r0!, {r5,r6,r7}` / `stm r1!, {r5,r6,r7}` pair comes
  * from -- not a memcpy and not word-at-a-time. The element type is fixed by
- * sub_080260D0's promoted definition, which takes `struct Unk08499594 *`.
+ * sub_080260D0's promoted definition, which takes `struct UnitRecord *`.
  *
  * `subs r3,#1; cmp r3,#0; bge` at the bottom is check_dbra_loop's rewrite of
  * the ASCENDING `i < 0x100` counter, not a descending source loop. The four
@@ -23,7 +23,7 @@
  * are four ordinary ints. */
 void sub_08026040(int a1, int a2, int a3, int a4)
 {
-    struct Unk08499594 *buf;
+    struct UnitRecord *buf;
     int i;
 
     if (a1 == 1 && a2 == 2 && a3 == 3 && a4 == 4)

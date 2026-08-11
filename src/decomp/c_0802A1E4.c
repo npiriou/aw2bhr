@@ -7,7 +7,7 @@
  * sub_0802A1E4 @ 0x0802A1E4, sub_0802A258 @ 0x0802A258
  */
 
-/* The map planes go through a LOCAL struct cast onto gUnknown_08499590 (the
+/* The map planes go through a LOCAL struct cast onto gMapData (the
  * W34-F spelling recorded in include/unknown-globals.h): only a COMPONENT_REF
  * keeps the ROM's `(map + K) + idx` association instead of folding K into the
  * load displacement.
@@ -56,12 +56,12 @@ struct Unk2A258
 
 s16 sub_0802A1E4(s16 x, s16 y)
 {
-    struct Unk08499594 *unit;
+    struct UnitRecord *unit;
 
-    unit = &gUnknown_08499594[((struct Map *)gUnknown_08499590)->unk0012[
-        ((struct Map *)gUnknown_08499590)->unk417A[y] + x]];
+    unit = &gUnitRecords[((struct Map *)gMapData)->unk0012[
+        ((struct Map *)gMapData)->unk417A[y] + x]];
 
-    if (gUnknown_03003F2C == ((unit - gUnknown_08499594) & 0xc0)
+    if (gUnknown_03003F2C == ((unit - gUnitRecords) & 0xc0)
         && sub_08042084((u8 *)unit))
         return 1;
 
@@ -79,11 +79,11 @@ bool8 sub_0802A258(struct Unk2A258 *p)
     if (p->unk03 != 0 && sub_0802A1E4(p->unk02, p->unk03 - 1))
         return 1;
 
-    if (p->unk02 < ((struct Map *)gUnknown_08499590)->unk00 - 1
+    if (p->unk02 < ((struct Map *)gMapData)->unk00 - 1
         && sub_0802A1E4(p->unk02 + 1, p->unk03))
         return 1;
 
-    if (p->unk03 < ((struct Map *)gUnknown_08499590)->unk02 - 1
+    if (p->unk03 < ((struct Map *)gMapData)->unk02 - 1
         && sub_0802A1E4(p->unk02, p->unk03 + 1))
         return 1;
 

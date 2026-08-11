@@ -20,7 +20,7 @@ int sub_08008928(void)
 
     result = 0;
 
-    gUnknown_030033EC = f = gUnknown_0200B0B0->unk2f;
+    gCurrentArmyIndex = f = gUnknown_0200B0B0->unk2f;
     gUnknown_03003F2C = (f - 1) << 6;
 
     x = gUnknown_0200B0B0->unk08;
@@ -62,15 +62,15 @@ int sub_08008928(void)
              * verified; W37-H later widened it to `s8 *[3]`. Element 0 is at
              * the same offset, so `[0]` is byte-identical to the spelling that
              * matched -- this is a declaration change, not a behaviour one. */
-            costs = gUnknown_085D3DD0[1].unk38[0].unk18[0];
+            costs = gCoDataTable[1].unk38[0].unk18[0];
 
-            m = gUnknown_08499590;
+            m = gMapData;
             t = y * 2;
             rows = m + 0x417A;
             idx = *(u16 *)(rows + t) + x;
             cells = m + 0x1432;
             c = (*(cells + idx) & 0x1f)
-                + gUnknown_085D5ABC[gUnknown_0200B0B0->unk24 & 0x3f].unk19 * 32;
+                + gUnitTypeData[gUnknown_0200B0B0->unk24 & 0x3f].unk19 * 32;
 
             q = costs[c];
 
@@ -101,14 +101,14 @@ int sub_08008A8C(int mode, int x, int y)
     u8 *p;
     u8 *rows;
     u8 *cells;
-    struct Unk08499594 *e;
+    struct UnitRecord *e;
     int t;
     int idx;
     int result;
 
     result = 0;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417A;
     idx = *(u16 *)(rows + t) + x;
@@ -116,7 +116,7 @@ int sub_08008A8C(int mode, int x, int y)
 
     if (*(cells + idx) != 0)
     {
-        e = &gUnknown_08499594[*(cells + idx)];
+        e = &gUnitRecords[*(cells + idx)];
 
         if (mode != 0)
         {

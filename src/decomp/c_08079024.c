@@ -33,9 +33,9 @@ void sub_08079024(struct Unk8079024 *p)
     int n;
     u16 *q;
 
-    p->unk58 = gUnknown_08499598[sub_0807A908()].unk34;
-    p->unk5c = gUnknown_08499598[sub_0807A908()].unk35;
-    p->unk60 = gUnknown_08499598[sub_0807A908()].unk36;
+    p->unk58 = gArmyRecords[sub_0807A908()].unk34;
+    p->unk5c = gArmyRecords[sub_0807A908()].unk35;
+    p->unk60 = gArmyRecords[sub_0807A908()].unk36;
     p->unk4c = 0;
     p->unk64 = 0;
     p->unk66 = 0;
@@ -43,7 +43,7 @@ void sub_08079024(struct Unk8079024 *p)
     p->unk6a = p->unk58 + p->unk5c + p->unk60;
     p->unk2c = 0;
     p->unk30 = 0;
-    n = gUnknown_08499598[sub_0807A908()].unk33;
+    n = gArmyRecords[sub_0807A908()].unk33;
     q = &p->unk52;
     *q = 5 - n;
     if (*q > 3)

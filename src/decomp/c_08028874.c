@@ -15,6 +15,6 @@
  * in front of the `bl`. */
 void sub_08028874(int index, int value)
 {
-    gUnknown_08499598[index].unk14 = gUnknown_03004080;
-    gUnknown_08499598[index].unk13 = value;
+    gArmyRecords[index].unk14 = gUnknown_03004080;
+    gArmyRecords[index].unk13 = value;
 }

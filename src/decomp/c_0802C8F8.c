@@ -12,11 +12,11 @@ bool8 sub_0802C8F8(void)
     u8 *p;
     u8 *rows;
     u8 *tiles;
-    struct Unk08499594 *e;
+    struct UnitRecord *e;
     int t;
     int off;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = gUnknown_03003100.pos.unk02 * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + t) + gUnknown_03003100.pos.unk00;
@@ -25,9 +25,9 @@ bool8 sub_0802C8F8(void)
     if (tiles[off] == 0)
         return TRUE;
 
-    e = &gUnknown_08499594[tiles[off]];
+    e = &gUnitRecords[tiles[off]];
 
-    if (!sub_08025FC0((struct Unk08499594 *)gUnknown_030040D8, e))
+    if (!sub_08025FC0((struct UnitRecord *)gUnknown_030040D8, e))
         return TRUE;
 
     return FALSE;

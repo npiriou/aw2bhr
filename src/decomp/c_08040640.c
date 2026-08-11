@@ -48,8 +48,8 @@ void sub_08040640(struct Unk40640Proc *proc)
     sub_08026100(proc->unk2c,     proc->unk30 + 2, proc->unk44);
     sub_08024268();
     sub_0801C70C(gUnknown_08111D94,
-                 proc->unk54 - *(s16 *)(gUnknown_08499590 + 4),
-                 proc->unk58 - *(s16 *)(gUnknown_08499590 + 6),
+                 proc->unk54 - *(s16 *)(gMapData + 4),
+                 proc->unk58 - *(s16 *)(gMapData + 6),
                  proc->unk4a, 3, 1);
     sub_0803B4DC(0x1C7);
 }

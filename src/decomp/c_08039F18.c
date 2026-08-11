@@ -16,7 +16,7 @@
  * it straight to sub_08039544, which copies bytes until the first zero. */
 u8 *sub_08039F18(int a)
 {
-    return gUnknown_08610A38[gUnknown_085D3DD0[gUnknown_08499598[a].unk1d]
-                                 .unk38[gUnknown_08499598[a].unk1e]
+    return gUnknown_08610A38[gCoDataTable[gArmyRecords[a].unk1d]
+                                 .unk38[gArmyRecords[a].unk1e]
                                  .unk00];
 }

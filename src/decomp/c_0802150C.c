@@ -37,7 +37,7 @@ void sub_0802150C(void)
     gUnknown_03003F3C = 1;
     gUnknown_030032D8 = 5;
     gUnknown_03003334 = 0;
-    gUnknown_030033EC = 0;
+    gCurrentArmyIndex = 0;
     gUnknown_03004080 = 1;
     gUnknown_030030F8 = 0;
 

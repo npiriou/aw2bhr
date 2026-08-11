@@ -26,7 +26,7 @@ struct Map
 
 void sub_0802DCB4(void)
 {
-    struct Unk08499594 *unit;
+    struct UnitRecord *unit;
 
     sub_08023824();
     sub_0802361C();
@@ -50,14 +50,14 @@ void sub_0802DCB4(void)
 
         if (gpKeySt->held & 0x100)
         {
-            if (((struct Map *)gUnknown_08499590)->unk0012[
-                    ((struct Map *)gUnknown_08499590)->unk417A[gUnknown_030033E4.unk02]
+            if (((struct Map *)gMapData)->unk0012[
+                    ((struct Map *)gMapData)->unk417A[gUnknown_030033E4.unk02]
                     + gUnknown_030033E4.unk00] != 0)
             {
                 sub_0801B780(0);
-                sub_0803A8F0(&gUnknown_08499594[
-                    ((struct Map *)gUnknown_08499590)->unk0012[
-                        ((struct Map *)gUnknown_08499590)->unk417A[gUnknown_030033E4.unk02]
+                sub_0803A8F0(&gUnitRecords[
+                    ((struct Map *)gMapData)->unk0012[
+                        ((struct Map *)gMapData)->unk417A[gUnknown_030033E4.unk02]
                         + gUnknown_030033E4.unk00]]);
                 return;
             }

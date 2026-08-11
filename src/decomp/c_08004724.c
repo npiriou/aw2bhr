@@ -29,7 +29,7 @@
  *     `movs r0,#7`) -- the same family as the wave-23 named-constant rule.
  *
  * What was already right and is worth keeping: the ROM materialises
- * &gUnknown_08499590 TWICE by two different routes and BOTH belong. -fforce-addr
+ * &gMapData TWICE by two different routes and BOTH belong. -fforce-addr
  * parks the address in this unit's own .rodata (the word the ROM has at
  * 0x0808D7A8, immediately behind gUnknown_0808D7A0's 8 bytes) and pass 1's
  * outer guard reads through it, while pass 1's body and all of pass 2 use a
@@ -46,7 +46,7 @@ struct Unk3F44Map
     /* 0x1432 */ u8 cell[0x417A - 0x1432];
     /* 0x417A */ u16 rowOffset[1];
 };
-#define MAP ((struct Unk3F44Map *)gUnknown_08499590)
+#define MAP ((struct Unk3F44Map *)gMapData)
 
 void sub_08004724(void)
 {

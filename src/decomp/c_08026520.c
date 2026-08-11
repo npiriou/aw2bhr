@@ -20,10 +20,10 @@ void sub_08026520(void)
 
     for (i = 1; i <= 4; i++)
     {
-        gUnknown_08499598[i].unk34 = sub_080263A4(i);
-        gUnknown_08499598[i].unk35 = sub_08026424(i);
-        gUnknown_08499598[i].unk36 = sub_080264BC(i);
-        gUnknown_08499598[i].unk38 = sub_08026368(i);
-        gUnknown_08499598[i].unk33 = sub_08037D80(gUnknown_08499598[i].unk38);
+        gArmyRecords[i].unk34 = sub_080263A4(i);
+        gArmyRecords[i].unk35 = sub_08026424(i);
+        gArmyRecords[i].unk36 = sub_080264BC(i);
+        gArmyRecords[i].unk38 = sub_08026368(i);
+        gArmyRecords[i].unk33 = sub_08037D80(gArmyRecords[i].unk38);
     }
 }

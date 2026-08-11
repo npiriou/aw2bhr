@@ -16,7 +16,7 @@
 
 #include "proc.h"
 /* "Is the cell under this proc terrain kind 2?"  The cell key is the standard
- * gUnknown_08499590 one -- `rowOffset[y] + x` off the +0x417A row table into
+ * gMapData one -- `rowOffset[y] + x` off the +0x417A row table into
  * the +0x1432 terrain plane -- with the proc's PIXEL coordinates converted to
  * cells first: `(v + 8) / 16` is a signed divide, hence the
  * `adds #8; bge; adds #0xf; asrs #4` rounding chain on each axis.
@@ -24,7 +24,7 @@
  * The map MUST be reached through a struct laid over the header rather than by
  * byte arithmetic on the u8 * symbol: the ROM computes `(map + 0x417A) + y * 2`
  * and `(map + 0x1432) + idx`, and only a COMPONENT_REF keeps that association
- * (see the gUnknown_08499590 note in include/unknown-globals.h).
+ * (see the gMapData note in include/unknown-globals.h).
  *
  * `movs #0` / `movs #1` split across the literal pool with an unconditional
  * `b` is the if/else-return form, not a returned comparison -- and the arm
@@ -47,7 +47,7 @@ struct Unk35C90Proc
 u8 sub_08035C90(ProcPtr procArg)
 {
     struct Unk35C90Proc *proc = procArg;
-    struct Unk35C90Map *map = (struct Unk35C90Map *)gUnknown_08499590;
+    struct Unk35C90Map *map = (struct Unk35C90Map *)gMapData;
 
     if ((map->plane[map->rowOffset[(proc->unk44 + 8) / 16]
                     + (proc->unk42 + 8) / 16] & 0x1f) == 2)

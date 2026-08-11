@@ -22,9 +22,9 @@
  * loads. The byte access is not evidence of a byte type. */
 void sub_080428F0(s16 a1)
 {
-    struct Unk08499594 *e;
+    struct UnitRecord *e;
 
-    e = &gUnknown_08499594[gUnknown_030040D8->unk07[a1]];
+    e = &gUnitRecords[gUnknown_030040D8->unk07[a1]];
     e->unk01 &= ~8;
     e->unk01 &= ~2;
     e->unk02 = gUnknown_03003100.pos.unk00 + gUnknown_0849FFF8[gUnknown_03003F40 * 2];

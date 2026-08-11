@@ -22,7 +22,7 @@
  * the ROM's order -- low bound, high bound, then the second node's HIGH bound
  * before its low. See docs/agbcc-codegen.md, "Switch statements".
  *
- * `*(s16 *)(gUnknown_08499590 + 4)` follows the house idiom for that symbol:
+ * `*(s16 *)(gMapData + 4)` follows the house idiom for that symbol:
  * the byte arithmetic stays on the `u8 *` and the width comes from the cast.
  * The `bge; adds #0xf; asrs #4` is a signed divide by 16, which is what makes
  * the field s16 rather than u16.
@@ -58,7 +58,7 @@ void sub_080470F8(u16 a1)
     sub_080152EC(gUnknown_084C2140, 0);
     sub_080152EC(gUnknown_084C2198, 0);
 
-    if (gUnknown_030033E4.unk00 - *(s16 *)(gUnknown_08499590 + 4) / 16 <= 6)
+    if (gUnknown_030033E4.unk00 - *(s16 *)(gMapData + 4) / 16 <= 6)
         gUnknown_02028DD5 = 0x80;
     else
         gUnknown_02028DD5 = 0;

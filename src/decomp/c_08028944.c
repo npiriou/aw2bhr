@@ -23,7 +23,7 @@ bool8 sub_08028944(u16 a)
     if (sub_080266DC(a) == 0)
         return FALSE;
 
-    if (gUnknown_08499598[a].unk32 != 0)
+    if (gArmyRecords[a].unk32 != 0)
         return FALSE;
 
     return TRUE;

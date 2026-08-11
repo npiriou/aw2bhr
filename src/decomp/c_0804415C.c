@@ -16,5 +16,5 @@
 
 u8 sub_0804415C(int a1)
 {
-    return gUnknown_08499598[a1].unk1e != 0;
+    return gArmyRecords[a1].unk1e != 0;
 }

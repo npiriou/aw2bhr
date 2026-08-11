@@ -64,8 +64,8 @@ void sub_08027658(void)
     u16 x;
     u16 y;
 
-    x = gUnknown_030033E4.unk00 * 16 - *(u16 *)(gUnknown_08499590 + 4);
-    y = gUnknown_030033E4.unk02 * 16 - *(u16 *)(gUnknown_08499590 + 6);
+    x = gUnknown_030033E4.unk00 * 16 - *(u16 *)(gMapData + 4);
+    y = gUnknown_030033E4.unk02 * 16 - *(u16 *)(gMapData + 6);
 
     if ((s16)y <= 0x4f)
     {

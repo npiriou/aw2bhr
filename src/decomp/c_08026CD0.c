@@ -34,9 +34,9 @@ void sub_08026CD0(void)
         k = i - 2;
         if (gUnknown_085C77A0[gUnknown_03003FC0.unk02].unk48[k].unk00 != 0xff)
         {
-            gUnknown_08499598[j].unk2d |=
+            gArmyRecords[j].unk2d |=
                 gUnknown_085C77A0[gUnknown_03003FC0.unk02].unk48[k].unk00;
-            gUnknown_08499598[j].unk2e |=
+            gArmyRecords[j].unk2e |=
                 gUnknown_085C77A0[gUnknown_03003FC0.unk02].unk48[k].unk01;
         }
     }

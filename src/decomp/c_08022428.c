@@ -27,7 +27,7 @@ struct Unk22428Map
  *
  * then re-run tools/split_rodata.py and tools/gen_lds.py. gUnknown_0809099C
  * and gUnknown_080909A0 are agbcc's own -fforce-addr words for
- * gUnknown_08499590 and gUnknown_08499594; the honest spelling names the
+ * gMapData and gUnitRecords; the honest spelling names the
  * objects and the build places the two words (addends 0 and 4).
  *
  * THE WHOLE RESIDUAL WAS ONE REGISTER SWAP, and `(new_var = cx)` is what
@@ -59,7 +59,7 @@ struct Unk22428Map
  *     after the drawing arm. */
 void sub_08022428(u16 x, u16 y)
 {
-    struct Unk08499594 *e;
+    struct UnitRecord *e;
     u8 id;
     int cx;
     int cy;
@@ -67,27 +67,27 @@ void sub_08022428(u16 x, u16 y)
     u16 hp;
     unsigned char new_var;
 
-    if (y >= ((struct Unk22428Map *)gUnknown_08499590)->height
-        || (id = ((struct Unk22428Map *)gUnknown_08499590)
-                     ->unitId[((struct Unk22428Map *)gUnknown_08499590)->rowOffset[y] + x]) == 0
-        || ((struct Unk22428Map *)gUnknown_08499590)
-               ->flag234A[((struct Unk22428Map *)gUnknown_08499590)->rowOffset[y] + x] == 0
+    if (y >= ((struct Unk22428Map *)gMapData)->height
+        || (id = ((struct Unk22428Map *)gMapData)
+                     ->unitId[((struct Unk22428Map *)gMapData)->rowOffset[y] + x]) == 0
+        || ((struct Unk22428Map *)gMapData)
+               ->flag234A[((struct Unk22428Map *)gMapData)->rowOffset[y] + x] == 0
         || !sub_0802571C(id)
-        || (gUnknown_08499594[id].unk01 & 4) != 0)
+        || (gUnitRecords[id].unk01 & 4) != 0)
     {
         sub_080223E0(x, y);
     }
     else
     {
-        if ((gUnknown_08499594[id].unk01 & 1) != 0)
+        if ((gUnitRecords[id].unk01 & 1) != 0)
             v = 0x100;
         else
             v = id & 0xc0;
 
-        cx = ((x - ((struct Unk22428Map *)gUnknown_08499590)->camX) & 0xf) * 2;
-        cy = ((y - ((struct Unk22428Map *)gUnknown_08499590)->camY) & 0xf) * 2;
+        cx = ((x - ((struct Unk22428Map *)gMapData)->camX) & 0xf) * 2;
+        cy = ((y - ((struct Unk22428Map *)gMapData)->camY) & 0xf) * 2;
 
-        e = &gUnknown_08499594[id];
+        e = &gUnitRecords[id];
 
         if (e->unk04_0 != 0)
             hp = Div(e->unk04_0 - 1, 10) + 1;
@@ -95,7 +95,7 @@ void sub_08022428(u16 x, u16 y)
             hp = 0;
 
         sub_0802216C((gUnknown_0849957C + (new_var = cx)) + cy * 32,
-                     gUnknown_08499594[id].unk00,
+                     gUnitRecords[id].unk00,
                      v,
                      e->unk07 | e->unk08,
                      e->unk05_3,

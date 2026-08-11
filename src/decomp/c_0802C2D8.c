@@ -19,8 +19,8 @@ void sub_0802C2D8(struct Unk2C2D8Proc *proc)
 {
     sub_08024268();
 
-    proc->unk20 = *(u16 *)(gUnknown_08499590 + 4);
-    proc->unk22 = *(u16 *)(gUnknown_08499590 + 6);
+    proc->unk20 = *(u16 *)(gMapData + 4);
+    proc->unk22 = *(u16 *)(gMapData + 6);
 
     sub_0803D6D0();
     sub_08037638(0x06000000 + gUnknown_03002B6C.bits.chr_block * 0x4000,

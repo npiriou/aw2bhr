@@ -112,11 +112,11 @@ void sub_08060F00(void)
  * test. Written that way it reproduces exactly; do not author the subtract.
  *
  * `lsls r0, r2, #4; subs r0, r0, r2; lsls r0, #2` is (x*16 - x)*4 = x * 60,
- * which is sizeof(struct Unk08499598) -- the same subscript
+ * which is sizeof(struct ArmyRecord) -- the same subscript
  * src/decomp/c_080610D0.c already writes as
- * `gUnknown_08499598[gUnknown_030033EC].unk00`, against the same
- * `sub_08042C9C(gUnknown_030033EC, type) * 10`. `bls` is unsigned because that
- * member is, and gUnknown_030033EC is re-read for the subscript rather than
+ * `gArmyRecords[gCurrentArmyIndex].unk00`, against the same
+ * `sub_08042C9C(gCurrentArmyIndex, type) * 10`. `bls` is unsigned because that
+ * member is, and gCurrentArmyIndex is re-read for the subscript rather than
  * CSEd because it is named twice in the source.
  *
  * `movs r6, #0xff` before the loop is LICM hoisting the constant both stores
@@ -129,8 +129,8 @@ void sub_08060F74(void)
     for (i = 1; i <= 24; i++)
     {
         if (sub_08060ED4(gUnknown_0857680F[i]) == 0
-            || sub_08042C9C(gUnknown_030033EC, i) * 10
-                   > gUnknown_08499598[gUnknown_030033EC].unk00)
+            || sub_08042C9C(gCurrentArmyIndex, i) * 10
+                   > gArmyRecords[gCurrentArmyIndex].unk00)
             gUnknown_03004640[i] = 0xff;
 
         if ((i == 15 || i == 16) && (gUnknown_030045C0 & 1) == 0)

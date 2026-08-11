@@ -15,7 +15,7 @@
  * `.rodata` reloc naming gUnknown_03004490+3 where the ROM names
  * gUnknown_03004493 is the resolve-to-the-same-address false mismatch.
  *
- * The discarded `ldrh` of gUnknown_030033EC is a VOLATILE read. That global is
+ * The discarded `ldrh` of gCurrentArmyIndex is a VOLATILE read. That global is
  * declared plain `u16` and a dozen matched functions read it, so the qualifier
  * goes at the use, not on the declaration. See docs/agbcc-codegen.md.
  *
@@ -39,7 +39,7 @@ void sub_080350E4(void)
     for (i = 1; i <= 4; i++)
     {
         if (sub_080266DC(i))
-            *(vu16 *)&gUnknown_030033EC;
+            *(vu16 *)&gCurrentArmyIndex;
 
         ((struct Unk03004490 *)gUnknown_03004490)->unk03[i] = 0;
         ((struct Unk03004490 *)gUnknown_03004490)->unk03[i] = 0;

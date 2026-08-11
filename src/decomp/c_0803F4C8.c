@@ -24,7 +24,7 @@ struct UnkF510Proc
     /* 30 */ int unk30;
 };
 
-/* gUnknown_08499590 is named twice and CSE keeps the single deref in r3; the
+/* gMapData is named twice and CSE keeps the single deref in r3; the
  * two `movs #K; ldrsh rD, [r3, rK]` pairs are signed halfwords at +4 and +6 of
  * the map descriptor, i.e. the camera origin this subtracts to get
  * camera-relative coordinates.
@@ -35,7 +35,7 @@ struct UnkF510Proc
  */
 void sub_0803F4C8(struct UnkF4C8Proc *proc)
 {
-    if (sub_0801C254(proc->unk50, (proc->unk54 - *(s16 *)(gUnknown_08499590 + 4)) & 0x1FF, (proc->unk58 - *(s16 *)(gUnknown_08499590 + 6)) & 0xFF) == 0)
+    if (sub_0801C254(proc->unk50, (proc->unk54 - *(s16 *)(gMapData + 4)) & 0x1FF, (proc->unk58 - *(s16 *)(gMapData + 6)) & 0xFF) == 0)
     {
         sub_0801C240(proc->unk50);
         Proc_Break(proc);

@@ -20,10 +20,10 @@ void sub_0802C480(struct Unk2C480Proc *proc)
 {
     u32 v = proc->unk20;
 
-    if (v != *(u32 *)(gUnknown_08499590 + 4))
+    if (v != *(u32 *)(gMapData + 4))
     {
-        gUnknown_030033E4.unk00 = ((s16)*(u16 *)(gUnknown_08499590 + 4) >> 4) + 7;
-        gUnknown_030033E4.unk02 = ((s16)*(u16 *)(gUnknown_08499590 + 6) >> 4) + 5;
+        gUnknown_030033E4.unk00 = ((s16)*(u16 *)(gMapData + 4) >> 4) + 7;
+        gUnknown_030033E4.unk02 = ((s16)*(u16 *)(gMapData + 6) >> 4) + 5;
     }
 
     gUnknown_03003334 = 0;

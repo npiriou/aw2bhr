@@ -21,7 +21,7 @@ void sub_08046644(void)
     gUnknown_084C1430->unk50 = 0;
     gUnknown_084C1430->unk53 = 0;
     gUnknown_084C1430->unk54 = 0;
-    gUnknown_084C1430->unk5e = gUnknown_030033EC;
+    gUnknown_084C1430->unk5e = gCurrentArmyIndex;
     gUnknown_084C1430->unk59 = 0;
     sub_08013C00();
     sub_08013CA8();

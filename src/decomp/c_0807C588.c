@@ -24,9 +24,9 @@ void sub_0807C588(struct Unk807C588 *proc)
     for (i = 0; i < sub_0802490C(gUnknown_03003FC0.unk02); i++)
     {
         if (gUnknown_085C77A0[gUnknown_03003FC0.unk02].unk3c[i] == 0xff)
-            gUnknown_08499598[i + 1].unk1b = 1;
+            gArmyRecords[i + 1].unk1b = 1;
         else
-            gUnknown_08499598[i + 1].unk1b = 2;
+            gArmyRecords[i + 1].unk1b = 2;
     }
 
     proc->unk58 = 0;

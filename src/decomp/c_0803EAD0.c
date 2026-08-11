@@ -16,14 +16,14 @@ void sub_0803EAD0(void)
         switch (p->unk02_6)
         {
         case 2:
-            if (gUnknown_030033EC == 1)
+            if (gCurrentArmyIndex == 1)
                 p->unk06--;
             break;
         case 1:
         case 3:
         case 4:
         case 5:
-            if (gUnknown_08499598[gUnknown_030033EC].unk1a == 5)
+            if (gArmyRecords[gCurrentArmyIndex].unk1a == 5)
                 p->unk06--;
             break;
         }

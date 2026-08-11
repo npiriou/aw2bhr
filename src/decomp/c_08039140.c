@@ -8,7 +8,7 @@
  */
 
 /* An on-screen test for a box of size (w, h) at (x, y): the camera origin
- * lives at +0x04 / +0x06 of the map descriptor gUnknown_08499590 points at,
+ * lives at +0x04 / +0x06 of the map descriptor gMapData points at,
  * and the box is accepted when it overlaps the 0xF0 x 0xA0 screen.
  *
  * `cmn r1, r3` is the tell for the lower bounds: the comparison is against
@@ -32,11 +32,11 @@ u8 sub_08039140(u16 x, s16 y, u8 w, u8 h)
     int dx;
     int dy;
 
-    dy = y - *(s16 *)(gUnknown_08499590 + 6);
+    dy = y - *(s16 *)(gMapData + 6);
 
     if (dy > -h && dy <= 0x9f)
     {
-        dx = (s16)x - *(s16 *)(gUnknown_08499590 + 4);
+        dx = (s16)x - *(s16 *)(gMapData + 4);
 
         if (dx > -w && dx <= 0xef)
             return 1;

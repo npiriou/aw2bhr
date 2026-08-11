@@ -23,7 +23,7 @@ u8 sub_08026340(void)
 
 u32 sub_08026368(u8 a)
 {
-    u32 v = gUnknown_08499598[a].unk34 + gUnknown_08499598[a].unk35 + gUnknown_08499598[a].unk36;
+    u32 v = gArmyRecords[a].unk34 + gArmyRecords[a].unk35 + gArmyRecords[a].unk36;
 
     if (v > 999)
         v = 9999;

@@ -13,7 +13,7 @@
  * `lsrs` after it is the truth test on that bool8 result. */
 void sub_080198D0(void)
 {
-    if (gUnknown_08499598[gUnknown_030033EC].unk1b != 2
+    if (gArmyRecords[gCurrentArmyIndex].unk1b != 2
      && gUnknown_03001FF0 != NULL
      && gUnknown_03001FF0())
         sub_08034F7C();

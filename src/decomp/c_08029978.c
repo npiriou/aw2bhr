@@ -7,24 +7,24 @@
  * sub_08029978 @ 0x08029978, sub_08029A48 @ 0x08029A48
  */
 
-int sub_08029978(struct Unk08499594 *p, u8 a2)
+int sub_08029978(struct UnitRecord *p, u8 a2)
 {
     int acc;
     u16 v;
 
     acc = 0;
     v = p->unk04_0 != 0
-        ? (Div(p->unk04_0 - 1, 10) + 1) * gUnknown_085D5ABC[p->unk00].unk08
+        ? (Div(p->unk04_0 - 1, 10) + 1) * gUnitTypeData[p->unk00].unk08
         : 0;
 
-    while (p->unk04_7 != gUnknown_085D5ABC[p->unk00].unk0b)
+    while (p->unk04_7 != gUnitTypeData[p->unk00].unk0b)
     {
         if (a2)
         {
-            if (gUnknown_08499598[gUnknown_030033EC].unk00 < v)
+            if (gArmyRecords[gCurrentArmyIndex].unk00 < v)
                 break;
 
-            sub_08025B28(gUnknown_030033EC, v);
+            sub_08025B28(gCurrentArmyIndex, v);
         }
 
         acc += v;
@@ -34,7 +34,7 @@ int sub_08029978(struct Unk08499594 *p, u8 a2)
     return acc;
 }
 
-int sub_08029A48(struct Unk08499594 *p, u8 a2)
+int sub_08029A48(struct UnitRecord *p, u8 a2)
 {
     int acc;
     u16 v;
@@ -42,14 +42,14 @@ int sub_08029A48(struct Unk08499594 *p, u8 a2)
     acc = 0;
     v = p->unk04_0 != 0 ? Div(p->unk04_0 - 1, 10) + 1 : 0;
 
-    while (p->unk06_0 != gUnknown_085D5ABC[p->unk00].unk10)
+    while (p->unk06_0 != gUnitTypeData[p->unk00].unk10)
     {
         if (a2)
         {
-            if (gUnknown_08499598[gUnknown_030033EC].unk00 < v)
+            if (gArmyRecords[gCurrentArmyIndex].unk00 < v)
                 break;
 
-            sub_08025B28(gUnknown_030033EC, v);
+            sub_08025B28(gCurrentArmyIndex, v);
         }
 
         acc += v;

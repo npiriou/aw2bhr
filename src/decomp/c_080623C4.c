@@ -17,7 +17,7 @@
  * Three things were load-bearing:
  *
  * 1. THE MAP ADDRESSING IS THE c_0804151C.c IDIOM, one local per step:
- *      p = gUnknown_08499590; t = y * 2; rows = p + 0x417a;
+ *      p = gMapData; t = y * 2; rows = p + 0x417a;
  *      off = *(u16 *)(rows + t) + x; cells = p + 0x3262;
  *    That is what keeps 0x417A and 0x3262 in pool words and emits
  *    `(map + K) + idx` rather than folding K into a load displacement.  The
@@ -61,7 +61,7 @@ int sub_080623C4(int *outX, int *outY)
 
     while (q->v != -1)
     {
-        p = gUnknown_08499590;
+        p = gMapData;
         t = q->y * 2;
         rows = p + 0x417a;
         off = *(u16 *)(rows + t) + q->x;

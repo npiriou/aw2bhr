@@ -14,7 +14,7 @@
  * sub_0804247C @ 0x0804247C
  */
 
-/* The c_08001158.c map-cell idiom: gUnknown_08499590 is a `u8 *` whose +0x417A
+/* The c_08001158.c map-cell idiom: gMapData is a `u8 *` whose +0x417A
  * is a table of per-row halfword offsets and whose +0x1432 is the cell array
  * this one reads (c_08001158.c uses +0xA22 for tiles). The four locals are what
  * keep the two constants in their own pool words and the adds on the base,
@@ -32,7 +32,7 @@ bool8 sub_0804247C(s16 a, s16 b)
     int t;
     int off;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = b * 2;
     rows = p + 0x417a;
     off = *(u16 *)(rows + t) + a;

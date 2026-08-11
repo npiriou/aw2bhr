@@ -7,7 +7,7 @@
  * sub_080011F4 @ 0x080011F4
  */
 
-/* The write half of the c_08001158.c map idiom: gUnknown_08499590 is a base
+/* The write half of the c_08001158.c map idiom: gMapData is a base
  * pointer, +0x417A is a per-ROW halfword offset table indexed y * 2, and the
  * row offset plus x indexes a BYTE plane at +0x1432 (c_08001158.c writes the
  * halfword plane at +0xA22 with the same arithmetic scaled by two).
@@ -23,7 +23,7 @@ void sub_080011F4(int x, int y, int val)
     int t;
     int off;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = y * 2;
     rows = p + 0x417A;
     off = *(u16 *)(rows + t) + x;

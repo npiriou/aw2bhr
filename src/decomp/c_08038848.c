@@ -20,13 +20,13 @@
  * new entry is the previous one minus the terrain cost of the cell stepped on.
  *
  * The cost table is
- * `gUnknown_085D3DD0[row].unk38[e->unk1e].unk18[gUnknown_03003FC0.unk2c]`,
- * where `e` is gUnknown_08499598[(gUnknown_03003F38 >> 6) + 1] -- the +1 rides
+ * `gCoDataTable[row].unk38[e->unk1e].unk18[gUnknown_03003FC0.unk2c]`,
+ * where `e` is gArmyRecords[(gUnknown_03003F38 >> 6) + 1] -- the +1 rides
  * in the 0x59 / 0x5a displacements (0x3c + 0x1d and 0x3c + 0x1e), the same
  * one-based indexing src/decomp/c_080211DC.c uses on that array. `row` is
  * e->unk1d normally and the literal 1 when gUnknown_03003FC0.unk08 is clear,
  * which is why the else arm is the bare constant 0x104 == 1 * sizeof(entry).
- * Unk085D3DD0Entry.unk18 was a scalar `s8 *` until this wave; the
+ * CoModeData.unk18 was a scalar `s8 *` until this wave; the
  * `(unk1e * 17 + unk2c) << 2` off the +0x50 member base is a 4-byte stride
  * INSIDE the 0x44 entry stride, so it is `s8 *[3]`.
  *
@@ -43,7 +43,7 @@
  *   - `c` for the whole cell index, exactly as src/decomp/c_08041EA8.c writes
  *     the same expression. Inlining it into the subscript swaps r1 and r2 in
  *     the last block (6 bytes), and reversing the two addends reschedules the
- *     gUnknown_085D5ABC lookup ahead of the cell read. */
+ *     gUnitTypeData lookup ahead of the cell read. */
 struct Unk38848Map
 {
     /* 0x0000 */ u8 filler_0000[0x1432];
@@ -70,16 +70,16 @@ void sub_08038848(s8 a, s8 b)
     cur = &stack[i];
     prev = &stack[i - 1];
 
-    costs = gUnknown_085D3DD0[gUnknown_03003FC0.unk08
-                ? gUnknown_08499598[(gUnknown_03003F38 >> 6) + 1].unk1d
+    costs = gCoDataTable[gUnknown_03003FC0.unk08
+                ? gArmyRecords[(gUnknown_03003F38 >> 6) + 1].unk1d
                 : 1]
-            .unk38[gUnknown_08499598[(gUnknown_03003F38 >> 6) + 1].unk1e]
+            .unk38[gArmyRecords[(gUnknown_03003F38 >> 6) + 1].unk1e]
             .unk18[gUnknown_03003FC0.unk2c];
 
-    map = (struct Unk38848Map *)gUnknown_08499590;
+    map = (struct Unk38848Map *)gMapData;
 
     c = (map->plane[map->rowOffset[b] + a] & 0x1f)
-        + gUnknown_085D5ABC[gUnknown_030040D8->unk00].unk19 * 32;
+        + gUnitTypeData[gUnknown_030040D8->unk00].unk19 * 32;
 
     *cur = *prev - costs[c];
 }

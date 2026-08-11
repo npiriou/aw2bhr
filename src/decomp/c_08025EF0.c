@@ -15,31 +15,31 @@ bool8 sub_08025EF0(int a1, int a2)
     if ((a1 & 0xc0) != (a2 & 0xc0))
         return FALSE;
 
-    t = gUnknown_085D5ABC[gUnknown_08499594[a1].unk00].unk14;
+    t = gUnitTypeData[gUnitRecords[a1].unk00].unk14;
 
     if (t == NULL)
         return FALSE;
 
     u = t + 1;
 
-    if (u[gUnknown_08499594[a2].unk00] == 0)
+    if (u[gUnitRecords[a2].unk00] == 0)
         return FALSE;
 
-    if (t[0] == 1 && gUnknown_08499594[a1].unk07 != 0)
+    if (t[0] == 1 && gUnitRecords[a1].unk07 != 0)
         return FALSE;
 
-    if (t[0] == 2 && gUnknown_08499594[a1].unk08 != 0)
+    if (t[0] == 2 && gUnitRecords[a1].unk08 != 0)
         return FALSE;
 
     return TRUE;
 }
 
-bool8 sub_08025F74(struct Unk08499594 *a1, u8 a2)
+bool8 sub_08025F74(struct UnitRecord *a1, u8 a2)
 {
     u8 *t;
     u8 *u;
 
-    t = gUnknown_085D5ABC[a1->unk00].unk14;
+    t = gUnitTypeData[a1->unk00].unk14;
 
     if (t == NULL)
         return FALSE;
@@ -58,12 +58,12 @@ bool8 sub_08025F74(struct Unk08499594 *a1, u8 a2)
     return TRUE;
 }
 
-bool8 sub_08025FC0(struct Unk08499594 *a1, struct Unk08499594 *a2)
+bool8 sub_08025FC0(struct UnitRecord *a1, struct UnitRecord *a2)
 {
     if (a1->unk00 != a2->unk00)
         return FALSE;
 
-    if (((a1 - gUnknown_08499594) & 0xc0) != ((a2 - gUnknown_08499594) & 0xc0))
+    if (((a1 - gUnitRecords) & 0xc0) != ((a2 - gUnitRecords) & 0xc0))
         return FALSE;
 
     if (a1->unk07 != 0)

@@ -20,7 +20,7 @@
  *
  * The word at 0x0808D8A0 is NOT a global -- it is agbcc's own -fforce-addr
  * .rodata address constant holding 0x0848897C, one slot before the
- * 0x0808D8A4/0x0808D8A8 pair c_08010B34.c documents for &gUnknown_08499590.
+ * 0x0808D8A4/0x0808D8A8 pair c_08010B34.c documents for &gMapData.
  * The honest spelling below reproduces the two-level `ldr r7,=<word>` /
  * `ldr r0,[r7]` load and promotion must carry the rodata entry. */
 void sub_08010ADC(int x, int y)
@@ -32,10 +32,10 @@ void sub_08010ADC(int x, int y)
     for (i = 0; i < 5; i++)
     {
         nx = x + gUnknown_0848897C[i];
-        if (nx >= 0 && nx < *(u16 *)gUnknown_08499590)
+        if (nx >= 0 && nx < *(u16 *)gMapData)
         {
             ny = y + gUnknown_08488986[i];
-            if (ny >= 0 && ny < *(u16 *)(gUnknown_08499590 + 2))
+            if (ny >= 0 && ny < *(u16 *)(gMapData + 2))
                 sub_08010664(nx, ny);
         }
     }

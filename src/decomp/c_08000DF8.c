@@ -9,7 +9,7 @@
 
 /* Wave 37 (W37-E). Matched on the second attempt.
  * The six halfword clears share ONE base load. Written as
- * `((struct Map *)gUnknown_08499590)->unkNN = 0` six times agbcc reloads the
+ * `((struct Map *)gMapData)->unkNN = 0` six times agbcc reloads the
  * pointer global before every store (it must assume the store aliases the
  * pointer variable), which is +8 bytes; binding `u16 *map` once fixes it.
  * The stores use r4 -- the parameter -- because cse knows a1 == 0 on this side
@@ -24,7 +24,7 @@ void sub_08000DF8(int a1)
 
     if (a1 == 0)
     {
-        map = (u16 *)gUnknown_08499590;
+        map = (u16 *)gMapData;
         map[2] = 0;
         map[3] = 0;
         map[4] = 0;

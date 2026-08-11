@@ -12,10 +12,10 @@ int sub_0802C870(void)
   s16 i;
   int idx;
   int o;
-  struct Unk08499594 **pu;
+  struct UnitRecord **pu;
   u16 *pg;
   i = 1;
-  pu = &gUnknown_08499594;
+  pu = &gUnitRecords;
   pg = &gUnknown_03003F2C;
   idx = (*pg) + i;
   goto test;
@@ -28,9 +28,9 @@ int sub_0802C870(void)
   }
   idx = (*pg) + i;
   test:
-  o = idx * (sizeof(struct Unk08499594));
+  o = idx * (sizeof(struct UnitRecord));
 
-  if ((idx = ((struct Unk08499594 *) (((u8 *) (*pu)) + o))->unk00) == 0)
+  if ((idx = ((struct UnitRecord *) (((u8 *) (*pu)) + o))->unk00) == 0)
   {
     goto body;
   }

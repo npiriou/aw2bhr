@@ -10,7 +10,7 @@
 void sub_0805B3F4(void)
 {
     u8 buf[0x19];
-    struct Unk08499594 *u;
+    struct UnitRecord *u;
 
     sub_0808B6C4(buf, 0, 0x19);
     buf[1] = 8;
@@ -18,10 +18,10 @@ void sub_0805B3F4(void)
     buf[7] = 8;
     buf[9] = 9;
 
-    sub_080581A4(gUnknown_08499590 + 0x3c72, 0);
-    sub_0801F92C(gUnknown_08499590 + 0x2852);
+    sub_080581A4(gMapData + 0x3c72, 0);
+    sub_0801F92C(gMapData + 0x2852);
 
-    u = &gUnknown_08499594[gUnknown_030040D8->unk07[0]];
+    u = &gUnitRecords[gUnknown_030040D8->unk07[0]];
     gUnknown_030046D4 = u->unk00;
 
     if (gUnknown_030040D8->unk07[4] > 7)

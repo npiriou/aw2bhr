@@ -9,7 +9,7 @@
 
 /* gUnknown_08090978 in the asm is NOT a global: the ROM word at 0x08090978
  * holds 0x08499590, i.e. it is agbcc's own -fforce-addr address constant for
- * gUnknown_08499590 (same case as gUnknown_080909A4 / gUnknown_080909B0 in
+ * gMapData (same case as gUnknown_080909A4 / gUnknown_080909B0 in
  * sub_08022580 / sub_080227A8).  Naming the global honestly reproduces
  * `ldr r6,=.LC; ldr r0,[r6]; ldr r1,[r0]`.
  *
@@ -28,12 +28,12 @@ void sub_08021D10(void)
 
     for (y = 0; y <= 0xf; y++)
     {
-        sub_08023BAC((u16)(((s16)*(u16 *)(gUnknown_08499590 + 4) >> 4)
-                           - *(u16 *)(gUnknown_08499590 + 0xc)),
-                     (u16)(y + (((s16)*(u16 *)(gUnknown_08499590 + 6) >> 4)
-                                - *(u16 *)(gUnknown_08499590 + 0xe))),
-                     (u16)((s16)*(u16 *)(gUnknown_08499590 + 4) >> 4),
-                     (u16)(y + ((s16)*(u16 *)(gUnknown_08499590 + 6) >> 4)));
+        sub_08023BAC((u16)(((s16)*(u16 *)(gMapData + 4) >> 4)
+                           - *(u16 *)(gMapData + 0xc)),
+                     (u16)(y + (((s16)*(u16 *)(gMapData + 6) >> 4)
+                                - *(u16 *)(gMapData + 0xe))),
+                     (u16)((s16)*(u16 *)(gMapData + 4) >> 4),
+                     (u16)(y + ((s16)*(u16 *)(gMapData + 6) >> 4)));
     }
 
     sub_08013B1C();

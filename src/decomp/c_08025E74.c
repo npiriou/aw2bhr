@@ -19,6 +19,6 @@ void sub_08025E74(void)
     int i;
 
     for (i = 0; i < 256; i++)
-        gUnknown_08499594[i].unk00 = 0;
+        gUnitRecords[i].unk00 = 0;
     gUnknown_030032C0 = 0;
 }

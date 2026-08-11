@@ -486,7 +486,7 @@ void sub_08014ED4(void *);
 /* A pair always called together on the same object, each `(ptr, u8 flag)` and
  * each returning an accumulated total in r0.
  *
- * WAVE 38 (W38-J): the object IS modelled -- it is `struct Unk08499594`, and
+ * WAVE 38 (W38-J): the object IS modelled -- it is `struct UnitRecord`, and
  * the note that used to stand here ("bytes at +0, +4, +6, a 4-bit and a 7-bit
  * field ... not modelled anywhere yet") was in fact a field-for-field
  * description of it. The three offsets it lists are unk00, the unk04 bitfield
@@ -496,8 +496,8 @@ void sub_08014ED4(void *);
  * the defining use of that member. Retyped from `void *`; sub_08029D1C and
  * sub_08044518 forward a `void *` and convert implicitly, so the change is free
  * at every existing caller (c_08029D1C.c re-verified byte-exact after it). */
-int sub_08029978(struct Unk08499594 *, u8);
-int sub_08029A48(struct Unk08499594 *, u8);
+int sub_08029978(struct UnitRecord *, u8);
+int sub_08029A48(struct UnitRecord *, u8);
 /* Both parameters are `s16`: the prologue sign-extends r0 and r1 with
  * `lsls #16; asrs #16` before forwarding to sub_080290B0. */
 void sub_08029088(s16, s16);
@@ -624,7 +624,7 @@ int sub_08025D08(int);
 /* Wave 41, W41-D. Copied VERBATIM from the promoted definition in
  * src/decomp/c_080260D0.c -- the definition wins. Declared now because
  * sub_08026040 is its only caller and had no prototype for it. */
-void sub_080260D0(struct Unk08499594 *, int);
+void sub_080260D0(struct UnitRecord *, int);
 /* Wave 41, W41-D. sub_08026520's five callees, all of them already promoted
  * and none of them previously declared. Every signature below is COPIED FROM
  * THE DEFINITION (src/decomp/c_080263A4.c, c_080264BC.c, c_08026340.c,
@@ -3072,7 +3072,7 @@ void sub_080359A4(ProcPtr);
  * depends on the old spelling. */
 void sub_080358C4(s16, s16);
 /* CORRECTED in wave 18 (W18-C): sub_080255F4 is
- * `u8 (struct Unk08499594 *, s16, s16)`, not `(int, int, int)`.
+ * `u8 (struct UnitRecord *, s16, s16)`, not `(int, int, int)`.
  *   - Parameter 0 is a POINTER, not an int: the body NULL-tests it
  *     (`cmp r3,#0`), reads `[r3,#1]`, and takes `r3 - gUnknown_08499594` as an
  *     exact pointer difference by 12 (the *0xAAAAAAAB;asr#2 magic). Its caller
@@ -3090,7 +3090,7 @@ void sub_080358C4(s16, s16);
  * which is a no-op for the same reason. Neither call site was ever evidence
  * against s16 -- READ AN ABSENT NARROWING AS PROOF ONLY WHEN THE VALUE'S RANGE
  * DOES NOT ALREADY FIT. Neither caller is promoted. */
-u8 sub_080255F4(struct Unk08499594 *, s16, s16);
+u8 sub_080255F4(struct UnitRecord *, s16, s16);
 /* Wave 29 (C) retyped the return from `int` to `u8`, on two independent
  * readings that agree. CALLEE side: sub_0801C254's own tail is
  * `bl sub_0801C2DC; lsls r0,#0x18; lsrs r0,#0x18` before the shared epilogue,
@@ -3753,7 +3753,7 @@ u8 *sub_0801F494(void);
 /* Wave 32 (W32-C). Reads its first argument's +0x00 and +0x01 BYTES -- the
  * gUnknown_08499594 unit record's own unk00/unk01 -- and forwards r1 untouched
  * as Proc_Start's parent, then parks the record at the new proc's +0x4c. */
-void sub_0802A54C(struct Unk08499594 *, ProcPtr);
+void sub_0802A54C(struct UnitRecord *, ProcPtr);
 /* Wave 32 (W32-C). The tail call of sub_080310D8 / sub_08031128 /
  * sub_0803117C, all three of which reach it with no argument setup at all.
  * Declared void(void) as the weakest model that fits -- NOT read off its own
@@ -4719,11 +4719,11 @@ void sub_0802BCF0(u16, u16, u32);
  * stack word through `bl _call_via_r4`) and restores gUnknown_03004480 from
  * gUnknown_030033EC afterwards. Nothing narrows any of them, so `int`. */
 void sub_0802026C(int, int, int, int, int, int);
-/* Wave 32 (W32-B): one `struct Unk08499594 *`, read off its own body -- it
+/* Wave 32 (W32-B): one `struct UnitRecord *`, read off its own body -- it
  * passes `unk00` to sub_08042D1C and compares the result against the 7-bit
  * bitfield at +6 (`ldrb; lsls #0x19; lsrs #0x19`), which is that type's
  * unk06_0. Returns the smaller of the two, so `int`. */
-int sub_08058224(struct Unk08499594 *);
+int sub_08058224(struct UnitRecord *);
 /* Wave 32 (W32-B): four arguments, all forwarded to PutSpriteExt -- r3 becomes
  * its first, r2 its fifth, and r0/r1 are masked with 0xfffffe00 / 0xffffff00
  * and re-ORed, i.e. coordinates. Nothing narrows them, so `int` throughout. */
@@ -4877,7 +4877,7 @@ void sub_0801FD9C(int);
  * shift-add chain for the 12-byte stride. sub_0802CA78 and sub_0802CB20 both
  * pass three arguments at the call site. No .c file used the old declaration,
  * so nothing had to be re-verified. */
-void sub_08020354(u16, u16, struct Unk08499594 *);
+void sub_08020354(u16, u16, struct UnitRecord *);
 /* Wave 35 (W35-H): sub_080203C0's own prologue is `adds r3,r0,#0; adds r2,r1,#0;
  * cmp r3,#0; ble` -- two int parameters, signed. Its result is discarded at
  * sub_0802CC40's call site. */
@@ -4989,7 +4989,7 @@ void sub_0802E278(void);
  * each parameter (`lsls #0x10` once, then `lsrs` into r7/r6 and `asrs` into
  * r0/r1), because it stores the unsigned view into gUnknown_03003100's u16
  * members and passes the signed view to sub_0802E724. */
-void sub_08020D50(s16, s16, struct Unk08499594 *);
+void sub_08020D50(s16, s16, struct UnitRecord *);
 void sub_08024500(void);
 void sub_0802D67C(u8);
 void sub_0803AA78(u8);
@@ -5091,7 +5091,7 @@ bool8 sub_0802571C(u16);
  * gUnknown_030033EC (u16, passed with a bare `adds r0, r4, #0`) and a `ldrb`,
  * neither narrowed at the call. */
 void sub_08025B58(u16, u32);
-void sub_08025B80(struct Unk08499594 *, u8);
+void sub_08025B80(struct UnitRecord *, u8);
 void sub_080424E4(void);
 /* Both parameters CORRECTED to `int` (wave 26, W26-C). The paragraph above read
  * them off the CALL SITE, where neither is narrowed -- but that is byte-neutral,
@@ -5265,7 +5265,7 @@ void sub_080324C4(int, int, u8);
 /* Wave 38 (W38-J): same object as sub_08029978 / sub_08029A48 above, and
  * retyped on the same evidence -- it walks unk00 (the `* 0x5c` subscript into
  * gUnknown_085D5ABC) and the unk04_0:7 field, clamping the latter at 100. */
-int sub_08029AF8(struct Unk08499594 *, u16, u8);
+int sub_08029AF8(struct UnitRecord *, u16, u8);
 void sub_08053670(u16);
 
 /* The three callees of sub_08043418.
@@ -5597,9 +5597,9 @@ void sub_08017870(int, u8);
  * is the `u8` gUnknown_0849D89C->unk00 (`ldrb` at the call); sub_0803A190 does
  * not narrow it at entry so it is `int` there, sub_0803A2BC narrows it
  * `lsls #0x18` in place so it is `u8`. Argument 2 is the same
- * struct Unk08499594 sub_08025BE0 initialises. */
-void sub_0803A190(int, struct Unk08499594 *);
-void sub_0803A2BC(u8, struct Unk08499594 *);
+ * struct UnitRecord sub_08025BE0 initialises. */
+void sub_0803A190(int, struct UnitRecord *);
+void sub_0803A2BC(u8, struct UnitRecord *);
 /* A predicate over the gUnknown_0849EDB0 list; takes nothing (r0 is dead at
  * entry) and its one caller sub_08084920 tests the result `lsls #0x18;
  * cmp #0`. */
@@ -7809,7 +7809,7 @@ void sub_0802D7B4(int);
  * `bl` needs no argument setup at all.
  *
  * sub_08025AEC and sub_080254AC both scan gUnknown_08499594 for a free slot and
- * return the element address or 0, so both return `struct Unk08499594 *`; both
+ * return the element address or 0, so both return `struct UnitRecord *`; both
  * end `pop {r1}` / `bx lr` with r0 live. sub_08025BE0 initialises one of those
  * records field by field at +0..+0xb, which is the whole 0x0c-byte struct.
  *
@@ -7821,9 +7821,9 @@ void sub_0802D7B4(int);
 void sub_08024F20(s16, s16, struct Unk802C57C *);
 void sub_080251D8(int);
 void sub_080211DC(u8, s8);
-struct Unk08499594 *sub_080254AC(void);
-struct Unk08499594 *sub_08025AEC(void);
-void sub_08025BE0(struct Unk08499594 *, u8);
+struct UnitRecord *sub_080254AC(void);
+struct UnitRecord *sub_08025AEC(void);
+void sub_08025BE0(struct UnitRecord *, u8);
 void sub_08025D20(int);
 void sub_08035740(void *);
 /* Wave 29, W29-A. `s16` and not `u16`, and the discriminator is entirely on the
@@ -7833,13 +7833,13 @@ void sub_08035740(void *);
  * arguments before the `bl`; declaring the parameters `u16` makes those two
  * callers emit `lsrs` there instead and neither one matches. Returns the
  * gUnknown_08499594 slot sub_08025AEC handed out, or NULL. */
-struct Unk08499594 *sub_08025C5C(s16, s16, s16);
+struct UnitRecord *sub_08025C5C(s16, s16, s16);
 /* Wave 32 (W32-B): the same three `s16` as sub_08025C5C, read straight off its
  * own prologue (`lsls #0x10; asrs #0x10` on r0, r1 and r2 -- SIGN extension, so
  * not PROMOTE_MODE's zero-extend), and it returns sub_08025C5C's slot unchanged
  * or 0. sub_08045564 writes through the result, which is what fixes the return
  * type rather than only the family resemblance. */
-struct Unk08499594 *sub_08025CC8(s16, s16, s16);
+struct UnitRecord *sub_08025CC8(s16, s16, s16);
 
 /* Wave 29, W29-A. Both are already DEFINED (src/decomp/c_0803CD14.c,
  * src/decomp/c_0803CCEC.c) and were never declared; these publish the
@@ -8608,7 +8608,7 @@ void sub_08062C94(void);
  * `gUnknown_030040D8` (declared `struct Unk030040D8 *`) as the first argument
  * and casts; the result is tested `lsls #0x18` at that site, so the caller
  * narrows the `int` return to u8 itself. */
-int sub_08062730(struct Unk08499594 *, struct Unk08499594 *);
+int sub_08062730(struct UnitRecord *, struct UnitRecord *);
 void sub_08077620(int, int);      /* (0, 0xA8 - gUnknown_0300064C), twice */
 void sub_080758BC(int, int, int, ProcPtr);
                                   /* FOUR arguments: sub_08077E9C sets r0, r1
@@ -8886,16 +8886,16 @@ void sub_08026588(u8, u8, u8);
 /* Promoted in src/decomp/c_08042C24.c as `int sub_08042C68(int, int)`; declared
  * here so sub_080253B0 can see it. */
 int sub_08042C68(int, int);
-void sub_08025B24(struct Unk08499594 *, int);
+void sub_08025B24(struct UnitRecord *, int);
 /* One record pointer, result unused (sub_08025D60). */
-void sub_0802A5C4(struct Unk08499594 *);
+void sub_0802A5C4(struct UnitRecord *);
 /* Wave 39, W39-F. The 0x0802A3FC unit-scan block.
  *
  * sub_0802A304 is a sub_0802A38C callback, the sibling of sub_0802A2E4, and
- * both are typed `void *` because the object -- a struct Unk08499594 record --
+ * both are typed `void *` because the object -- a struct UnitRecord record --
  * is reached through a file-local view: sub_0802A304 indexes unk07/unk08 as a
  * 2-element cargo array, which the shared struct cannot express and which is
- * not worth reshaping it for (see the note on struct Unk08499594.unk07).
+ * not worth reshaping it for (see the note on struct UnitRecord.unk07).
  *
  * sub_0802A38C and sub_0802A258 are DELIBERATELY NOT DECLARED HERE.
  * src/decomp/c_0802A38C.c defines sub_0802A38C with a file-local `struct
@@ -8924,10 +8924,10 @@ void sub_08025B28(u16, u32);
  * takes the record directly and sub_08025EF0 the two unit ids -- same three
  * tests, and sub_08025EF0 additionally requires the two ids to share an army
  * (`(a & 0xc0) == (b & 0xc0)`). Both return a byte. */
-bool8 sub_08025F74(struct Unk08499594 *, u8);
+bool8 sub_08025F74(struct UnitRecord *, u8);
 bool8 sub_08025EF0(int, int);
-bool8 sub_08025FC0(struct Unk08499594 *, struct Unk08499594 *);
-bool8 sub_080253B0(struct Unk08499594 *);
+bool8 sub_08025FC0(struct UnitRecord *, struct UnitRecord *);
+bool8 sub_080253B0(struct UnitRecord *);
 
 /* Wave 34, W34-K -- block 0x08069 / 0x0806B. Every signature below is read off
  * the CALL SITE, per wave 30; none of these had a declaration anywhere.
@@ -9698,9 +9698,9 @@ void sub_0802E250(void);                             /* c_0802E250.c */
 void sub_0802A7C4(void);                             /* c_0802A7C4.c */
 void sub_0802DBE4(void);                             /* c_0802DBE4.c */
 void sub_0803A59C(void);                             /* c_0803A59C.c */
-void sub_0803A8F0(struct Unk08499594 *);             /* c_0803A8F0.c */
+void sub_0803A8F0(struct UnitRecord *);             /* c_0803A8F0.c */
 void sub_080470F8(u16);                              /* c_080470F8.c */
-struct Unk08499594 *sub_08025580(void);              /* c_08025580.c */
+struct UnitRecord *sub_08025580(void);              /* c_08025580.c */
 /* VARARGS, and that is the whole reason 0x08090AC4-0x08090B44 is full of
  * printf-style strings: the debug overlay in sub_080281F0 / sub_080283E4 is a
  * run of sub_08013428(x, y, "SNOW:%s", ...) calls. */
@@ -10205,15 +10205,15 @@ int sub_080587FC(int);
  * `lsls #0x18; cmp #0`, so it returns a byte.
  *
  * sub_08058144 returns a POINTER: sub_0805DFF4 tests the result against 0 and
- * then reads bytes +1 and +2 off it, which is struct Unk08499594's unk01/unk02
+ * then reads bytes +1 and +2 off it, which is struct UnitRecord's unk01/unk02
  * pair.
- * WAVE 45, W45-E: the `struct Unk08499594 *` here is WRONG and I left it alone
+ * WAVE 45, W45-E: the `struct UnitRecord *` here is WRONG and I left it alone
  * rather than break a promoted file. The matched body returns
  * `&gUnknown_084995A0[v]` -- the ROM scales v by 8 (`lsls #3`) and reads
- * `unk03[a2]` at +3, which is struct Unk084995A0 (0x08), not Unk08499594
+ * `unk03[a2]` at +3, which is struct PropertyListEntry (0x08), not UnitRecord
  * (0x0c, and it is reached by a *3*4 chain everywhere else). The +1/+2 evidence
- * above does not discriminate: Unk084995A0's filler_00[3] covers those bytes
- * too. Fixing this means retyping to `struct Unk084995A0 *`, naming
+ * above does not discriminate: PropertyListEntry's filler_00[3] covers those bytes
+ * too. Fixing this means retyping to `struct PropertyListEntry *`, naming
  * filler_00's three bytes, and editing src/decomp/c_0805DFF4.c (its local `p`)
  * -- byte-neutral in both, but it touches a promoted file, so it wants an
  * orchestrator's re-sweep rather than a mid-wave unilateral edit.
@@ -10304,7 +10304,7 @@ void sub_08059464(void *);
  * and re-verified. */
 int sub_08058058(int);
 int sub_08057F00(int);
-struct Unk08499594 *sub_08058144(int, int);
+struct UnitRecord *sub_08058144(int, int);
 void sub_080591E4(void *);
 int sub_08059A0C(void *);
 void sub_0805BFDC(int, int, int, int);
@@ -10406,7 +10406,7 @@ int sub_0805BBF8(int, int);
  * +0 with 9999 before four calls and re-reads it afterwards with a plain
  * `ldrh` -- unsigned, so `u16 *` rather than `s16 *` even though the values
  * stored are map coordinates. Third argument is a unit-type id (`ldrb` off
- * struct Unk08499594's unk00 at the call site), passed full-width. */
+ * struct UnitRecord's unk00 at the call site), passed full-width. */
 void sub_0805BAFC(int, int, int, u16 *);
 /* Wave 45, W45-F. Three nullary queries -- sub_0805BE10, sub_0805BE54 and
  * sub_0805BEF0 call each with no argument register written beforehand, and
@@ -10469,7 +10469,7 @@ void sub_0806279C(void);
  * `&gUnknown_08499594[i]` with no arithmetic between the load and the call.
  * The tags below are the ones the promoted definitions in src/decomp/ already
  * use, and they stay INCOMPLETE here: each handler reads the record through its
- * own bitfield view because struct Unk08499594 declares +0x04 and +0x09 as
+ * own bitfield view because struct UnitRecord declares +0x04 and +0x09 as
  * plain bytes, and splitting those would touch every other reader of that
  * shared struct (the same reasoning the sub_08061DCC note below records).
  * Declaring the tag incomplete lets every existing definition keep compiling
@@ -10496,13 +10496,13 @@ void sub_08061868(void);
 void sub_08061B00(void);
 void sub_08061CF8(void);
 /* sub_08061DCC is deliberately NOT declared here. Its parameter is one unit
- * record -- the same layout as struct Unk08499594 (unk00 subscripts
+ * record -- the same layout as struct UnitRecord (unk00 subscripts
  * gUnknown_085D5ABC[] with the `* 0x5c` stride, unk04_0 and unk06_0 come out
  * with that struct's documented `ldrb; lsls #25; lsrs #25`) -- except that it
  * WRITES the low three bits of unk09, and only a real bitfield reproduces the
  * ROM's SImode `movs #8; rsbs; ands` mask; the hand-written `(x & ~7) | K`
  * narrows to `movs #0xf8; ands` and is two instructions, not three. Splitting
- * Unk08499594's plain `u8 unk09` would touch every other reader of that shared
+ * UnitRecord's plain `u8 unk09` would touch every other reader of that shared
  * struct, so the draft carries its own tag and the prototype stays out of the
  * header until a caller needs it. Both callers are still assembly. */
 

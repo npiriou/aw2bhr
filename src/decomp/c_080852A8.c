@@ -17,14 +17,14 @@ void sub_080852A8(struct Unk080852A8 *proc)
 {
     if (gUnknown_03005940 <= 3)
         sub_08014668(1, 7, gUnknown_08499578,
-                     gUnknown_08616F0C[gUnknown_08499598[proc->unk66].unk1d * 4
+                     gUnknown_08616F0C[gArmyRecords[proc->unk66].unk1d * 4
                                        + gUnknown_03005940],
                      0x8000, 0x3F);
     if (gUnknown_03005940 == 2)
     {
         sub_0801B780(0);
         sub_080149C0(3, 5, gUnknown_08499578,
-                     gUnknown_08610A38[gUnknown_085D3DD0[gUnknown_08499598[proc->unk66].unk1d]
+                     gUnknown_08610A38[gCoDataTable[gArmyRecords[proc->unk66].unk1d]
                                            .unk38[1].unk00],
                      0x8000, 0);
     }
@@ -32,7 +32,7 @@ void sub_080852A8(struct Unk080852A8 *proc)
     {
         sub_0801B780(0);
         sub_080149C0(3, 5, gUnknown_08499578,
-                     gUnknown_08610A38[gUnknown_085D3DD0[gUnknown_08499598[proc->unk66].unk1d]
+                     gUnknown_08610A38[gCoDataTable[gArmyRecords[proc->unk66].unk1d]
                                            .unk38[2].unk00],
                      0x8000, 0);
     }

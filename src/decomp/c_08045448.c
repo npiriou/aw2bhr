@@ -48,5 +48,5 @@ void sub_08045478(struct Unk45478 *p)
 {
     p->unk2c = 0;
     p->unk30 = 0;
-    sub_08044AB8(gUnknown_030033EC);
+    sub_08044AB8(gCurrentArmyIndex);
 }

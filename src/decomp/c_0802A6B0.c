@@ -26,14 +26,14 @@
 
 void sub_0802A6B0(void)
 {
-    struct Unk08499594 *p;
+    struct UnitRecord *p;
 
     if (Proc_Find(gUnknown_0849FB44))
         return;
 
     while ((s16)gUnknown_03001470[gUnknown_03001FBC].unk38 <= 0x32)
     {
-        p = &gUnknown_08499594[(s16)gUnknown_03001470[gUnknown_03001FBC].unk38
+        p = &gUnitRecords[(s16)gUnknown_03001470[gUnknown_03001FBC].unk38
                                + gUnknown_03003F2C];
 
         if (p->unk00 != 0 && sub_080253B0(p))

@@ -37,7 +37,7 @@
  * AND the position; `t` is declared per-arm so each is its own short-lived
  * allocno and stays in r0.
  *
- * gUnknown_08499590 is named honestly throughout.  agbcc force-addrs it once,
+ * gMapData is named honestly throughout.  agbcc force-addrs it once,
  * for the first statement, and that .rodata word is the ROM's
  * gUnknown_0808D834 (promotion needs "rodata": ["0x0808D834"]); the later arms
  * use the plain literal-pool address, which is exactly the mix the ROM has. */
@@ -50,7 +50,7 @@ struct MapScreen
     /* 0x1432 */ u8 terrain[0x417A - 0x1432];
     /* 0x417A */ u16 rowOffset[1];
 };
-#define MAP ((struct MapScreen *)gUnknown_08499590)
+#define MAP ((struct MapScreen *)gMapData)
 
 void sub_0800A098(int x, int y)
 {

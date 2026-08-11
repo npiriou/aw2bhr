@@ -17,7 +17,7 @@
  * the measurement; a binding statement moves the constant's `ldr` ahead of the
  * `and` and swaps the two pool words.
  *
- * `gUnknown_08499594 + id` AND NOT `&gUnknown_08499594[id]`, and this is the
+ * `gUnitRecords + id` AND NOT `&gUnitRecords[id]`, and this is the
  * whole remaining difference between the two spellings. Both emit seven
  * instructions and the same *12 shift-add chain, but the ADDR_EXPR form
  * expands the array base first, so the pointer load lands immediately after
@@ -31,7 +31,7 @@
  * same idiom src/decomp/c_08061E54.c and c_08061E80.c use for this exact
  * field. It is what produces the ROM's SImode `movs r0,#8; rsbs r0,r0,#0;
  * ands` -- `unk09 &= ~7` on the plain `u8` member shortens the mask to 0xf8
- * and does not match. struct Unk08499594's unk09 is left alone so the layout
+ * and does not match. struct UnitRecord's unk09 is left alone so the layout
  * stays shared.
  *
  * sub_0805D648's first two arguments come out as `movs rK,#0; ldrsh` off the
@@ -70,7 +70,7 @@ void sub_0805DA84(void)
     if (pos.x == 0x270F)
         return;
 
-    u = (struct Unk5DA84 *)(gUnknown_08499594 + id);
+    u = (struct Unk5DA84 *)(gUnitRecords + id);
     u->unk09_0 = 0;
 
     sub_0805D648(pos.x, pos.y, 6, id, 0);

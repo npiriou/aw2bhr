@@ -18,7 +18,7 @@
  */
 void sub_0802966C(void)
 {
-    struct Unk08499594 *unit;
+    struct UnitRecord *unit;
     u8 r;
 
     if (gpKeySt->unk02 & 0x50)
@@ -46,7 +46,7 @@ void sub_0802966C(void)
     {
         gUnknown_03003F40 = gUnknown_03001470[gUnknown_03001FBC].unk20;
 
-        unit = &gUnknown_08499594[gUnknown_030040D8->unk07[
+        unit = &gUnitRecords[gUnknown_030040D8->unk07[
                    gUnknown_03001470[gUnknown_03001FBC].unk22]];
 
         gUnknown_030033E8[gUnknown_03000558] =
@@ -67,7 +67,7 @@ void sub_0802966C(void)
         }
 
         sub_080357E0(gUnknown_03003100.pos.unk00, gUnknown_03003100.pos.unk02,
-                     (((struct Unk08499594 *)gUnknown_030040D8 - gUnknown_08499594) & 0xc0) >> 6,
+                     (((struct UnitRecord *)gUnknown_030040D8 - gUnitRecords) & 0xc0) >> 6,
                      unit->unk00, gUnknown_03003110);
         sub_08015C30(gUnknown_03001FBC);
         sub_08029868(unit->unk00);

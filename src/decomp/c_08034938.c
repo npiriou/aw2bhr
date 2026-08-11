@@ -27,7 +27,7 @@
  * changes nothing. That asymmetry is the whole difference between this and a
  * near-miss.
  *
- * `gUnknown_08499598` is the pointer-to-array global, so the plain `[i]`
+ * `gArmyRecords` is the pointer-to-array global, so the plain `[i]`
  * subscript is what emits the `ldr rN,=sym; ldr rN,[rN]` pair -- see its note
  * in unknown-globals.h; it is on wave 50's pool-word ALLOWLIST and is NOT a
  * -fforce-addr word. `(i*16 - i)*4` is agbcc's 60-byte stride multiply. */
@@ -50,7 +50,7 @@ void sub_08034938(void)
         {
             if (sub_080266DC(i))
             {
-                u8 v = gUnknown_08499598[i].unk11;
+                u8 v = gArmyRecords[i].unk11;
 
                 if (best < v)
                     best = v;
@@ -59,7 +59,7 @@ void sub_08034938(void)
 
         for (i = 1; i <= 4; i++)
         {
-            if (sub_080266DC(i) && best > gUnknown_08499598[i].unk11)
+            if (sub_080266DC(i) && best > gArmyRecords[i].unk11)
                 sub_08028874(i, 0x20);
         }
 

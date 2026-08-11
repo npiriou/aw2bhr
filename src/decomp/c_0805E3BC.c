@@ -19,7 +19,7 @@ void sub_0805E3BC(void)
     sub_0805A5E0(&n);
     if (n == -1)
         sub_0805F7B8();
-    v.pos.unk00 = gUnknown_08499594[n].unk02;
-    v.pos.unk02 = gUnknown_08499594[n].unk03;
+    v.pos.unk00 = gUnitRecords[n].unk02;
+    v.pos.unk02 = gUnitRecords[n].unk03;
     sub_080591E4(&v);
 }

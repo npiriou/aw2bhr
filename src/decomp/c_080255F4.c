@@ -24,7 +24,7 @@
  * produced -- two basic blocks before its only use -- and then `lsrs r1, r2,
  * #0x16` at the use. That is the u16 truncation left behind at the assignment
  * after combine merged its `lsr #16` with the `>> 6` at the use; spelling the
- * whole thing inline puts both shifts at the use. gUnknown_08499594 is grouped
+ * whole thing inline puts both shifts at the use. gUnitRecords is grouped
  * 64 entries per army, so `id >> 6` is the army and the `+ 1` is the usual
  * 1-based army id, which agbcc folds into `adds r0, #0x58` (0x3c + 0x1c).
  *
@@ -38,10 +38,10 @@
  * with a u16 accumulator: the first is a plain assignment and the rest are
  * `+=`, which is what puts the lone `lsls #0x18; lsrs #0x18` on the first call
  * and the `(u16)` re-truncation on the other three. */
-u8 sub_080255F4(struct Unk08499594 *unit, s16 ax, s16 ay)
+u8 sub_080255F4(struct UnitRecord *unit, s16 ax, s16 ay)
 {
     u16 total = 0;
-    u16 id = unit - gUnknown_08499594;
+    u16 id = unit - gUnitRecords;
     u8 *p;
     u8 *rows;
     u8 *cells;
@@ -54,16 +54,16 @@ u8 sub_080255F4(struct Unk08499594 *unit, s16 ax, s16 ay)
     if (!(unit->unk01 & 0x20))
         return 1;
 
-    if (gUnknown_08499598[(id >> 6) + 1].unk1c & 2)
+    if (gArmyRecords[(id >> 6) + 1].unk1c & 2)
         return 1;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     t = ay * 2;
     rows = p + 0x417A;
     idx = *(u16 *)(rows + t) + ax;
     cells = p + 0x1432;
 
-    if (gUnknown_08499598[*(cells + idx) >> 5].unk1c & 2)
+    if (gArmyRecords[*(cells + idx) >> 5].unk1c & 2)
         return 1;
 
     if (ax > 0)
@@ -72,10 +72,10 @@ u8 sub_080255F4(struct Unk08499594 *unit, s16 ax, s16 ay)
     if (ay > 0)
         total += sub_08025598(ax, ay - 1);
 
-    if (ax < *(u16 *)gUnknown_08499590 - 1)
+    if (ax < *(u16 *)gMapData - 1)
         total += sub_08025598(ax + 1, ay);
 
-    if (ay < *(u16 *)(gUnknown_08499590 + 2) - 1)
+    if (ay < *(u16 *)(gMapData + 2) - 1)
         total += sub_08025598(ax, ay + 1);
 
     if (total != 0)

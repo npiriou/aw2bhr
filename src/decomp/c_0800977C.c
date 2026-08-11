@@ -9,7 +9,7 @@
 
 /* Returns whether the cell at (x, y) is a join candidate.
  *
- * This names gUnknown_08499590 DIRECTLY, which is what the original source did,
+ * This names gMapData DIRECTLY, which is what the original source did,
  * so agbcc's -fforce-addr parks the address in this unit's own .rodata.  That
  * word is the ROM's gUnknown_0808D81C and the build now places it there --
  * see tools/split_rodata.py.  The `c_local` workaround spelling is NOT used
@@ -28,7 +28,7 @@ int sub_0800977C(int x, int y)
         u8 *cells;
         int idx;
 
-        p = gUnknown_08499590;
+        p = gMapData;
         t = y * 2;
         rows = p + 0x417A;
         idx = *(u16 *)(rows + t) + x;
@@ -48,7 +48,7 @@ int sub_0800977C(int x, int y)
             u8 *tiles;
             int off;
 
-            p = gUnknown_08499590;
+            p = gMapData;
             rows = p + 0x417A;
             off = (*(u16 *)(rows + t) + x) * 2;
             tiles = p + 0xA22;
@@ -59,7 +59,7 @@ int sub_0800977C(int x, int y)
         {
             if (x > 0 && sub_08009720(x - 1, y))
                 ok = 0;
-            if (x < *(u16 *)gUnknown_08499590 - 1 && sub_08009720(x + 1, y))
+            if (x < *(u16 *)gMapData - 1 && sub_08009720(x + 1, y))
                 ok = 0;
 
             if (ok)
@@ -75,7 +75,7 @@ int sub_0800977C(int x, int y)
                     int t2;
                     int idx;
 
-                    p = gUnknown_08499590;
+                    p = gMapData;
                     t2 = y * 2;
                     rows = p + 0x417A;
                     idx = *(u16 *)(rows + t2);
@@ -86,7 +86,7 @@ int sub_0800977C(int x, int y)
                         cnt = 1;
                 }
 
-                pe = gUnknown_08499590;
+                pe = gMapData;
 
                 if (x < *(u16 *)pe - 1)
                 {
@@ -112,7 +112,7 @@ int sub_0800977C(int x, int y)
         {
             if (y > 0 && sub_08009720(x, y - 1))
                 ok = 0;
-            if (y < *(u16 *)(gUnknown_08499590 + 2) - 1 && sub_08009720(x, y + 1))
+            if (y < *(u16 *)(gMapData + 2) - 1 && sub_08009720(x, y + 1))
                 ok = 0;
 
             if (ok)
@@ -128,7 +128,7 @@ int sub_0800977C(int x, int y)
                     int t2;
                     int idx;
 
-                    p = gUnknown_08499590;
+                    p = gMapData;
                     t2 = (y - 1) * 2;
                     rows = p + 0x417A;
                     idx = *(u16 *)(rows + t2);
@@ -138,7 +138,7 @@ int sub_0800977C(int x, int y)
                         cnt = 1;
                 }
 
-                pe = gUnknown_08499590;
+                pe = gMapData;
 
                 if (y < *(u16 *)(pe + 2) - 1)
                 {

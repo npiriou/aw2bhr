@@ -12,7 +12,7 @@
  * the c_08001158.c map-cell idiom; gUnknown_03003F2C holds the army bits the
  * cell's top two must equal.
  *
- * gUnknown_08499590 is read through the GLOBAL in the bounds chain rather than
+ * gMapData is read through the GLOBAL in the bounds chain rather than
  * through a local bound before it. CSE still emits one `ldr` and reuses it for
  * everything after, but binding a local first creates the pseudo ahead of the
  * `x < 0` test -- which both hoists the load above that branch and pushes the
@@ -20,23 +20,23 @@
  *
  * The two tail compares are the stat check: unk0b caps the 4-bit field at bit 7
  * of the unit's unk04 container and unk10 caps the 7-bit unk06, exactly the
- * pairing gUnknown_085D5ABC's own comments record for sub_08042998. */
+ * pairing gUnitTypeData's own comments record for sub_08042998. */
 bool8 sub_0804209C(s16 x, s16 y)
 {
     u8 *p;
     u8 *rows;
     u8 *units;
-    struct Unk08499594 *unit;
-    struct Unk085D5ABC *e;
+    struct UnitRecord *unit;
+    struct UnitTypeData *e;
     int y2;
     int off;
     int id;
 
-    if (x < 0 || x >= *(u16 *)gUnknown_08499590
-     || y < 0 || y >= *(u16 *)(gUnknown_08499590 + 2))
+    if (x < 0 || x >= *(u16 *)gMapData
+     || y < 0 || y >= *(u16 *)(gMapData + 2))
         return FALSE;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     y2 = y * 2;
     rows = p + 0x417a;
     off = *(u16 *)(rows + y2) + x;
@@ -49,15 +49,15 @@ bool8 sub_0804209C(s16 x, s16 y)
     if ((id & 0xc0) != gUnknown_03003F2C)
         return FALSE;
 
-    unit = &gUnknown_08499594[id];
+    unit = &gUnitRecords[id];
 
-    if (unit == (struct Unk08499594 *)gUnknown_030040D8)
+    if (unit == (struct UnitRecord *)gUnknown_030040D8)
         return FALSE;
 
     if (gUnknown_084995A8[unit->unk00] == 0)
         return FALSE;
 
-    e = &gUnknown_085D5ABC[unit->unk00];
+    e = &gUnitTypeData[unit->unk00];
 
     if (e->unk0b != unit->unk04_7)
         return TRUE;
@@ -84,8 +84,8 @@ bool8 sub_08042154(struct Unk030040D8 *a1, s16 a2, s16 a3)
     int off;
     int idx;
 
-    t = gUnknown_085D5ABC[a1->unk00].unk14;
-    p = gUnknown_08499590;
+    t = gUnitTypeData[a1->unk00].unk14;
+    p = gMapData;
     y2 = a3 * 2;
     rows = p + 0x417a;
     off = *(u16 *)(rows + y2) + a2;
@@ -104,7 +104,7 @@ bool8 sub_08042154(struct Unk030040D8 *a1, s16 a2, s16 a3)
 }
 
 /* The c_0804247C.c map-cell idiom plus a per-terrain movement-cost lookup:
- * gUnknown_085D5ABC[type].unk14 points at a blob whose +0x1a is a table of
+ * gUnitTypeData[type].unk14 points at a blob whose +0x1a is a table of
  * cost bytes indexed by the cell's low 5 bits, and a zero entry means the
  * terrain is impassable for this unit type.
  *
@@ -124,8 +124,8 @@ bool8 sub_080421D0(struct Unk030040D8 *a1, s16 a2, s16 a3)
     int off;
     int idx;
 
-    t = gUnknown_085D5ABC[a1->unk00].unk14;
-    p = gUnknown_08499590;
+    t = gUnitTypeData[a1->unk00].unk14;
+    p = gMapData;
     y2 = a3 * 2;
     rows = p + 0x417a;
     off = *(u16 *)(rows + y2) + a2;
@@ -156,8 +156,8 @@ bool8 sub_0804223C(struct Unk030040D8 *a1, s16 a2, s16 a3)
     int off;
     int idx;
 
-    t = gUnknown_085D5ABC[a1->unk00].unk14;
-    p = gUnknown_08499590;
+    t = gUnitTypeData[a1->unk00].unk14;
+    p = gMapData;
     y2 = a3 * 2;
     rows = p + 0x417a;
     off = *(u16 *)(rows + y2) + a2;
@@ -175,7 +175,7 @@ bool8 sub_0804223C(struct Unk030040D8 *a1, s16 a2, s16 a3)
 }
 
 /* Five values stay live across the two calls -- the address of
- * gUnknown_08499590, the 0x417A constant, y * 2, the narrowed x and the unit
+ * gMapData, the 0x417A constant, y * 2, the narrowed x and the unit
  * pointer -- which is what the sl/sb/r8 saves are for, not a loop.
  *
  * The post-call half needs its OWN p/rows/off locals. Sharing them with the
@@ -183,7 +183,7 @@ bool8 sub_0804223C(struct Unk030040D8 *a1, s16 a2, s16 a3)
  * (which consumes p in place) then comes out as a copy plus an add.
  *
  * unit is bound BEFORE the `id == 0` test, the same ordering sub_08041F38
- * uses, and the sub_08025F74 argument is respelled &gUnknown_08499594[id]
+ * uses, and the sub_08025F74 argument is respelled &gUnitRecords[id]
  * rather than reusing unit: that global is a non-const pointer, so the first
  * `bl` kills its MEM and the ROM reloads it. */
 bool8 sub_080422A8(s16 x, s16 y)
@@ -196,20 +196,20 @@ bool8 sub_080422A8(s16 x, s16 y)
     u8 *cells;
     u8 *costs;
     u8 *t;
-    struct Unk08499594 *unit;
+    struct UnitRecord *unit;
     int y2;
     int off;
     int off2;
     int id;
     int idx;
 
-    p = gUnknown_08499590;
+    p = gMapData;
     y2 = y * 2;
     rows = p + 0x417a;
     off = *(u16 *)(rows + y2) + x;
     ids = p + 0x12;
     id = ids[off];
-    unit = &gUnknown_08499594[id];
+    unit = &gUnitRecords[id];
 
     if (id == 0)
         return FALSE;
@@ -217,12 +217,12 @@ bool8 sub_080422A8(s16 x, s16 y)
     if (sub_08026F9C(id, gUnknown_03003F38) == 0)
         return FALSE;
 
-    if (sub_08025F74(&gUnknown_08499594[id], gUnknown_030040D8->unk00) == 0)
+    if (sub_08025F74(&gUnitRecords[id], gUnknown_030040D8->unk00) == 0)
         return FALSE;
 
-    t = gUnknown_085D5ABC[unit->unk00].unk14;
+    t = gUnitTypeData[unit->unk00].unk14;
 
-    p2 = gUnknown_08499590;
+    p2 = gMapData;
     rows2 = p2 + 0x417a;
     off2 = *(u16 *)(rows2 + y2) + x;
     cells = p2 + 0x1432;
@@ -255,7 +255,7 @@ bool8 sub_0804236C(s16 x, s16 y)
     int off2;
 
     army = gUnknown_03003F38;
-    p = gUnknown_08499590;
+    p = gMapData;
     y2 = y * 2;
     rows = p + 0x417a;
     off = *(u16 *)(rows + y2) + x;
@@ -264,7 +264,7 @@ bool8 sub_0804236C(s16 x, s16 y)
     if (sub_08026FD0(army, cells[off]) == 1)
         return FALSE;
 
-    p2 = gUnknown_08499590;
+    p2 = gMapData;
     rows2 = p2 + 0x417a;
     off2 = *(u16 *)(rows2 + y2) + x;
     cells2 = p2 + 0x1432;

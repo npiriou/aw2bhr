@@ -18,5 +18,5 @@ u8 *sub_080261C8(int index)
 {
     u8 *base = gUnknown_0810E6E0;
 
-    return base + (gUnknown_08499598[index].unk1a - 1) * 0x20;
+    return base + (gArmyRecords[index].unk1a - 1) * 0x20;
 }

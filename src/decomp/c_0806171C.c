@@ -22,7 +22,7 @@
  * 16-bit object produces that: agbcc folds `sign_extend (mem:HI)` into
  * `movs rI,#0; ldrsh rD,[rB,rI]` whatever the declared signedness, and that
  * fold was probed directly on both an s16 global (gUnknown_03004780) and a u16
- * one (gUnknown_030033EC), through an intermediate s16 local, through an
+ * one (gCurrentArmyIndex), through an intermediate s16 local, through an
  * intermediate u16 local, through `(s16)(u16)`, through `& 0xffff` and through
  * `*(u16 *)&`. All six give `ldrsh`. Only a load agbcc's combiner may not touch
  * -- a volatile-qualified read -- leaves the two halves apart.
@@ -78,7 +78,7 @@ void sub_08061788(u16 a)
     if (gUnknown_085C77A0[gUnknown_03003FC0.unk02].unk27 != 0)
     {
         sub_08061A40(SCRATCH,
-            &gUnknown_085771C4[gUnknown_0857690C[gUnknown_085C77A0[gUnknown_03003FC0.unk02].unk27][gUnknown_08499598[a].unk1d]]);
+            &gUnknown_085771C4[gUnknown_0857690C[gUnknown_085C77A0[gUnknown_03003FC0.unk02].unk27][gArmyRecords[a].unk1d]]);
     }
     else
     {
@@ -88,7 +88,7 @@ void sub_08061788(u16 a)
             v = 4;
 
         sub_08061A40(SCRATCH,
-            &gUnknown_085771C4[gUnknown_0857690C[v][gUnknown_08499598[a].unk1d]]);
+            &gUnknown_085771C4[gUnknown_0857690C[v][gArmyRecords[a].unk1d]]);
     }
 
     sub_08061A40(&gUnknown_02029D84, SCRATCH);
@@ -113,7 +113,7 @@ void sub_08061868(void)
     sub_08061CDC();
     sub_08061CF8();
     sub_08061F34();
-    sub_08061788(gUnknown_030033EC);
+    sub_08061788(gCurrentArmyIndex);
     sub_08062028();
     sub_0806279C();
     sub_08062C7C(0);
@@ -122,6 +122,6 @@ void sub_08061868(void)
     gUnknown_03004780 = 1;
     gUnknown_030044D8 = gUnknown_03004770 = 0;
 
-    if (gUnknown_08499598[gUnknown_030033EC].unk1a == 5 && gUnknown_030046B4 != 0)
+    if (gArmyRecords[gCurrentArmyIndex].unk1a == 5 && gUnknown_030046B4 != 0)
         sub_080607E8();
 }

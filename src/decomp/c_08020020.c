@@ -22,7 +22,7 @@ struct Unk20020Map
     /* 0x0000 */ u16 width;
     /* 0x0002 */ u16 height;
 };
-#define MAP ((struct Unk20020Map *)gUnknown_08499590)
+#define MAP ((struct Unk20020Map *)gMapData)
 #define ROW(n) ((s8 *)gUnknown_03003340[n])
 
 void sub_08020020(void)

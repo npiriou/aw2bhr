@@ -26,14 +26,14 @@ void sub_08008BB8(int x, int y)
         /* WAVE 37 final sweep: `.unk18` was `s8 *` when this function was
          * verified; W37-H later widened it to `s8 *[3]`. Element 0 is at the
          * same offset, so `[0]` is byte-identical to the spelling that matched. */
-        costs = gUnknown_085D3DD0[1].unk38[0].unk18[0];
+        costs = gCoDataTable[1].unk38[0].unk18[0];
 
-        p = gUnknown_08499590;
+        p = gMapData;
         t = y * 2;
         rows = p + 0x417A;
         idx = *(u16 *)(rows + t) + x;
         cells = p + 0x1432;
-        c = (*(cells + idx) & 0x1f) + gUnknown_085D5ABC[v & 0x3f].unk19 * 32;
+        c = (*(cells + idx) & 0x1f) + gUnitTypeData[v & 0x3f].unk19 * 32;
 
         if (costs[c] == -1)
             sub_08008A8C(0, x, y);

@@ -37,7 +37,7 @@
 
 void sub_08023BAC(u16 a1, u16 a2, u16 a3, u16 a4)
 {
-    struct Unk08499590 *m;
+    struct MapData *m;
     u16 *dst;
     u16 i;
 
@@ -46,7 +46,7 @@ void sub_08023BAC(u16 a1, u16 a2, u16 a3, u16 a4)
 
     for (i = 0; i <= 15; i++)
     {
-        m = (struct Unk08499590 *)gUnknown_08499590;
+        m = (struct MapData *)gMapData;
         if (m->unk234a[m->unk417a[a4] + (a3 + i)] == 0)
         {
             dst[a1] = gUnknown_080BFBC4[m->unk0a22[m->unk417a[a4] + (a3 + i)]][0] + 0x4000;

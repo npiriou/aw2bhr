@@ -68,14 +68,14 @@ void sub_08035BC4(s16 x, s16 y, s16 a3)
     struct UnkVec v;
     s16 id;
 
-    if (x - ((struct Unk35BC4Map *)gUnknown_08499590)->unk04 < 0
-        || x - ((struct Unk35BC4Map *)gUnknown_08499590)->unk04 > 0xef)
+    if (x - ((struct Unk35BC4Map *)gMapData)->unk04 < 0
+        || x - ((struct Unk35BC4Map *)gMapData)->unk04 > 0xef)
         return;
 
-    if (y - ((struct Unk35BC4Map *)gUnknown_08499590)->unk06 < 0)
+    if (y - ((struct Unk35BC4Map *)gMapData)->unk06 < 0)
         return;
 
-    if (y - ((struct Unk35BC4Map *)gUnknown_08499590)->unk06 > 0x9f)
+    if (y - ((struct Unk35BC4Map *)gMapData)->unk06 > 0x9f)
         return;
 
     id = sub_08015438(gUnknown_0849BDE0, 5, gUnknown_0849BFD8, (void *)(int)a3, 2);
@@ -85,8 +85,8 @@ void sub_08035BC4(s16 x, s16 y, s16 a3)
     p->unk20 = y;
 
     sub_080155C0(id,
-                 x - ((struct Unk35BC4Map *)gUnknown_08499590)->unk04,
-                 y - ((struct Unk35BC4Map *)gUnknown_08499590)->unk06);
+                 x - ((struct Unk35BC4Map *)gMapData)->unk04,
+                 y - ((struct Unk35BC4Map *)gMapData)->unk06);
 
     v = sub_08015638(id);
     v.unk04 = (((v.unk04 & 0xFFFFFC00) | 0x176) & 0xFFFF0FFF) | 0x8000;

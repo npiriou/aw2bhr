@@ -10,7 +10,7 @@
 /* Writes one 2x2 tile quad into the gUnknown_08499578 tilemap for map cell
  * (x, y): the four halfwords 0x81b0..0x81b3, or four zeroes when the cell's
  * gUnknown_03003340 byte is negative. The screen index is the promoted
- * `(x - camera_x) & 0xF` / `(y - camera_y) & 0xF` pair off gUnknown_08499590's
+ * `(x - camera_x) & 0xF` / `(y - camera_y) & 0xF` pair off gMapData's
  * +0x0c / +0x0e, scaled to u16 elements (2 across, 64 down).
  *
  * The last of the four stores is SHARED by both arms -- agbcc falls the zero
@@ -27,8 +27,8 @@ struct MapScreen227F4
 void sub_080227F4(u16 x, u16 y)
 {
     u16 *p = gUnknown_08499578
-           + ((x - ((struct MapScreen227F4 *)gUnknown_08499590)->unk0c) & 0xF) * 2
-           + ((y - ((struct MapScreen227F4 *)gUnknown_08499590)->unk0e) & 0xF) * 64;
+           + ((x - ((struct MapScreen227F4 *)gMapData)->unk0c) & 0xF) * 2
+           + ((y - ((struct MapScreen227F4 *)gMapData)->unk0e) & 0xF) * 64;
 
     if ((s8)gUnknown_03003340[y][x] < 0)
     {

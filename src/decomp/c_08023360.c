@@ -43,10 +43,10 @@ void sub_08023360(int a)
     sub_08011C68(gUnknown_0849957C, (void *)0x0600F000, 0x800);
     sub_08011C68(gUnknown_08499580, (void *)0x06007800, 0x800);
 
-    ApplyPalette((u16 *)(gUnknown_0810E6E0 + (gUnknown_08499598[1].unk1a - 1) * 0x20), 12);
-    ApplyPalette((u16 *)(gUnknown_0810E6E0 + (gUnknown_08499598[2].unk1a - 1) * 0x20), 13);
-    ApplyPalette((u16 *)(gUnknown_0810E6E0 + (gUnknown_08499598[3].unk1a - 1) * 0x20), 14);
-    ApplyPalette((u16 *)(gUnknown_0810E6E0 + (gUnknown_08499598[4].unk1a - 1) * 0x20), 15);
+    ApplyPalette((u16 *)(gUnknown_0810E6E0 + (gArmyRecords[1].unk1a - 1) * 0x20), 12);
+    ApplyPalette((u16 *)(gUnknown_0810E6E0 + (gArmyRecords[2].unk1a - 1) * 0x20), 13);
+    ApplyPalette((u16 *)(gUnknown_0810E6E0 + (gArmyRecords[3].unk1a - 1) * 0x20), 14);
+    ApplyPalette((u16 *)(gUnknown_0810E6E0 + (gArmyRecords[4].unk1a - 1) * 0x20), 15);
 
     sub_0803F80C(8);
     sub_0802D2EC();
@@ -65,7 +65,7 @@ void sub_08023360(int a)
     sub_08035020(gUnknown_03003FC0.unk2c);
     sub_08022A34();
 
-    sub_0801A5B0(gUnknown_030033EC);
-    sub_08043834(gUnknown_030033EC);
-    sub_0801A57C(gUnknown_030033EC);
+    sub_0801A5B0(gCurrentArmyIndex);
+    sub_08043834(gCurrentArmyIndex);
+    sub_0801A57C(gCurrentArmyIndex);
 }

@@ -7,7 +7,7 @@
  * sub_0804B42C @ 0x0804B42C, sub_0804B4C4 @ 0x0804B4C4
  */
 
-/* Scores the four cardinal neighbours of (x, y) on the gUnknown_08499590 map
+/* Scores the four cardinal neighbours of (x, y) on the gMapData map
  * and returns the terrain code of the best-scoring in-bounds one. Byte-
  * identical twin of sub_0804B4C4, which reads the adjacent table
  * gUnknown_08551CBD instead of gUnknown_08551CA0.
@@ -40,7 +40,7 @@ int sub_0804B42C(int x, int y)
 
     best = 0;
     result = 0;
-    p = gUnknown_08499590;
+    p = gMapData;
     d = gUnknown_08551CDC[0];
     rows = p + 0x417A;
     terrain = p + 0x1432;
@@ -88,7 +88,7 @@ int sub_0804B4C4(int x, int y)
 
     best = 0;
     result = 0;
-    p = gUnknown_08499590;
+    p = gMapData;
     d = gUnknown_08551CDC[0];
     rows = p + 0x417A;
     terrain = p + 0x1432;

@@ -16,13 +16,13 @@ struct Unk5A514Cell
 
 void sub_0805A514(struct Unk5A514Cell *out)
 {
-    struct Unk08499594 *u;
+    struct UnitRecord *u;
     u16 pos[2];
     int i;
 
     for (i = gUnknown_03003F2C; i < gUnknown_03003F2C + 0x40; i++)
     {
-        u = &gUnknown_08499594[i];
+        u = &gUnitRecords[i];
         if (u->unk00 == 0)
             continue;
         if ((u->unk09 & 0x38) != 0x18)
@@ -44,7 +44,7 @@ void sub_0805A514(struct Unk5A514Cell *out)
 
 void sub_0805A5E0(int *out)
 {
-    struct Unk08499594 *p;
+    struct UnitRecord *p;
     int i;
     u16 best;
     int t;
@@ -55,7 +55,7 @@ void sub_0805A5E0(int *out)
 
     for (i = gUnknown_03003F2C; i < gUnknown_03003F2C + 0x40; i++)
     {
-        p = &gUnknown_08499594[i];
+        p = &gUnitRecords[i];
         if (p->unk00 == 0)
             continue;
         if (gUnknown_084995A8[p->unk00] == 0)
@@ -64,7 +64,7 @@ void sub_0805A5E0(int *out)
             continue;
         if ((p->unk09 & 7) != 1)
             continue;
-        if (&gUnknown_08499594[i] == (struct Unk08499594 *)gUnknown_030040D8)
+        if (&gUnitRecords[i] == (struct UnitRecord *)gUnknown_030040D8)
             continue;
         if ((s8)gUnknown_03003340[p->unk03][p->unk02] < 0)
             continue;
@@ -74,7 +74,7 @@ void sub_0805A5E0(int *out)
 
         if ((s16)v < (s16)best)
         {
-            *out = p - gUnknown_08499594;
+            *out = p - gUnitRecords;
             best = v;
         }
     }

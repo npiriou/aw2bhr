@@ -16,7 +16,7 @@
 
 bool8 sub_0802DBF8(void)
 {
-    if ((*(u16 *)(gUnknown_08499590 + 0x10) & 0xF) == 0
+    if ((*(u16 *)(gMapData + 0x10) & 0xF) == 0
      && (*(u32 *)&gUnknown_030033E0 & 0x000F000F) == 0)
         return TRUE;
 
