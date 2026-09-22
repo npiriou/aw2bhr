@@ -5,7 +5,7 @@ param(
     [string]$Mgba = 'X:\dev\mgba-dev\current\mGBA-build-2026-09-19-win64-9139-3a5bc24629867576b0fb576a5d5a21d3b3d6b576\mGBA.exe',
     [string]$SaveState = '',
     [switch]$Trace,
-    [switch]$NoSyncSettings
+    [switch]$NoSyncController
 )
 
 $ErrorActionPreference = 'Stop'
@@ -28,17 +28,18 @@ if ($SaveState -and -not (Test-Path -LiteralPath $SaveState -PathType Leaf)) {
     throw "Savestate is missing: $SaveState"
 }
 
-# The development build is portable, so it normally has an independent input
-# profile. Mirror the user's installed mGBA settings before every launch so
-# controllers, keyboard bindings, audio, video, and window preferences match.
+# The development build uses a newer SDL and sees the same 8BitDo controller in
+# a different input slot. Transfer only the controls while retaining its slot,
+# GUID, Qt state and version-specific settings.
 $mgbaDirectory = Split-Path -Parent (Resolve-Path -LiteralPath $Mgba).Path
 $installedSettings = Join-Path $env:APPDATA 'mGBA'
-if (-not $NoSyncSettings -and (Test-Path -LiteralPath (Join-Path $mgbaDirectory 'portable.ini'))) {
-    foreach ($settingsFile in @('config.ini', 'qt.ini')) {
-        $sourceSettings = Join-Path $installedSettings $settingsFile
-        if (Test-Path -LiteralPath $sourceSettings -PathType Leaf) {
-            Copy-Item -LiteralPath $sourceSettings -Destination (Join-Path $mgbaDirectory $settingsFile) -Force
-        }
+if (-not $NoSyncController -and (Test-Path -LiteralPath (Join-Path $mgbaDirectory 'portable.ini'))) {
+    $sourceConfig = Join-Path $installedSettings 'config.ini'
+    $targetConfig = Join-Path $mgbaDirectory 'config.ini'
+    if ((Test-Path -LiteralPath $sourceConfig -PathType Leaf) -and
+        (Test-Path -LiteralPath $targetConfig -PathType Leaf)) {
+        & $Python (Join-Path $root 'tools\sync_mgba_controller.py') $sourceConfig $targetConfig
+        if ($LASTEXITCODE -ne 0) { throw 'Controller settings synchronization failed.' }
     }
 }
 

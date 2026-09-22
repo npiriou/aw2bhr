@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import struct
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -10,6 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BRIDGE = ROOT / "tools" / "spann_bridge"
 sys.path.insert(0, str(BRIDGE))
+sys.path.insert(0, str(ROOT / "tools"))
 
 from generate_layout import generated_outputs
 from mailbox_layout import ACTIONS, BASE, FIELDS, REQUEST, RESPONSE, SIZE
@@ -22,6 +24,61 @@ from protocol import (
     response_payload,
 )
 from state_adapter import state_from_snapshot, translate_model_action
+from sync_mgba_controller import sync as sync_mgba_controller
+
+
+class ControllerConfigTests(unittest.TestCase):
+    def test_mapping_moves_to_portable_slot_without_replacing_device(self) -> None:
+        source = """\
+[gba.input.SDLB]
+device0=normal-guid
+keyA=0
+keyB=1
+keyStart=7
+axisLeftAxis=-0
+hat0Up=6
+
+[gba.input-profile.(Controller)]
+keyA=0
+keyB=1
+keyStart=7
+axisLeftAxis=-0
+hat0Up=6
+"""
+        target = """\
+[gba.input.SDLC]
+device0=portable-guid
+keyA=11
+keyB=10
+
+[gba.input-profile.(Controller)]
+keyA=11
+keyB=10
+
+[gba.input-profile.portable-guid]
+gyroAxisX=0
+"""
+        with tempfile.TemporaryDirectory() as directory:
+            source_path = Path(directory) / "source.ini"
+            target_path = Path(directory) / "target.ini"
+            source_path.write_text(source, encoding="utf-8")
+            target_path.write_text(target, encoding="utf-8")
+
+            sections = sync_mgba_controller(source_path, target_path)
+            result = target_path.read_text(encoding="utf-8")
+
+        self.assertEqual(
+            sections,
+            [
+                "gba.input.SDLC",
+                "gba.input-profile.(Controller)",
+                "gba.input-profile.portable-guid",
+            ],
+        )
+        self.assertIn("device0=portable-guid", result)
+        self.assertIn("keyA=0", result)
+        self.assertIn("keyStart=7", result)
+        self.assertNotIn("device0=normal-guid", result)
 
 
 class LayoutTests(unittest.TestCase):
