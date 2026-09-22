@@ -2,10 +2,9 @@ param(
     [ValidateSet('stub', 'model')]
     [string]$Mode = 'model',
     [string]$Python = 'X:\dev\awbw\.venv\Scripts\python.exe',
-    [string]$Mgba = 'X:\dev\mgba-dev\current\mGBA-build-2026-09-19-win64-9139-3a5bc24629867576b0fb576a5d5a21d3b3d6b576\mGBA.exe',
+    [string]$Mgba = 'X:\dev\mgba-dev\win32-current\mGBA-build-2026-09-19-win32-9139-3a5bc24629867576b0fb576a5d5a21d3b3d6b576\mGBA.exe',
     [string]$SaveState = '',
-    [switch]$Trace,
-    [switch]$NoSyncController
+    [switch]$Trace
 )
 
 $ErrorActionPreference = 'Stop'
@@ -26,21 +25,6 @@ if (-not (Test-Path -LiteralPath $rom -PathType Leaf)) {
 }
 if ($SaveState -and -not (Test-Path -LiteralPath $SaveState -PathType Leaf)) {
     throw "Savestate is missing: $SaveState"
-}
-
-# The development build uses a newer SDL and sees the same 8BitDo controller in
-# a different input slot. Transfer only the controls while retaining its slot,
-# GUID, Qt state and version-specific settings.
-$mgbaDirectory = Split-Path -Parent (Resolve-Path -LiteralPath $Mgba).Path
-$installedSettings = Join-Path $env:APPDATA 'mGBA'
-if (-not $NoSyncController -and (Test-Path -LiteralPath (Join-Path $mgbaDirectory 'portable.ini'))) {
-    $sourceConfig = Join-Path $installedSettings 'config.ini'
-    $targetConfig = Join-Path $mgbaDirectory 'config.ini'
-    if ((Test-Path -LiteralPath $sourceConfig -PathType Leaf) -and
-        (Test-Path -LiteralPath $targetConfig -PathType Leaf)) {
-        & $Python (Join-Path $root 'tools\sync_mgba_controller.py') $sourceConfig $targetConfig
-        if ($LASTEXITCODE -ne 0) { throw 'Controller settings synchronization failed.' }
-    }
 }
 
 New-Item -ItemType Directory -Path $runtime -Force | Out-Null

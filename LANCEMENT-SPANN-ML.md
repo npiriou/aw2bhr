@@ -7,7 +7,7 @@ La ROM modifiée ne doit pas être ouverte directement avec le mGBA installé da
 1. Fermer toutes les fenêtres mGBA déjà ouvertes.
 2. Ouvrir le dossier `X:\dev\aw2bhr-spann-local` dans l'Explorateur Windows.
 3. Double-cliquer sur `START-SPANN-ML.cmd`.
-4. Le lanceur reprend automatiquement les boutons, axes et croix directionnelle de la manette configurée dans le mGBA normal. Il conserve le slot SDL propre à la build de développement afin que la manette reste détectée.
+4. Au premier lancement, ouvrir **Outils → Paramètres → Contrôleurs**, choisir la manette et définir les boutons. Cliquer sur **Appliquer**, puis **OK**. La configuration reste enregistrée dans cette version portable de mGBA.
 5. Garder la fenêtre de commande ouverte. Elle héberge le lanceur pendant la partie.
 6. Attendre que mGBA s'ouvre. Le lanceur attend d'abord que runE-U83 soit chargé, ce qui peut prendre quelques secondes.
 7. Dans le jeu, choisir **War Room**, puis **Spann Island**.
@@ -20,7 +20,7 @@ Ne pas double-cliquer sur `build-mod\aw2bhr-spann-local.gba`. L'association Wind
 
 ## En cas de problème
 
-Les anciens fichiers de configuration incompatibles ont été retirés. **Outils → Paramètres** a été vérifié après la correction : la fenêtre s'ouvre et mGBA reste réactif. Le lanceur transfère uniquement la configuration de la manette avant chaque démarrage.
+Le lanceur utilise la build Windows 32 bits de mGBA du commit `3a5bc24629867576b0fb576a5d5a21d3b3d6b576`. **Outils → Paramètres → Contrôleurs** a été testé sur cette build avec la 8BitDo connectée : la fenêtre reste réactive. Aucun réglage de l'autre installation de mGBA n'est copié automatiquement.
 
 Le journal principal est `X:\dev\aw2bhr-spann-local\runtime\bridge.stderr.log`. Les lignes suivantes indiquent un démarrage correct :
 
