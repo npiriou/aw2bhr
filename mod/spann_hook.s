@@ -78,10 +78,30 @@ dispatch_state:
     ldr r0, [r4, #MAILBOX_OFF_STATE]
     cmp r0, #MAILBOX_STATE_IDLE
     beq publish_request
+    cmp r0, #MAILBOX_STATE_REQUEST_READY
+    beq bridge_wait
+    cmp r0, #MAILBOX_STATE_WAITING
+    beq bridge_wait
     cmp r0, #MAILBOX_STATE_RESPONSE_READY
     beq consume_response
     cmp r0, #MAILBOX_STATE_EXECUTING
     beq execution_complete
+    cmp r0, #MAILBOX_STATE_ERROR
+    beq fallback_original
+    b return_dispatcher
+
+bridge_wait:
+    ldr r0, [r4, #MAILBOX_OFF_FRAME_COUNTER]
+    cmp r0, #180                 /* ~3 seconds at 60 fps */
+    bhs bridge_timeout
+    b return_dispatcher
+bridge_timeout:
+    movs r0, #4                  /* bridge/model timeout */
+    str r0, [r4, #MAILBOX_OFF_ERROR_CODE]
+    movs r0, #MAILBOX_STATE_ERROR
+    str r0, [r4, #MAILBOX_OFF_STATE]
+fallback_original:
+    bl call_original_phase2
     b return_dispatcher
 
 initialize:
@@ -191,6 +211,7 @@ copy_records:
     movs r0, #0
     str r0, [r4, #MAILBOX_OFF_RESPONSE_LENGTH]
     str r0, [r4, #MAILBOX_OFF_ERROR_CODE]
+    str r0, [r4, #MAILBOX_OFF_FRAME_COUNTER]
     movs r0, #MAILBOX_STATE_REQUEST_READY
     str r0, [r4, #MAILBOX_OFF_STATE] /* publish last */
     b return_dispatcher

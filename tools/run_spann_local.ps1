@@ -28,11 +28,34 @@ if ($SaveState -and -not (Test-Path -LiteralPath $SaveState -PathType Leaf)) {
 }
 
 New-Item -ItemType Directory -Path $runtime -Force | Out-Null
+$resolvedRuntime = (Resolve-Path -LiteralPath $runtime).Path
+Get-ChildItem -LiteralPath $resolvedRuntime -File -ErrorAction SilentlyContinue |
+    Where-Object { $_.Name -match '^(request|response)-[0-9a-f]{8}-[0-9a-f]{8}\.(bin|tmp)$' } |
+    ForEach-Object { Remove-Item -LiteralPath $_.FullName -Force }
+$bridgeStdout = Join-Path $resolvedRuntime 'bridge.stdout.log'
+$bridgeStderr = Join-Path $resolvedRuntime 'bridge.stderr.log'
 $bridgeArgs = @('tools\spann_bridge\bridge.py', '--config', ('"' + $config + '"'), '--mode', $Mode)
 $bridge = Start-Process -FilePath $Python -ArgumentList $bridgeArgs -WorkingDirectory $root `
-    -RedirectStandardOutput (Join-Path $runtime 'bridge.stdout.log') `
-    -RedirectStandardError (Join-Path $runtime 'bridge.stderr.log') `
+    -RedirectStandardOutput $bridgeStdout `
+    -RedirectStandardError $bridgeStderr `
     -WindowStyle Hidden -PassThru
+
+$ready = $false
+for ($attempt = 0; $attempt -lt 300; $attempt++) {
+    if ($bridge.HasExited) {
+        throw "The local bridge exited during startup. See $bridgeStderr"
+    }
+    if ((Test-Path -LiteralPath $bridgeStderr) -and
+        (Select-String -LiteralPath $bridgeStderr -SimpleMatch 'ready: mode=' -Quiet)) {
+        $ready = $true
+        break
+    }
+    Start-Sleep -Milliseconds 100
+}
+if (-not $ready) {
+    Stop-Process -Id $bridge.Id -Force -ErrorAction SilentlyContinue
+    throw "The local bridge did not become ready within 30 seconds. See $bridgeStderr"
+}
 
 $env:AW2_SPANN_ROOT = $root.Replace('\', '/')
 $env:AW2_SPANN_IPC = $runtime.Replace('\', '/')

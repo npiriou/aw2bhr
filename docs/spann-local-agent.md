@@ -32,15 +32,17 @@ Build the separate modified ROM with:
 X:\dev\awbw\.venv\Scripts\python.exe tools\spann_bridge\build_mod.py
 ```
 
-The builder rejects a base ROM whose size, SHA-1, or original hook word differs. It writes `build-mod\aw2bhr-spann-local.gba` and `build-mod\build-info.txt`. The tested build has SHA-1 `bc2865a70f4f22dc86883f79ae6ae2f4e3a124d5`; generated ROMs remain ignored by Git.
+The builder rejects a base ROM whose size, SHA-1, or original hook word differs. It writes `build-mod\aw2bhr-spann-local.gba` and `build-mod\build-info.txt`. The tested build has SHA-1 `1a1bce6bbf4d326b05baee33d3ad57617b63a0eb`; generated ROMs remain ignored by Git.
 
-Edit `spann-bridge.example.json` if the AWBW root, checkpoint, runtime directory, or device differs. Then launch both processes:
+Edit `spann-bridge.example.json` if the AWBW root, checkpoint, runtime directory, or device differs. The simplest launch method is to double-click `START-SPANN-ML.cmd`. Do not open the modified ROM directly through its file association: the installed stable mGBA 0.10.5 cannot autoload the Lua bridge.
 
 ```powershell
 tools\run_spann_local.ps1 -Mode model
 ```
 
 Use `-Mode stub` for the deterministic bridge, `-Trace` for transition logging, and `-SaveState <path>` for local testing. The launcher shows mGBA, starts the host bridge in the background, and stops the bridge when mGBA exits.
+
+If the ROM is opened without Lua or the host process, the hook waits about three seconds and then falls back to AW2's built-in AI instead of freezing the enemy turn. That fallback does not run the ML model.
 
 ## Verified activation and hook
 
