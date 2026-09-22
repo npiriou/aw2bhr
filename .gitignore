@@ -167,8 +167,13 @@ dkms.conf
 # Per-function split + its manifest (regenerate: tools/split_asm.py).
 # Derived entirely from asm/*.s, so it is never a source of truth.
 build/
+build-mod/
+runtime/
+baseline-*.log
 aw2bhr.split.lds
 tools/__pycache__/
+__pycache__/
+*.py[cod]
 
 # Per-function agent scratch (regenerate: tools/newfunc.py). Candidate C that
 # matches is promoted into src/; nothing here is a source of truth.

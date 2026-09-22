@@ -1,0 +1,8 @@
+{
+  "mode": "stub",
+  "awbw_root": "X:\\dev\\awbw",
+  "checkpoint": "X:\\dev\\awbw\\data\\models\\benchmark-runE-U83-vs-U130-100games-20260826\\runE-U83-inference.pt",
+  "device": "cpu",
+  "runtime_dir": "X:\\dev\\aw2bhr-spann-local\\runtime",
+  "log_level": "INFO"
+}

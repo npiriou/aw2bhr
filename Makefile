@@ -15,6 +15,11 @@ CLEAN_DIRS  :=
 
 all: compare
 
+mod:
+	$(PYTHON) tools/spann_bridge/build_mod.py
+
+.PHONY: mod
+
 # ====================
 # = TOOL DEFINITIONS =
 # ====================
