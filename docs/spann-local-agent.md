@@ -40,7 +40,7 @@ Edit `spann-bridge.example.json` if the AWBW root, checkpoint, runtime directory
 tools\run_spann_local.ps1 -Mode model
 ```
 
-Use `-Mode stub` for the deterministic bridge, `-Trace` for transition logging, and `-SaveState <path>` for local testing. The launcher shows mGBA, starts the host bridge in the background, and stops the bridge when mGBA exits.
+Use `-Mode stub` for the deterministic bridge, `-Trace` for transition logging, and `-SaveState <path>` for local testing. Before launch, the helper synchronizes `config.ini` and `qt.ini` from the installed mGBA profile into the portable development build, including controller mappings. Pass `-NoSyncSettings` to keep separate portable settings. The launcher shows mGBA, starts the host bridge in the background, and stops the bridge when mGBA exits.
 
 If the ROM is opened without Lua or the host process, the hook waits about three seconds and then falls back to AW2's built-in AI instead of freezing the enemy turn. That fallback does not run the ML model.
 

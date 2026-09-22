@@ -7,11 +7,12 @@ La ROM modifiée ne doit pas être ouverte directement avec le mGBA installé da
 1. Fermer toutes les fenêtres mGBA déjà ouvertes.
 2. Ouvrir le dossier `X:\dev\aw2bhr-spann-local` dans l'Explorateur Windows.
 3. Double-cliquer sur `START-SPANN-ML.cmd`.
-4. Garder la fenêtre de commande ouverte. Elle héberge le lanceur pendant la partie.
-5. Attendre que mGBA s'ouvre. Le lanceur attend d'abord que runE-U83 soit chargé, ce qui peut prendre quelques secondes.
-6. Dans le jeu, choisir **War Room**, puis **Spann Island**.
-7. Jouer normalement et terminer le tour humain. Au tour ennemi, runE-U83 envoie ses décisions à AW2; les déplacements, captures, constructions et changements de tour sont exécutés par le moteur original du jeu.
-8. Pour arrêter, fermer mGBA. Le processus Python local est alors arrêté automatiquement.
+4. Le lanceur copie automatiquement les réglages de `C:\Users\npiri\AppData\Roaming\mGBA` vers la version portable. La manette, le clavier, l'audio et la vidéo doivent donc utiliser les mêmes paramètres que le mGBA normal.
+5. Garder la fenêtre de commande ouverte. Elle héberge le lanceur pendant la partie.
+6. Attendre que mGBA s'ouvre. Le lanceur attend d'abord que runE-U83 soit chargé, ce qui peut prendre quelques secondes.
+7. Dans le jeu, choisir **War Room**, puis **Spann Island**.
+8. Jouer normalement et terminer le tour humain. Au tour ennemi, runE-U83 envoie ses décisions à AW2; les déplacements, captures, constructions et changements de tour sont exécutés par le moteur original du jeu.
+9. Pour arrêter, fermer mGBA. Le processus Python local est alors arrêté automatiquement.
 
 ## À ne pas faire
 

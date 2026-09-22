@@ -4,7 +4,8 @@ param(
     [string]$Python = 'X:\dev\awbw\.venv\Scripts\python.exe',
     [string]$Mgba = 'X:\dev\mgba-dev\current\mGBA-build-2026-09-19-win64-9139-3a5bc24629867576b0fb576a5d5a21d3b3d6b576\mGBA.exe',
     [string]$SaveState = '',
-    [switch]$Trace
+    [switch]$Trace,
+    [switch]$NoSyncSettings
 )
 
 $ErrorActionPreference = 'Stop'
@@ -25,6 +26,20 @@ if (-not (Test-Path -LiteralPath $rom -PathType Leaf)) {
 }
 if ($SaveState -and -not (Test-Path -LiteralPath $SaveState -PathType Leaf)) {
     throw "Savestate is missing: $SaveState"
+}
+
+# The development build is portable, so it normally has an independent input
+# profile. Mirror the user's installed mGBA settings before every launch so
+# controllers, keyboard bindings, audio, video, and window preferences match.
+$mgbaDirectory = Split-Path -Parent (Resolve-Path -LiteralPath $Mgba).Path
+$installedSettings = Join-Path $env:APPDATA 'mGBA'
+if (-not $NoSyncSettings -and (Test-Path -LiteralPath (Join-Path $mgbaDirectory 'portable.ini'))) {
+    foreach ($settingsFile in @('config.ini', 'qt.ini')) {
+        $sourceSettings = Join-Path $installedSettings $settingsFile
+        if (Test-Path -LiteralPath $sourceSettings -PathType Leaf) {
+            Copy-Item -LiteralPath $sourceSettings -Destination (Join-Path $mgbaDirectory $settingsFile) -Force
+        }
+    }
 }
 
 New-Item -ItemType Directory -Path $runtime -Force | Out-Null
