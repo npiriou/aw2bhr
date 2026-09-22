@@ -140,6 +140,7 @@ scripts/__pycache__/*
 *.mod*
 *.cmd
 !START-SPANN-ML.cmd
+!START-AW2-ML.cmd
 .tmp_versions/
 modules.order
 Module.symvers

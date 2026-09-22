@@ -38,7 +38,7 @@ def render_asm(layout: dict[str, object]) -> str:
 
 def render_python(layout: dict[str, object]) -> str:
     return (
-        '"""Load the shared Spann mailbox definition."""\n\n'
+        '"""Load the shared local-AW2-agent mailbox definition."""\n\n'
         "from __future__ import annotations\n\n"
         "import json\n"
         "from pathlib import Path\n\n"

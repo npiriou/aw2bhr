@@ -1,4 +1,4 @@
-"""Load the shared Spann mailbox definition."""
+"""Load the shared local-AW2-agent mailbox definition."""
 
 from __future__ import annotations
 

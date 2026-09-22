@@ -1,5 +1,5 @@
 {
-  "mode": "stub",
+  "mode": "model",
   "awbw_root": "X:\\dev\\awbw",
   "checkpoint": "X:\\dev\\awbw\\data\\models\\benchmark-runE-U83-vs-U130-100games-20260826\\runE-U83-inference.pt",
   "device": "cpu",

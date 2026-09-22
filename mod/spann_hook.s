@@ -18,14 +18,15 @@
 .equ G_PATH,              0x03003110
 .equ G_PACKED_PATH,       0x030046CC
 .equ G_PATH_COST,         0x03004074
+.equ G_MOVE_ROWS,         0x03003340
 .equ MAP_BASE,            0x0201E450
 .equ UNIT_RECORDS,        0x02022684
 .equ PLAYER_RECORDS,      0x02023284
 
 .equ ORIGINAL_PHASE2,     0x0805D439
 .equ DISPATCH_EPILOGUE,   0x08061783
-.equ SNAPSHOT_LENGTH,     0x74C
-.equ RESPONSE_MIN_LENGTH, 0x24
+.equ RESPONSE_MIN_LENGTH, 0x64
+.equ MAX_MAP_CELLS,       0x508
 
 .section .text.spann_hook, "ax", %progbits
 .align 2
@@ -38,22 +39,41 @@ spann_phase2_arm:
 
     ldr r4, =G_MODE
     ldrb r0, [r4, #1]
+    cmp r0, #1                  /* Campaign */
+    beq 1f
     cmp r0, #2                  /* War Room */
     bne inactive_near
-    ldrb r0, [r4, #2]
-    cmp r0, #0x6c              /* Spann Island */
+1:
+    ldrb r0, [r4, #0x0d]       /* fog-of-war setting */
+    cmp r0, #0
     bne inactive_near
     ldr r0, =G_ACTIVE_SIDE
     ldrh r0, [r0]
-    cmp r0, #2                 /* live side id 2 = Spann Island enemy */
+    cmp r0, #1
+    blo inactive_near
+    cmp r0, #4
+    bhi inactive_near
+    /* Only replace an actual CPU controller. Campaign scripts may assign
+     * human/allied/special controllers to any of the four native sides. */
+    lsls r1, r0, #6
+    lsls r2, r0, #2
+    subs r1, r1, r2            /* side * 0x3c */
+    ldr r2, =PLAYER_RECORDS
+    adds r1, r1, r2
+    ldrb r1, [r1, #0x1b]
+    cmp r1, #2
     bne inactive_near
     ldr r0, =MAP_BASE
     ldrh r1, [r0]
-    cmp r1, #15
-    bne inactive_near
-    ldrh r1, [r0, #2]
-    cmp r1, #10
-    bne inactive_near
+    cmp r1, #0
+    beq inactive_near
+    ldrh r2, [r0, #2]
+    cmp r2, #0
+    beq inactive_near
+    muls r1, r2
+    ldr r0, =MAX_MAP_CELLS
+    cmp r1, r0
+    bhi inactive_near
     b active
 
 inactive_near:
@@ -77,21 +97,29 @@ dispatch_state:
     str r0, [r4, #MAILBOX_OFF_FRAME_COUNTER]
     ldr r0, [r4, #MAILBOX_OFF_STATE]
     cmp r0, #MAILBOX_STATE_IDLE
-    beq publish_request
+    bne 1f
+    b publish_request
+1:
     cmp r0, #MAILBOX_STATE_REQUEST_READY
     beq bridge_wait
     cmp r0, #MAILBOX_STATE_WAITING
     beq bridge_wait
     cmp r0, #MAILBOX_STATE_RESPONSE_READY
-    beq consume_response
+    bne 1f
+    b consume_response
+1:
     cmp r0, #MAILBOX_STATE_EXECUTING
-    beq execution_complete
+    bne 1f
+    b execution_complete
+1:
     cmp r0, #MAILBOX_STATE_ERROR
     beq bridge_wait
     b return_dispatcher
 
 bridge_wait:
     b return_dispatcher
+
+    .ltorg
 
 initialize:
     movs r0, #0
@@ -118,7 +146,7 @@ clear_mailbox:
     eors r0, r1
     cmp r0, #0
     bne session_ready
-    movs r0, #1
+    movs r0, #2
 session_ready:
     str r0, [r4, #MAILBOX_OFF_SESSION_ID]
     b dispatch_state
@@ -130,7 +158,7 @@ execution_complete:
 
 publish_request:
     ldr r5, =MAILBOX_BASE + MAILBOX_OFF_REQUEST
-    movs r0, #1
+    movs r0, #2
     strh r0, [r5, #REQUEST_SNAPSHOT_VERSION]
     ldr r6, =MAP_BASE
     ldrh r0, [r6]
@@ -158,29 +186,28 @@ publish_request:
     ldrh r0, [r0]
     strh r0, [r5, #REQUEST_EXECUTOR_STATE]
 
-    ldr r7, =PLAYER_RECORDS
-    ldr r0, [r7, #0x3c]        /* army 1 / player 1 */
-    str r0, [r5, #REQUEST_FUNDS_P1]
-    ldr r0, [r7, #0x78]        /* army 2 / player 2 */
-    str r0, [r5, #REQUEST_FUNDS_P2]
+    ldr r6, =MAP_BASE
+    ldrh r0, [r6]
+    ldrh r1, [r6, #2]
+    muls r0, r1
+    strh r0, [r5, #REQUEST_MAP_CELLS]
+    ldr r1, =G_MODE
+    ldrb r1, [r1, #0x0d]
+    strb r1, [r5, #REQUEST_FOG]
+    ldr r1, =G_MODE
+    adds r1, #0x2c
+    ldrb r1, [r1]
+    strb r1, [r5, #REQUEST_WEATHER]
 
-    /* Flatten Spann's unit and logical terrain/property planes row-major. */
+    /* Flatten the authoritative unit and logical terrain planes row-major.
+     * Lua appends all 256 unit records and five player records directly while
+     * phase 2 is paused; those tables do not fit in the verified 4 KiB area. */
     ldr r0, =MAILBOX_BASE + MAILBOX_OFF_REQUEST + REQUEST_UNIT_PLANE
     ldr r1, =MAP_BASE + 0x12
-    bl copy_spann_plane
+    bl copy_map_plane
     ldr r0, =MAILBOX_BASE + MAILBOX_OFF_REQUEST + REQUEST_PROPERTY_PLANE
     ldr r1, =MAP_BASE + 0x1432
-    bl copy_spann_plane
-
-    /* Copy the two Spann armies' 128 native records verbatim. */
-    ldr r0, =MAILBOX_BASE + MAILBOX_OFF_REQUEST + REQUEST_UNIT_RECORDS
-    ldr r1, =UNIT_RECORDS
-    movs r2, #0xC0             /* 0x600 bytes / 8 */
-copy_records:
-    ldmia r1!, {r3, r6}
-    stmia r0!, {r3, r6}
-    subs r2, #1
-    bne copy_records
+    bl copy_map_plane
 
     ldr r0, [r4, #MAILBOX_OFF_REQUEST_ID]
     adds r0, #1
@@ -192,10 +219,17 @@ copy_records:
     ldrh r2, [r2]
     lsls r2, r2, #16
     eors r1, r2
-    ldr r2, [r5, #REQUEST_FUNDS_P2]
+    ldr r2, =G_ACTIVE_SIDE
+    ldrh r2, [r2]
+    lsls r3, r2, #6
+    lsls r2, r2, #2
+    subs r3, r3, r2
+    ldr r2, =PLAYER_RECORDS
+    adds r3, r3, r2
+    ldr r2, [r3]               /* active native army funds */
     eors r1, r2
     str r1, [r5, #REQUEST_STATE_SEED]
-    ldr r0, =SNAPSHOT_LENGTH
+    ldr r0, =REQUEST_UNIT_RECORDS
     str r0, [r4, #MAILBOX_OFF_REQUEST_LENGTH]
     movs r0, #0
     str r0, [r4, #MAILBOX_OFF_RESPONSE_LENGTH]
@@ -204,6 +238,8 @@ copy_records:
     movs r0, #MAILBOX_STATE_REQUEST_READY
     str r0, [r4, #MAILBOX_OFF_STATE] /* publish last */
     b return_dispatcher
+
+    .ltorg
 
 consume_response:
     ldr r0, [r4, #MAILBOX_OFF_RESPONSE_SESSION_ID]
@@ -221,6 +257,11 @@ consume_response:
     ldr r0, [r4, #MAILBOX_OFF_RESPONSE_LENGTH]
     cmp r0, #RESPONSE_MIN_LENGTH
     bhs 1f
+    b invalid_response
+1:
+    ldr r1, =RESPONSE_CAPACITY
+    cmp r0, r1
+    bls 1f
     b invalid_response
 1:
     ldr r5, =MAILBOX_BASE + MAILBOX_OFF_RESPONSE
@@ -244,12 +285,16 @@ consume_response:
 
 execute_build:
     ldrb r0, [r5, #RESPONSE_BUILDING_X]
-    cmp r0, #15
+    ldr r3, =MAP_BASE
+    ldrh r3, [r3]
+    cmp r0, r3
     blo 1f
     b invalid_response
 1:
     ldrb r1, [r5, #RESPONSE_BUILDING_Y]
-    cmp r1, #10
+    ldr r3, =MAP_BASE
+    ldrh r3, [r3, #2]
+    cmp r1, r3
     blo 1f
     b invalid_response
 1:
@@ -259,7 +304,7 @@ execute_build:
     b invalid_response
 1:
 
-    /* Require an empty army-2 base in the current authoritative map. */
+    /* Require an empty production property owned by the active native army. */
     ldr r3, =MAP_BASE + 0x417A
     lsls r6, r1, #1
     ldrh r6, [r3, r6]
@@ -272,7 +317,31 @@ execute_build:
 1:
     ldr r3, =MAP_BASE + 0x1432
     ldrb r3, [r3, r6]
-    cmp r3, #0x4e              /* owner group 2 | base terrain 14 */
+    ldr r7, =G_ACTIVE_SIDE
+    ldrh r7, [r7]
+    lsls r7, r7, #5
+    movs r6, #0xe0
+    ands r6, r3
+    cmp r6, r7
+    beq 1f
+    b invalid_response
+1:
+    movs r6, #0x1f
+    ands r3, r6
+    /* AW2 unit IDs 1..15 are land, 16/17/19/20 are air, 21..24 sea. */
+    cmp r2, #16
+    blo build_land
+    cmp r2, #21
+    bhs build_sea
+    cmp r3, #10                /* airport */
+    beq 1f
+    b invalid_response
+build_land:
+    cmp r3, #14                /* base */
+    beq 1f
+    b invalid_response
+build_sea:
+    cmp r3, #11                /* port */
     beq 1f
     b invalid_response
 1:
@@ -308,14 +377,6 @@ execute_build:
 
 execute_unit:
     ldrb r6, [r5, #RESPONSE_UNIT_ID]
-    cmp r6, #64                 /* only Spann's enemy army */
-    blo unit_invalid_near
-    cmp r6, #128
-    bhs unit_invalid_near
-    b unit_id_valid
-unit_invalid_near:
-    b invalid_response
-unit_id_valid:
     ldr r7, =UNIT_RECORDS
     lsls r0, r6, #3
     lsls r1, r6, #2
@@ -323,27 +384,49 @@ unit_id_valid:
     adds r7, r7, r0
     ldrb r0, [r7]
     cmp r0, #0
-    beq invalid_response
+    bne 1f
+    b invalid_response
+1:
+    lsrs r0, r6, #6
+    adds r0, #1
+    ldr r1, =G_ACTIVE_SIDE
+    ldrh r1, [r1]
+    cmp r0, r1
+    beq 1f
+    b invalid_response          /* never move another allied/native army */
+1:
     ldrb r0, [r7, #1]
     movs r1, #1
     tst r0, r1
-    bne invalid_response        /* already moved this turn */
+    beq 1f
+    b invalid_response          /* already moved this turn */
+1:
     ldrb r0, [r5, #RESPONSE_DEST_X]
-    cmp r0, #15
-    bhs invalid_response
+    ldr r3, =MAP_BASE
+    ldrh r3, [r3]
+    cmp r0, r3
+    blo 1f
+    b invalid_response
+1:
     ldrb r1, [r5, #RESPONSE_DEST_Y]
-    cmp r1, #10
-    bhs invalid_response
+    ldr r3, =MAP_BASE
+    ldrh r3, [r3, #2]
+    cmp r1, r3
+    blo 1f
+    b invalid_response
+1:
     ldrb r2, [r5, #RESPONSE_COMMAND]
     cmp r2, #2                  /* wait */
     beq unit_command_valid
     cmp r2, #3                  /* capture */
     beq unit_command_valid
     cmp r2, #4                  /* attack; param0 = target unit id */
-    bne unsupported_action
+    beq 1f
+    cmp r2, #5                  /* special terrain; params = target x/y */
+    beq validate_special_target
+    b unsupported_action
+1:
     ldrb r0, [r5, #RESPONSE_PARAM0]
-    cmp r0, #64                 /* target must be Spann's player-side army */
-    bhs invalid_response
     ldr r1, =UNIT_RECORDS
     lsls r2, r0, #3
     lsls r3, r0, #2
@@ -351,7 +434,56 @@ unit_id_valid:
     adds r1, r1, r2
     ldrb r0, [r1]
     cmp r0, #0
-    beq invalid_response
+    bne 1f
+    b invalid_response
+1:
+    /* Target must belong to a different native team. */
+    ldrb r0, [r5, #RESPONSE_PARAM0]
+    lsrs r0, r0, #6
+    adds r0, #1
+    lsls r2, r0, #6
+    lsls r3, r0, #2
+    subs r2, r2, r3
+    ldr r1, =PLAYER_RECORDS
+    adds r2, r2, r1
+    movs r0, #0x2a
+    ldrb r2, [r2, r0]
+    ldr r0, =G_ACTIVE_SIDE
+    ldrh r0, [r0]
+    lsls r3, r0, #6
+    lsls r0, r0, #2
+    subs r3, r3, r0
+    adds r3, r3, r1
+    movs r0, #0x2a
+    ldrb r3, [r3, r0]
+    cmp r2, r3
+    bne unit_command_valid
+    b invalid_response
+
+validate_special_target:
+    ldrb r0, [r5, #RESPONSE_PARAM0]
+    ldr r3, =MAP_BASE
+    ldrh r3, [r3]
+    cmp r0, r3
+    blo 1f
+    b invalid_response
+1:
+    ldrb r1, [r5, #RESPONSE_PARAM1]
+    ldr r3, =MAP_BASE
+    ldrh r3, [r3, #2]
+    cmp r1, r3
+    blo 1f
+    b invalid_response
+1:
+    ldr r3, =MAP_BASE + 0x417A
+    lsls r2, r1, #1
+    ldrh r2, [r3, r2]
+    adds r2, r2, r0
+    ldr r3, =0x020288B4         /* live special-object HP plane */
+    ldrb r2, [r3, r2]
+    cmp r2, #0
+    bne unit_command_valid
+    b invalid_response
 unit_command_valid:
     ldr r3, =G_CURRENT_UNIT_ID
     strb r6, [r3]
@@ -389,6 +521,15 @@ unit_command_valid:
     bls 1f
     b invalid_response
 1:
+    ldr r0, =MAILBOX_BASE + MAILBOX_OFF_RESPONSE + RESPONSE_PATH
+    adds r1, r2, #0
+    ldrb r2, [r7, #2]
+    ldrb r3, [r7, #3]
+    bl validate_response_path
+    cmp r0, #1
+    beq 1f
+    b invalid_response
+1:
     movs r2, #0
 unit_path_copy:
     ldr r0, =G_PATH
@@ -404,8 +545,16 @@ unit_path_copy:
     b invalid_response
 unit_path_last:
     cmp r3, #4
-    beq unit_path_valid
+    beq unit_path_fill
     b invalid_response
+unit_path_fill:
+    cmp r2, #12
+    bhs unit_path_valid
+    ldr r0, =G_PATH
+    movs r3, #0xff
+    strb r3, [r0, r2]
+    adds r2, #1
+    b unit_path_fill
 unit_path_valid:
     ldr r0, =G_PATH
     ldr r1, =G_PACKED_PATH
@@ -491,8 +640,76 @@ call_pack_path:
     ldr r3, =0x08034401
     bx r3
 
+/* Validate the model route against AW2's own movement overlay.
+ * r0=direction bytes, r1=length, r2=source x, r3=source y; returns r0=0/1.
+ * Every traversed cell must be reachable in AW2's native movement overlay,
+ * and the sole terminator must land at the declared destination. */
+validate_response_path:
+    push {r4-r7, lr}
+    adds r4, r0, #0
+    adds r5, r1, #0
+    adds r6, r2, #0
+    adds r7, r3, #0
+validate_path_next:
+    cmp r5, #0
+    beq validate_path_bad
+    ldrb r0, [r4]
+    adds r4, #1
+    subs r5, #1
+    cmp r0, #4
+    beq validate_path_end
+    cmp r0, #3
+    bhi validate_path_bad
+    cmp r0, #0
+    bne 1f
+    subs r6, #1
+    b validate_path_bounds
+1:
+    cmp r0, #1
+    bne 2f
+    adds r6, #1
+    b validate_path_bounds
+2:
+    cmp r0, #2
+    bne 3f
+    adds r7, #1
+    b validate_path_bounds
+3:
+    subs r7, #1
+validate_path_bounds:
+    ldr r0, =MAP_BASE
+    ldrh r1, [r0]
+    cmp r6, r1
+    bhs validate_path_bad
+    ldrh r1, [r0, #2]
+    cmp r7, r1
+    bhs validate_path_bad
+    ldr r0, =G_MOVE_ROWS
+    lsls r1, r7, #2
+    ldr r0, [r0, r1]
+    ldrb r0, [r0, r6]
+    cmp r0, #0xff
+    beq validate_path_bad
+    b validate_path_next
+validate_path_end:
+    cmp r5, #0
+    bne validate_path_bad
+    ldr r0, =MAILBOX_BASE + MAILBOX_OFF_RESPONSE
+    ldrb r1, [r0, #RESPONSE_DEST_X]
+    cmp r6, r1
+    bne validate_path_bad
+    ldrb r1, [r0, #RESPONSE_DEST_Y]
+    cmp r7, r1
+    bne validate_path_bad
+    movs r0, #1
+    b validate_path_return
+validate_path_bad:
+    movs r0, #0
+validate_path_return:
+    pop {r4-r7, pc}
+
 /* r0=destination, r1=plane base; preserves r4/r5. */
-copy_spann_plane:
+copy_map_plane:
     push {r6, r7, lr}
     movs r2, #0
 copy_plane_rows:
@@ -500,7 +717,8 @@ copy_plane_rows:
     ldr r6, =MAP_BASE + 0x417A
     ldrh r3, [r6, r3]
     adds r3, r1, r3
-    movs r7, #15
+    ldr r6, =MAP_BASE
+    ldrh r7, [r6]
 copy_plane_cells:
     ldrb r6, [r3]
     strb r6, [r0]
@@ -509,7 +727,9 @@ copy_plane_cells:
     subs r7, #1
     bne copy_plane_cells
     adds r2, #1
-    cmp r2, #10
+    ldr r6, =MAP_BASE
+    ldrh r6, [r6, #2]
+    cmp r2, r6
     blo copy_plane_rows
     pop {r6, r7, pc}
 

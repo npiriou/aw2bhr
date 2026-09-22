@@ -1,30 +1,31 @@
-# Spann Island local ML agent
+# Local AW2 ML agent for Campaign and War Room
 
-This branch replaces enemy decision generation on **War Room -> Spann Island** with a local file-IPC bridge to the existing AWBW model. AW2 still performs movement, capture, production, animations, and turn transitions through its original phase-3 executor. The hook falls through to the original AI everywhere outside the verified Spann enemy context.
+This branch replaces CPU decision generation in non-fog **Campaign** and **War Room** battles with the local AWBW runE-U83 model. AW2 still executes movement, combat, capture, production, animations, scripted map effects, and turn transitions with its stock command executor. In an active model context, a missing bridge, invalid snapshot, or invalid response stops the CPU turn visibly; it never invokes AW2's decision generator as a fallback.
+
+Fog battles and modes outside Campaign/War Room keep the stock game behavior. Human-controlled armies are never intercepted. In multi-army battles, every native controller marked CPU is model-controlled when its turn is active; native team membership is projected so allied CPU armies are not treated as enemies.
 
 ## Revisions and local dependencies
 
-- Upstream: `Mad-Man-Dan/aw2bhr` at `7ffc5165faf2e9a6f1e1a4f10eb5d6ba837fa35d` (`upstream/main` when this work started).
+- Upstream base: `Mad-Man-Dan/aw2bhr` commit `7ffc5165faf2e9a6f1e1a4f10eb5d6ba837fa35d`.
 - Working branch: `feat/spann-local-agent` in `npiriou/aw2bhr`.
-- Canonical US ROM SHA-1: `14dd0b22c894865867aff89e8116b2dffae25605`, size `0x800000`.
+- Canonical US ROM: SHA-1 `14dd0b22c894865867aff89e8116b2dffae25605`, size `0x800000`.
 - AWBW root: `X:\dev\awbw`.
 - Checkpoint: `data\models\benchmark-runE-U83-vs-U130-100games-20260826\runE-U83-inference.pt`.
 - Checkpoint SHA-256: `69b4c12f58f99e4b8532e20052340652ead5ad450b066855161700f9c8791413`.
-- The host imports `awbw_native.NativeEnv` and the existing `awbw_live.runner.policy_selector(checkpoint, device=...)`. The model is loaded once by the persistent bridge.
-- Tested mGBA: development build `0.11-9139-3a5bc2462`, commit `3a5bc24629867576b0fb576a5d5a21d3b3d6b576`. Stable mGBA 0.10.5 does not expose the required `--script` option; its GUI can load `tools/mgba/bootstrap.lua` manually.
-- Tested toolchain: Arm GNU Toolchain 14.2.Rel1 (`arm-none-eabi-gcc 14.2.1`), Python 3.12.14, and repository `tools/agbcc` at `da598c1`.
+- Tested mGBA: development build `0.11-9139-3a5bc2462`, commit `3a5bc24629867576b0fb576a5d5a21d3b3d6b576`.
+- Tested toolchain: Arm GNU Toolchain 14.2.Rel1, Python 3.12.14, and repository `tools/agbcc` at `da598c1`.
 
-No ROM, model checkpoint, savestate, AWBW engine source, or other private asset is stored in this repository. Paths in the example configuration point to the existing local files.
+The bridge imports `awbw_native.NativeEnv`, `awbw_ml.inference.MaskedPolicy`, and the checkpoint's existing encoder directly from `X:\dev\awbw`. The convolutional policy accepts the runtime map dimensions; a synthetic 40x28 state was loaded and evaluated with the exact checkpoint. No ROM, checkpoint, savestate, AWBW source, or private asset is copied into this repository.
 
 ## Build and run
 
-The upstream build remains unchanged and produces `aw2bhr.gba`. On the tested MSYS2 setup:
+The unchanged upstream build produces `aw2bhr.gba`:
 
 ```powershell
 C:\msys64\usr\bin\make.exe -j8 aw2bhr.gba
 ```
 
-The result was compared byte-for-byte with `baserom.gba`; both have SHA-1 `14dd0b22c894865867aff89e8116b2dffae25605`. The upstream `make compare` recipe currently reads the CRLF in `aw2bhr.sha1` as part of the filename under this MSYS setup. The reconstruction check was not changed or bypassed; SHA-1 and byte equality were checked independently.
+The vanilla output was checked byte-for-byte against `baserom.gba`; both have the canonical SHA-1 above. The reconstruction checks remain unchanged.
 
 Build the separate modified ROM with:
 
@@ -32,69 +33,77 @@ Build the separate modified ROM with:
 X:\dev\awbw\.venv\Scripts\python.exe tools\spann_bridge\build_mod.py
 ```
 
-The builder rejects a base ROM whose size, SHA-1, or original hook word differs. It writes `build-mod\aw2bhr-spann-local.gba` and `build-mod\build-info.txt`. The current build has SHA-1 `7f501cbcd7f5b1083c869d4e2c6c17dd307ead0b`; generated ROMs remain ignored by Git.
+The builder rejects a base ROM whose size, SHA-1, or original hook word differs. It writes `build-mod\aw2bhr-spann-local.gba` and `build-mod\build-info.txt`. The current modified ROM SHA-1 is `dabe25058b43bc79e35c0a362a37de9bfa740ce3`.
 
-Edit `spann-bridge.example.json` if the AWBW root, checkpoint, runtime directory, or device differs. The simplest launch method is to double-click `START-SPANN-ML.cmd`. Do not open the modified ROM directly through its file association: the installed stable mGBA 0.10.5 cannot autoload the Lua bridge.
+Double-click **`START-AW2-ML.cmd`**. It launches the same portable mGBA installation and settings directory used by the previous working Spann launcher, starts the persistent model process, and loads the Lua bridge automatically. `START-SPANN-ML.cmd` remains as a compatibility alias.
 
 ```powershell
 tools\run_spann_local.ps1 -Mode model
 ```
 
-Use `-Mode stub` for the deterministic bridge, `-Trace` for transition logging, and `-SaveState <path>` for local testing. The launcher uses the 32-bit portable development build, leaves its controller/settings files untouched, shows mGBA, starts the host bridge in the background, and stops the bridge when mGBA exits.
+`-Mode stub` selects the deterministic bridge, `-Trace` records state transitions, and `-SaveState <path>` loads a local savestate. The internal script name is retained for compatibility; its activation is no longer limited to Spann.
 
-On the targeted Spann enemy turn, the hook never calls AW2's built-in decision generator. If Lua, the host process, or action translation fails, the mailbox remains waiting/error and the enemy turn stops visibly. The original phase-2 AI is reachable only when the mode, map, side, or dimensions are outside the activation guard.
+## Activation and native execution
 
-## Verified activation and hook
+The hook is active when all of these runtime predicates hold:
 
-Runtime instrumentation confirmed these identifiers on the US ROM:
-
-| Field | Address | Required value |
+| Field | Address | Accepted value |
 |---|---:|---:|
-| game mode | `0x03003FC1` | `0x02` (War Room) |
-| map id | `0x03003FC2` | `0x6c` (Spann Island) |
-| active side | `0x030033EC` | `0x02` (enemy) |
-| width x height | `0x0201E450` | `15 x 10` |
+| mode | `0x03003FC1` | `1` Campaign or `2` War Room |
+| fog | `0x03003FCD` | `0` |
+| active side | `0x030033EC` | native side `1..4` |
+| controller | `0x02023284 + side*0x3c + 0x1b` | `2` CPU |
+| dimensions | `0x0201E450` | nonzero and at most `0x508` cells |
 
-The branch changes the phase-2 switch word at ROM offset `0x61750` from `0x0806176c` to the appended payload at `0x08800000`. The payload is entered as an internal switch arm and returns through the original dispatcher epilogue at `0x08061783`. If any activation predicate fails, it calls the original phase-2 arm at `0x0805d438` and returns normally.
+There is no map-ID, side-number, or Spann-dimension allowlist. Runtime probes confirmed War Room Spann as mode `2`, map `0x6c`, 15x10; War Room Moji as mode `2`, map `0x6d`, 26x22; and the first Campaign battle as mode `1`, map `0x8a`, 15x10.
 
-The target flow is:
+The branch changes the phase-2 switch word at ROM offset `0x61750` from `0x0806176c` to the appended payload at `0x08800000`. The payload returns through the original dispatcher epilogue at `0x08061783`.
 
-1. Phase 2 publishes an authoritative snapshot and returns to the game loop.
-2. Lua atomically writes a session/request-scoped IPC file and changes `REQUEST_READY` to `WAITING`.
-3. The persistent host converts the snapshot into the checked-in AWBW Spann fixture, enumerates legal actions with `NativeEnv`, and selects through runE-U83.
-4. Lua accepts only the matching response filename and envelope, copies it into EWRAM, and publishes `RESPONSE_READY` last.
-5. The hook rechecks the response session, request, state seed, bounds, unit, action, and route terminator.
-6. The hook creates AW2's native command state and sets phase 3 / executor substate 0. Unit routes are packed with AW2's `sub_08034400`; movement context and fuel cost come from `sub_080202A4` and `sub_0802042C`.
-7. The stock executor completes the action. Only after phase 3 returns to phase 2 does the hook clear `EXECUTING` and publish the next snapshot.
-8. End-turn goes to the original phase-4 cleanup; the model path skips the built-in phase-5 production decision.
+The action flow is:
 
-Confirmed native meanings in this flow are command `1` = build, `2` = unit wait, `3` = unit capture, and `4` = attack with the target native unit ID at command byte `+6`. A model end-turn response enters phase 4. Unit movement directions in the uncompressed native route are `0` left, `1` right, `2` down, `3` up, with `4` as the terminator.
+1. Phase 2 snapshots the current native state and waits.
+2. Lua appends the authoritative unit, player, and special-object tables and writes a session/request-scoped IPC file atomically.
+3. The host projects native teams into the model's two-player view, asks `NativeEnv` for legal actions, removes commands the native translator cannot execute, and runs runE-U83 on the remaining mask.
+4. The hook verifies the session, request, state seed, actor ownership, coordinates, native movement overlay, path terminator, and target semantics.
+5. The hook fills AW2's native command record and hands control to the stock phase-3 executor. End turn enters the stock phase-4 cleanup.
+6. A new request is published only after the executor returns to phase 2.
+
+Confirmed native commands are `1` build, `2` wait, `3` capture, `4` attack unit, and `5` attack special terrain. Command 4 carries the native target unit ID. Command 5 carries target `(x,y)` in bytes `+6/+7`; this follows the stock `sub_0805E718`/`sub_080587FC` descriptor path. Movement directions are `0` left, `1` right, `2` down, `3` up, and `4` terminator.
+
+## State projection
+
+The request contains dynamic width/height, mode, map ID, active side, day, fog, current weather, unit/property planes, all 256 twelve-byte unit records, five player records, and the `0x020288B4` special-object HP plane.
+
+Current weather is read from `0x03003FEC`: `0` clear, `1` snow, `2` rain. The resulting AWBW state and movement rules use the matching string rather than assuming clear weather.
+
+AW2 terrain IDs 21..31 are Campaign-specific Black Hole structures. AWBW has no matching terrain classes. A special cell with live HP is projected as an attackable pipe seam; the model's `attack_seam` target is translated to native command 5. A special cell without live HP, including underlay/custom structure cells, is projected as an impassable pipe. Raw AW2 kind and HP remain in bridge-only metadata and are checked again during translation. This preserves obstruction and lets the model target only structures AW2 itself marks destructible.
+
+The model sees the active native team as player 2 and every opposing native team as player 1. Other active-team armies are present but marked moved, and their production sites are not offered to the current side. This prevents one CPU army from moving or building for an ally.
 
 ## Mailbox and IPC
 
-The mailbox occupies `0x02030000..0x02030fff`. It was zero in all available Spann savestates, had no references in the current upstream disassembly, and was checked with an mGBA watchpoint during vanilla play. `mod/mailbox_layout.json` is the source of truth; `generate_layout.py` produces matching assembly, Python, and Lua constants.
+The verified mailbox remains `0x02030000..0x02030fff`:
 
 | Offset | Size | Purpose |
 |---:|---:|---|
-| `0x000` | `0x30` | magic/version, session and request IDs, state, lengths, errors, counters |
-| `0x080` | `0x800` | request snapshot |
-| `0x880` | `0x180` | response action |
-| `0xa00` | remainder | debug/reserved |
+| `0x000` | `0x80` | identity, state, lengths, errors, counters |
+| `0x080` | `0xa80` | in-emulator snapshot planes |
+| `0xb00` | `0x100` | response action |
+| `0xc00` | remainder | debug/reserved |
 
-Mailbox states are `IDLE`, `REQUEST_READY`, `WAITING`, `RESPONSE_READY`, `EXECUTING`, and `ERROR`. The request contains mode/map/side/day/controller state, funds, the 15x10 unit and property planes, all 128 twelve-byte unit records, and a state seed. The response contains an action, unit/building fields, a native route of at most 12 bytes, and the echoed state seed.
+Lua appends tables that do not fit in the verified 4 KiB region. Protocol-v2 request files are 7,268 bytes: 2,608 mailbox bytes, 3,072 unit-record bytes, 300 player-record bytes, and 1,288 special-HP bytes. The response contains a route of at most 12 direction bytes and the echoed state seed.
 
-IPC files add a 20-byte little-endian envelope: magic/version, kind, session ID, request ID, and payload length. Writers use a temporary file plus atomic rename. Lua deletes accepted response files. Reset/start invalidates mailbox magic, and Lua assigns a new host-random session before the first request of each emulator session. Every response is bound to that session, request, and state seed. A missing or invalid response leaves the game fail-closed in `WAITING` or `ERROR`; it never replays an earlier command.
+Mailbox states are `IDLE`, `REQUEST_READY`, `WAITING`, `RESPONSE_READY`, `EXECUTING`, and `ERROR`. IPC envelopes bind every response to a random emulator session, request ID, and state seed. Invalid input leaves the targeted CPU in `WAITING` or `ERROR`; stale commands cannot be replayed.
 
-## Tests performed
+## Verification
 
-- Vanilla ROM reconstruction: byte-for-byte equal to the supplied US ROM.
-- Modified ROM boot: mGBA loaded the appended payload and reported the patched hook word and expected ROM size.
-- Deterministic stub: produced four infantry builds and end-turn through stock phase 3, reaching the next human day.
-- Real runE-U83: after removing the fallback and adding attack translation, an isolated mGBA run advanced from a Spann savestate through day 7. Request 86 selected attacker `77`, destination `(2,6)`, target `2`, and emitted command `4`/parameter `2`. The stock executor completed it, returned to phase 2, and the bridge processed requests 87 through 110, including the day-7 end-turn.
-- Fail-closed test: with Lua active and no host bridge, the enemy stayed in phase 2 / mailbox `WAITING` for more than 1,500 frames. It never entered phase 3, phase 4, or the original decision generator.
-- Desynchronization checks: capture progress and property-owner mirror changes were observed in the next real snapshot and accepted by `NativeEnv`. An intentionally retained failed request remained in `WAITING`; resuming that exact request after fixing the adapter did not consume a stale response.
-- Non-target boot: mGBA ran the normal title/menu context (`mode 0x03`, map `0x01`) while mailbox magic remained unset. The assembly activation guard also has negative tests by inspection for mode, map, side, and dimensions; a full enemy turn on another map was not available in the supplied savestates.
-- Automated tests: mailbox bounds/generated-file synchronization, envelope identity and kind validation, state-seed echo, invalid route rejection, AW2 snapshot conversion, partial-capture mirrors accepted by `NativeEnv`, build translation, and unit-route translation.
+- Vanilla reconstruction remained byte-identical to the supplied US ROM.
+- The deterministic stub completed production and end turn through the stock executor.
+- On Spann, runE-U83 completed 12 decisions on day 6, including capture, unit combat, movement, four builds, and end turn; the game reached day 7 without an error or stale response. This regression was repeated after the dynamic-map/weather/special-object changes.
+- On Moji, runE-U83 completed two enemy turns on the 26x22 map, including production and movement, and advanced to day 3 without an error.
+- Campaign mode/map/dimensions/fog were confirmed at runtime on the first battle. The automated menu driver reached the human turn, but did not complete its menu end-turn sequence, so a full Campaign enemy turn is not claimed as runtime-tested.
+- A synthetic Campaign snapshot with rain and a live Deathray is accepted by `NativeEnv`; legal `attack_seam` actions are produced and translated to native command 5 with the target coordinates. The command-5 field layout and executor path are confirmed from upstream source; execution against a real special objective has not yet been observed in mGBA.
+- Automated coverage includes layout generation, IPC envelopes, stale-state seed binding, dynamic state conversion, weather mapping, coalition ownership, capture mirroring, route validation, unit attacks, special-object attacks, and production translation.
 
 Run the automated checks with:
 
@@ -102,6 +111,6 @@ Run the automated checks with:
 X:\dev\awbw\.venv\Scripts\python.exe -m unittest discover -s tests -p 'test_*.py'
 ```
 
-## Current boundary
+## Current command boundary
 
-The POC translates build, wait, capture, attack, and end-turn decisions. Powers, transports, supply, join, and silo actions remain deliberately rejected. The bridge currently models visible Spann state; fog-hidden enemy knowledge and weather transitions have not been exercised. The implementation is intentionally fixed to the US ROM hash and the verified upstream revision.
+The runtime translator supports build, wait, capture, unit attack, special-object attack, and end turn. Power activation, transport load/unload, join, APC supply, stealth/sub state changes, repair, and missile-silo firing are removed from the model's legal-action mask. The selector still comes from runE-U83; these filters do not call or consult AW2's AI. A targeted non-fog CPU turn fails closed if no translatable action remains.

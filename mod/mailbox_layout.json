@@ -2,7 +2,7 @@
   "base": 33751040,
   "size": 4096,
   "magic": 1295144769,
-  "version": 1,
+  "version": 2,
   "states": {
     "IDLE": 0,
     "REQUEST_READY": 1,
@@ -33,11 +33,11 @@
     "frame_counter": 40,
     "last_action": 44,
     "request": 128,
-    "response": 2176,
-    "debug": 2560
+    "response": 2816,
+    "debug": 3072
   },
   "request": {
-    "capacity": 2048,
+    "capacity": 2688,
     "snapshot_version": 0,
     "width": 2,
     "height": 3,
@@ -48,18 +48,27 @@
     "day": 8,
     "global_state": 10,
     "executor_state": 12,
-    "reserved_0e": 14,
-    "funds_p1": 16,
-    "funds_p2": 20,
-    "state_seed": 24,
+    "map_cells": 14,
+    "state_seed": 16,
+    "fog": 20,
+    "weather": 21,
+    "reserved_16": 22,
     "unit_plane": 32,
-    "property_plane": 182,
-    "unit_records": 332,
-    "unit_record_count": 128,
-    "unit_record_stride": 12
+    "property_plane": 1320,
+    "unit_records": 2608,
+    "unit_record_count": 256,
+    "unit_record_stride": 12,
+    "player_records": 5680,
+    "player_record_count": 5,
+    "player_record_stride": 60,
+    "special_hp_plane": 5980,
+    "file_length": 7268,
+    "external_unit_records_address": 33695364,
+    "external_player_records_address": 33698436,
+    "external_special_hp_address": 33720500
   },
   "response": {
-    "capacity": 384,
+    "capacity": 256,
     "action": 0,
     "unit_id": 1,
     "dest_x": 2,
@@ -74,6 +83,6 @@
     "reserved_0b": 11,
     "path": 16,
     "path_capacity": 12,
-    "state_seed": 32
+    "state_seed": 96
   }
 }

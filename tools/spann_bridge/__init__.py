@@ -1,1 +1,1 @@
-"""Local Spann Island bridge tools."""
+"""Local AW2 Campaign/War Room bridge tools."""

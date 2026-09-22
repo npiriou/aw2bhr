@@ -1,18 +1,18 @@
--- mGBA Lua bridge for the local Spann mailbox.
+-- mGBA Lua bridge for the local AW2 Campaign/War Room agent mailbox.
 -- Load manually with Tools -> Scripting -> File -> Load Script.
 
-local root = os.getenv("AW2_SPANN_ROOT") or "X:/dev/aw2bhr-spann-local"
+local root = os.getenv("AW2_AGENT_ROOT") or os.getenv("AW2_SPANN_ROOT") or "X:/dev/aw2bhr-spann-local"
 dofile(root .. "/tools/mgba/mailbox_layout.lua")
-local ipc = os.getenv("AW2_SPANN_IPC") or (root .. "/runtime")
+local ipc = os.getenv("AW2_AGENT_IPC") or os.getenv("AW2_SPANN_IPC") or (root .. "/runtime")
 local FILE_KIND_REQUEST = 1
 local FILE_KIND_RESPONSE = 2
 local FILE_HEADER_SIZE = 20
 local runtime_log_path = ipc .. "/mgba-runtime.log"
 local last_runtime_signature = nil
 local runtime_frames = 0
-local capture_runtime = os.getenv("AW2_SPANN_TEST_CAPTURE") == "1"
-local test_end_turn = os.getenv("AW2_SPANN_TEST_ENDTURN") == "1"
-local trace_runtime = os.getenv("AW2_SPANN_TRACE") == "1" or test_end_turn
+local capture_runtime = os.getenv("AW2_AGENT_TEST_CAPTURE") == "1" or os.getenv("AW2_SPANN_TEST_CAPTURE") == "1"
+local test_end_turn = os.getenv("AW2_AGENT_TEST_ENDTURN") == "1" or os.getenv("AW2_SPANN_TEST_ENDTURN") == "1"
+local trace_runtime = os.getenv("AW2_AGENT_TRACE") == "1" or os.getenv("AW2_SPANN_TRACE") == "1" or test_end_turn
 local test_turn_day = nil
 local test_turn_started = nil
 local lua_session_ready = false
@@ -120,9 +120,36 @@ local function publish_request()
     local session = mailbox32("session_id")
     local request = mailbox32("request_id")
     local payload = memory_bytes(MAILBOX_BASE + MAILBOX_FIELDS.request, length)
+    if length ~= MAILBOX_REQUEST.unit_records then
+        set_mailbox32("error_code", 0x103)
+        set_mailbox32("state", MAILBOX_STATES.ERROR)
+        return
+    end
+    -- Phase 2 is paused until a response arrives, so these authoritative game
+    -- tables are stable. Keeping them outside the 4 KiB mailbox lets every
+    -- native army and the largest 0x508-cell AW2 map fit without claiming
+    -- unverified EWRAM.
+    payload = payload
+        .. memory_bytes(
+            MAILBOX_REQUEST.external_unit_records_address,
+            MAILBOX_REQUEST.unit_record_count * MAILBOX_REQUEST.unit_record_stride
+        )
+        .. memory_bytes(
+            MAILBOX_REQUEST.external_player_records_address,
+            MAILBOX_REQUEST.player_record_count * MAILBOX_REQUEST.player_record_stride
+        )
+        .. memory_bytes(
+            MAILBOX_REQUEST.external_special_hp_address,
+            MAILBOX_REQUEST.property_plane - MAILBOX_REQUEST.unit_plane
+        )
+    if #payload ~= MAILBOX_REQUEST.file_length then
+        set_mailbox32("error_code", 0x104)
+        set_mailbox32("state", MAILBOX_STATES.ERROR)
+        return
+    end
     atomic_write(request_path(session, request), envelope(FILE_KIND_REQUEST, session, request, payload))
     set_mailbox32("state", MAILBOX_STATES.WAITING)
-    print(string.format("AW2 Spann request session=%08x id=%d", session, request))
+    print(string.format("AW2 agent request session=%08x id=%d", session, request))
 end
 
 local function consume_response()
@@ -152,7 +179,7 @@ local function consume_response()
     set_mailbox32("response_length", length)
     set_mailbox32("state", MAILBOX_STATES.RESPONSE_READY) -- publish last
     os.remove(path)
-    print(string.format("AW2 Spann response session=%08x id=%d", session, request))
+    print(string.format("AW2 agent response session=%08x id=%d", session, request))
 end
 
 local function poll()
@@ -192,11 +219,11 @@ local function poll()
     local mailbox_magic = emu:read32(MAILBOX_BASE + MAILBOX_FIELDS.magic)
     local mailbox_state = emu:read32(MAILBOX_BASE + MAILBOX_FIELDS.state)
     local signature = string.format(
-        "mode=%02x map=%02x global=%02x phase=%02x sub=%02x army=%02x day=%02x magic=%08x state=%08x",
+        "mode=%02x map=%02x global=%02x phase=%02x sub=%02x army=%02x day=%02x magic=%08x state=%08x err=%08x last=%08x",
         emu:read8(0x03003FC1), emu:read8(0x03003FC2), emu:read8(0x030032D8),
         emu:read8(0x03004780), emu:read8(0x030045D4), emu:read8(0x030033EC),
         emu:read8(0x03004080),
-        mailbox_magic, mailbox_state
+        mailbox_magic, mailbox_state, mailbox32("error_code"), mailbox32("last_action")
     )
     if trace_runtime and signature ~= last_runtime_signature then
         append_runtime(signature)
@@ -237,4 +264,4 @@ callbacks:add("frame", poll)
 callbacks:add("reset", invalidate)
 callbacks:add("start", invalidate)
 append_runtime("bridge callbacks installed")
-print("AW2 Spann Lua bridge loaded; IPC=" .. ipc)
+print("AW2 Campaign/War Room Lua bridge loaded; IPC=" .. ipc)

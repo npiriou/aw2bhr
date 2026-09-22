@@ -60,6 +60,9 @@ if (-not $ready) {
 $env:AW2_SPANN_ROOT = $root.Replace('\', '/')
 $env:AW2_SPANN_IPC = $runtime.Replace('\', '/')
 $env:AW2_SPANN_TRACE = if ($Trace) { '1' } else { '0' }
+$env:AW2_AGENT_ROOT = $env:AW2_SPANN_ROOT
+$env:AW2_AGENT_IPC = $env:AW2_SPANN_IPC
+$env:AW2_AGENT_TRACE = $env:AW2_SPANN_TRACE
 $mgbaArgs = @('--script', ('"' + $script + '"'))
 if ($SaveState) {
     $mgbaArgs += @('-t', ('"' + (Resolve-Path -LiteralPath $SaveState).Path + '"'))

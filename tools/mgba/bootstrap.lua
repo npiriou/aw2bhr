@@ -2,7 +2,7 @@
 -- The regular bridge stays reloadable; startup failures are written to the
 -- repository-local runtime directory where the host launcher can report them.
 
-local root = os.getenv("AW2_SPANN_ROOT") or "X:/dev/aw2bhr-spann-local"
+local root = os.getenv("AW2_AGENT_ROOT") or os.getenv("AW2_SPANN_ROOT") or "X:/dev/aw2bhr-spann-local"
 local log_path = root .. "/runtime/mgba-script.log"
 
 local function append(message)

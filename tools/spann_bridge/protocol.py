@@ -1,4 +1,4 @@
-"""Binary file IPC and mailbox payload helpers for the Spann bridge."""
+"""Binary file IPC and mailbox payload helpers for the local AW2 bridge."""
 
 from __future__ import annotations
 

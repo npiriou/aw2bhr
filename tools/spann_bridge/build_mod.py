@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and patch the local-only Spann Island ROM payload."""
+"""Build and patch the local Campaign/War Room agent ROM payload."""
 
 from __future__ import annotations
 
