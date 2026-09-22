@@ -32,7 +32,7 @@ Build the separate modified ROM with:
 X:\dev\awbw\.venv\Scripts\python.exe tools\spann_bridge\build_mod.py
 ```
 
-The builder rejects a base ROM whose size, SHA-1, or original hook word differs. It writes `build-mod\aw2bhr-spann-local.gba` and `build-mod\build-info.txt`. The tested build has SHA-1 `1a1bce6bbf4d326b05baee33d3ad57617b63a0eb`; generated ROMs remain ignored by Git.
+The builder rejects a base ROM whose size, SHA-1, or original hook word differs. It writes `build-mod\aw2bhr-spann-local.gba` and `build-mod\build-info.txt`. The current build has SHA-1 `7f501cbcd7f5b1083c869d4e2c6c17dd307ead0b`; generated ROMs remain ignored by Git.
 
 Edit `spann-bridge.example.json` if the AWBW root, checkpoint, runtime directory, or device differs. The simplest launch method is to double-click `START-SPANN-ML.cmd`. Do not open the modified ROM directly through its file association: the installed stable mGBA 0.10.5 cannot autoload the Lua bridge.
 
@@ -40,9 +40,9 @@ Edit `spann-bridge.example.json` if the AWBW root, checkpoint, runtime directory
 tools\run_spann_local.ps1 -Mode model
 ```
 
-Use `-Mode stub` for the deterministic bridge, `-Trace` for transition logging, and `-SaveState <path>` for local testing. Before launch, the helper synchronizes `config.ini` and `qt.ini` from the installed mGBA profile into the portable development build, including controller mappings. Pass `-NoSyncSettings` to keep separate portable settings. The launcher shows mGBA, starts the host bridge in the background, and stops the bridge when mGBA exits.
+Use `-Mode stub` for the deterministic bridge, `-Trace` for transition logging, and `-SaveState <path>` for local testing. The launcher uses the 32-bit portable development build, leaves its controller/settings files untouched, shows mGBA, starts the host bridge in the background, and stops the bridge when mGBA exits.
 
-If the ROM is opened without Lua or the host process, the hook waits about three seconds and then falls back to AW2's built-in AI instead of freezing the enemy turn. That fallback does not run the ML model.
+On the targeted Spann enemy turn, the hook never calls AW2's built-in decision generator. If Lua, the host process, or action translation fails, the mailbox remains waiting/error and the enemy turn stops visibly. The original phase-2 AI is reachable only when the mode, map, side, or dimensions are outside the activation guard.
 
 ## Verified activation and hook
 
@@ -68,7 +68,7 @@ The target flow is:
 7. The stock executor completes the action. Only after phase 3 returns to phase 2 does the hook clear `EXECUTING` and publish the next snapshot.
 8. End-turn goes to the original phase-4 cleanup; the model path skips the built-in phase-5 production decision.
 
-Confirmed native meanings in this flow are command `1` = build, `2` = unit wait, and `3` = unit capture. A model end-turn response enters phase 4. Unit movement directions in the uncompressed native route are `0` left, `1` right, `2` down, `3` up, with `4` as the terminator.
+Confirmed native meanings in this flow are command `1` = build, `2` = unit wait, `3` = unit capture, and `4` = attack with the target native unit ID at command byte `+6`. A model end-turn response enters phase 4. Unit movement directions in the uncompressed native route are `0` left, `1` right, `2` down, `3` up, with `4` as the terminator.
 
 ## Mailbox and IPC
 
@@ -90,7 +90,8 @@ IPC files add a 20-byte little-endian envelope: magic/version, kind, session ID,
 - Vanilla ROM reconstruction: byte-for-byte equal to the supplied US ROM.
 - Modified ROM boot: mGBA loaded the appended payload and reported the patched hook word and expected ROM size.
 - Deterministic stub: produced four infantry builds and end-turn through stock phase 3, reaching the next human day.
-- Real runE-U83: from the day-1 Spann savestate, completed enemy days 1 through 5 and reached human day 6. The run processed 50 matched requests: builds, waits, captures (including partial and completed captures), and five end-turns. Every unit/build action passed through phase 3 substates 0 -> 1 -> 2 -> phase 2; each turn ended through phase 4. No duplicate or stale response was consumed.
+- Real runE-U83: after removing the fallback and adding attack translation, an isolated mGBA run advanced from a Spann savestate through day 7. Request 86 selected attacker `77`, destination `(2,6)`, target `2`, and emitted command `4`/parameter `2`. The stock executor completed it, returned to phase 2, and the bridge processed requests 87 through 110, including the day-7 end-turn.
+- Fail-closed test: with Lua active and no host bridge, the enemy stayed in phase 2 / mailbox `WAITING` for more than 1,500 frames. It never entered phase 3, phase 4, or the original decision generator.
 - Desynchronization checks: capture progress and property-owner mirror changes were observed in the next real snapshot and accepted by `NativeEnv`. An intentionally retained failed request remained in `WAITING`; resuming that exact request after fixing the adapter did not consume a stale response.
 - Non-target boot: mGBA ran the normal title/menu context (`mode 0x03`, map `0x01`) while mailbox magic remained unset. The assembly activation guard also has negative tests by inspection for mode, map, side, and dimensions; a full enemy turn on another map was not available in the supplied savestates.
 - Automated tests: mailbox bounds/generated-file synchronization, envelope identity and kind validation, state-seed echo, invalid route rejection, AW2 snapshot conversion, partial-capture mirrors accepted by `NativeEnv`, build translation, and unit-route translation.
@@ -103,4 +104,4 @@ X:\dev\awbw\.venv\Scripts\python.exe -m unittest discover -s tests -p 'test_*.py
 
 ## Current boundary
 
-The exercised POC translates build, wait, capture, and end-turn decisions. Combat, powers, transports, supply, join, and silo actions have not yet occurred in the tested five-turn run and are deliberately rejected rather than guessed. The bridge currently models visible Spann state; fog-hidden enemy knowledge and weather transitions have not been exercised. The implementation is intentionally fixed to the US ROM hash and the verified upstream revision.
+The POC translates build, wait, capture, attack, and end-turn decisions. Powers, transports, supply, join, and silo actions remain deliberately rejected. The bridge currently models visible Spann state; fog-hidden enemy knowledge and weather transitions have not been exercised. The implementation is intentionally fixed to the US ROM hash and the verified upstream revision.

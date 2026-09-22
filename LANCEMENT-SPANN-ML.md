@@ -16,7 +16,7 @@ La ROM modifiée ne doit pas être ouverte directement avec le mGBA installé da
 
 ## À ne pas faire
 
-Ne pas double-cliquer sur `build-mod\aw2bhr-spann-local.gba`. L'association Windows ouvre actuellement mGBA 0.10.5, qui ne charge pas automatiquement le script Lua. La ROM repasse maintenant sur l'IA native après environ trois secondes si le pont ML est absent, mais le modèle runE-U83 ne sera pas utilisé.
+Ne pas double-cliquer sur `build-mod\aw2bhr-spann-local.gba`. L'association Windows ouvre actuellement mGBA 0.10.5, qui ne charge pas automatiquement le script Lua. Sur Spann Island, la ROM modifiée ne lance jamais l'IA native ennemie : si le pont ML est absent ou échoue, le tour ennemi reste arrêté afin de rendre l'erreur visible.
 
 ## En cas de problème
 

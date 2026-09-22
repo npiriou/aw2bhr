@@ -17,7 +17,7 @@ AW2_TO_AWBW = {
     24: "submarine",
 }
 AWBW_TO_AW2 = {name: unit_id for unit_id, name in AW2_TO_AWBW.items()}
-UNIT_COMMANDS = {"wait": 2, "capture": 3}
+UNIT_COMMANDS = {"wait": 2, "capture": 3, "attack": 4}
 
 
 def _owner_from_property(raw: int) -> int | None:
@@ -166,7 +166,7 @@ def translate_model_action(action: dict[str, Any], state: dict[str, Any]) -> dic
         except KeyError as exc:
             raise ValueError(f"unit command {command_name!r} is not runtime-confirmed yet") from exc
         destination = parsed[-1]
-        return {
+        translated = {
             "branch": "unit",
             "unit_id": unit_id,
             "dest_x": destination[0],
@@ -174,4 +174,12 @@ def translate_model_action(action: dict[str, Any], state: dict[str, Any]) -> dic
             "command": command,
             "path": directions,
         }
+        if command_name == "attack":
+            target_id = int(action.get("action", {}).get("target"))
+            target = next((item for item in state["units"] if int(item["id"]) == target_id), None)
+            if target is None or int(target["owner"]) != 1:
+                raise ValueError(f"model selected invalid attack target {target_id}")
+            translated["param0"] = target_id
+            translated["param1"] = 0
+        return translated
     raise ValueError(f"model selected unsupported branch {branch!r}")

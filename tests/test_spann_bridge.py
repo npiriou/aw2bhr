@@ -175,6 +175,28 @@ class AdapterTests(unittest.TestCase):
                 state,
             )
 
+    def test_attack_translates_target_id_to_native_param0(self) -> None:
+        state = {
+            "units": [
+                {"id": 65, "owner": 2, "position": {"x": 8, "y": 4}},
+                {"id": 3, "owner": 1, "position": {"x": 7, "y": 4}},
+            ],
+        }
+        translated = translate_model_action(
+            {
+                "branch": "unit",
+                "unit": 65,
+                "path": {"positions": [{"x": 8, "y": 4}]},
+                "action": {"command": "attack", "target": 3},
+            },
+            state,
+        )
+        self.assertEqual(translated["command"], 4)
+        self.assertEqual(translated["param0"], 3)
+        payload = response_payload(translated, 0x10203040)
+        self.assertEqual(payload[RESPONSE["command"]], 4)
+        self.assertEqual(payload[RESPONSE["param0"]], 3)
+
 
 if __name__ == "__main__":
     unittest.main()

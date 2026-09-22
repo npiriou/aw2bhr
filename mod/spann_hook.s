@@ -87,21 +87,10 @@ dispatch_state:
     cmp r0, #MAILBOX_STATE_EXECUTING
     beq execution_complete
     cmp r0, #MAILBOX_STATE_ERROR
-    beq fallback_original
+    beq bridge_wait
     b return_dispatcher
 
 bridge_wait:
-    ldr r0, [r4, #MAILBOX_OFF_FRAME_COUNTER]
-    cmp r0, #180                 /* ~3 seconds at 60 fps */
-    bhs bridge_timeout
-    b return_dispatcher
-bridge_timeout:
-    movs r0, #4                  /* bridge/model timeout */
-    str r0, [r4, #MAILBOX_OFF_ERROR_CODE]
-    movs r0, #MAILBOX_STATE_ERROR
-    str r0, [r4, #MAILBOX_OFF_STATE]
-fallback_original:
-    bl call_original_phase2
     b return_dispatcher
 
 initialize:
@@ -320,9 +309,13 @@ execute_build:
 execute_unit:
     ldrb r6, [r5, #RESPONSE_UNIT_ID]
     cmp r6, #64                 /* only Spann's enemy army */
-    blo invalid_response
+    blo unit_invalid_near
     cmp r6, #128
-    bhs invalid_response
+    bhs unit_invalid_near
+    b unit_id_valid
+unit_invalid_near:
+    b invalid_response
+unit_id_valid:
     ldr r7, =UNIT_RECORDS
     lsls r0, r6, #3
     lsls r1, r6, #2
@@ -345,7 +338,20 @@ execute_unit:
     cmp r2, #2                  /* wait */
     beq unit_command_valid
     cmp r2, #3                  /* capture */
+    beq unit_command_valid
+    cmp r2, #4                  /* attack; param0 = target unit id */
     bne unsupported_action
+    ldrb r0, [r5, #RESPONSE_PARAM0]
+    cmp r0, #64                 /* target must be Spann's player-side army */
+    bhs invalid_response
+    ldr r1, =UNIT_RECORDS
+    lsls r2, r0, #3
+    lsls r3, r0, #2
+    adds r2, r2, r3
+    adds r1, r1, r2
+    ldrb r0, [r1]
+    cmp r0, #0
+    beq invalid_response
 unit_command_valid:
     ldr r3, =G_CURRENT_UNIT_ID
     strb r6, [r3]

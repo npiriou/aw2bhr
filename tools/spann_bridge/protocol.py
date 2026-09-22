@@ -78,6 +78,8 @@ def response_payload(action: dict[str, object], state_seed: int) -> bytes:
         payload[RESPONSE["dest_x"]] = int(action["dest_x"])
         payload[RESPONSE["dest_y"]] = int(action["dest_y"])
         payload[RESPONSE["command"]] = int(action["command"])
+        payload[RESPONSE["param0"]] = int(action.get("param0", 0))
+        payload[RESPONSE["param1"]] = int(action.get("param1", 0))
         path = bytes(int(step) for step in action.get("path", []))
         if len(path) > RESPONSE["path_capacity"]:
             raise ValueError("native path exceeds mailbox capacity")
