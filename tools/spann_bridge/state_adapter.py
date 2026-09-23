@@ -16,7 +16,18 @@ AW2_TO_AWBW = {
     24: "sub",
 }
 AWBW_TO_AW2 = {name: unit_id for unit_id, name in AW2_TO_AWBW.items()}
-UNIT_COMMANDS = {"wait": 2, "capture": 3, "attack": 4, "attack_seam": 5}
+UNIT_COMMANDS = {
+    "wait": 2,
+    "capture": 3,
+    "attack": 4,
+    "attack_seam": 5,
+    "supply": 6,
+    "load": 7,
+    "unload": 8,
+    "join": 0x0A,
+    "hide": 0x0B,
+    "fire_silo": 0x14,
+}
 SUPPORTED_UNIT_COMMANDS = frozenset(UNIT_COMMANDS)
 AW2_CO_NAMES = (
     "Nell", "Andy", "Max", "Olaf", "Sami", "Grit", "Kanbei", "Sonja",
@@ -123,7 +134,7 @@ def state_from_snapshot(payload: bytes) -> dict[str, Any]:
             "hp_internal": hp, "hp_displayed": 0 if hp == 0 else math.ceil(hp / 10),
             "fuel": record[6] & 0x7F, "ammo": ammo, "moved": moved, "fired": moved,
             "capture_progress": capture_progress or None,
-            "hidden": "submerged" if unit_type == "sub" and record[6] & 0x80 else "visible",
+            "hidden": "submerged" if unit_type == "sub" and record[1] & 0x20 else "visible",
             "cargo": [int(value) for value in record[7:9] if value in represented_ids],
             "transport": transport, "native_side": native_side,
         })
@@ -209,6 +220,13 @@ def state_from_snapshot(payload: bytes) -> dict[str, Any]:
     def funds(side: int) -> int:
         return int.from_bytes(records[side][0:4], "little")
 
+    def power_meter(side: int) -> int:
+        # AW2 stores charge in funds; AWBW persists tenths of funds.
+        return int.from_bytes(records[side][0x20:0x24], "little") * 10
+
+    def power_active(side: int) -> str:
+        return {1: "cop", 2: "scop"}.get(records[side][0x1F], "none")
+
     state: dict[str, Any] = {
         "schema_version": 1,
         "config": {
@@ -221,12 +239,14 @@ def state_from_snapshot(payload: bytes) -> dict[str, Any]:
         "day": u16(payload, REQUEST["day"]), "active_player": 2,
         "players": [
             {"id": 1, "funds": funds(enemy_side), "income": len(properties[1]) * 1000,
-             "co": co_name(enemy_side), "power_meter": 0, "power_active": "none",
-             "power_uses": 0, "properties": properties[1], "team": 1,
+             "co": co_name(enemy_side), "power_meter": power_meter(enemy_side),
+             "power_active": power_active(enemy_side), "power_uses": records[enemy_side][0x25],
+             "properties": properties[1], "team": 1,
              "eliminated": False, "turn_order": 1},
             {"id": 2, "funds": funds(active_side), "income": len(properties[2]) * 1000,
-             "co": co_name(active_side), "power_meter": 0, "power_active": "none",
-             "power_uses": 0, "properties": properties[2], "team": 2,
+             "co": co_name(active_side), "power_meter": power_meter(active_side),
+             "power_active": power_active(active_side), "power_uses": records[active_side][0x25],
+             "properties": properties[2], "team": 2,
              "eliminated": False, "turn_order": 2},
         ],
         "units": units, "buildings": buildings,
@@ -251,16 +271,32 @@ def state_from_snapshot(payload: bytes) -> dict[str, Any]:
             "mode": payload[REQUEST["mode"]], "map_id": payload[REQUEST["map_id"]],
             "active_side": active_side, "active_team": active_team,
             "weather": weather, "special_terrain": special_terrain,
+            "power_readiness": active_record[0x24],
         },
     }
     return state
 
 
-def is_translatable_action(action: dict[str, Any]) -> bool:
+def is_translatable_action(action: dict[str, Any], state: dict[str, Any] | None = None) -> bool:
     branch = action.get("branch")
     if branch in {"build", "end_turn"}:
         return branch != "build" or str(action.get("unit_type")) in AWBW_TO_AW2
-    return branch == "unit" and str(action.get("action", {}).get("command")) in SUPPORTED_UNIT_COMMANDS
+    if branch == "power":
+        power = str(action.get("power"))
+        readiness = int((state or {}).get("_aw2", {}).get("power_readiness", 2))
+        return (power == "cop" and readiness >= 1) or (power == "scop" and readiness >= 2)
+    if branch != "unit":
+        return False
+    unit_action = action.get("action", {})
+    command = str(unit_action.get("command"))
+    if command not in SUPPORTED_UNIT_COMMANDS:
+        return False
+    if state is not None and command in {"load", "join"}:
+        key = "transport" if command == "load" else "target"
+        target_id = int(unit_action.get(key, 0))
+        if _native_side(target_id) != int(state.get("_aw2", {}).get("active_side", 0)):
+            return False
+    return True
 
 
 def translate_model_action(action: dict[str, Any], state: dict[str, Any]) -> dict[str, object]:
@@ -278,6 +314,14 @@ def translate_model_action(action: dict[str, Any], state: dict[str, Any]) -> dic
                 "y": int(building["position"]["y"]), "aw2_unit_type": AWBW_TO_AW2[unit_type]}
     if branch == "end_turn":
         return {"branch": "end_turn"}
+    if branch == "power":
+        power = str(action.get("power"))
+        readiness = int(state.get("_aw2", {}).get("power_readiness", 0))
+        if power == "cop" and readiness >= 1:
+            return {"branch": "power", "command": 0x0F, "native_side": active_side}
+        if power == "scop" and readiness >= 2:
+            return {"branch": "power", "command": 0x10, "native_side": active_side}
+        raise ValueError(f"model selected unavailable native power {power!r}")
     if branch != "unit":
         raise ValueError(f"model selected unsupported branch {branch!r}")
     unit_id = int(action["unit"])
@@ -327,4 +371,52 @@ def translate_model_action(action: dict[str, Any], state: dict[str, Any]) -> dic
             raise ValueError(f"model selected invalid AW2 special target ({target_x},{target_y})")
         translated["param0"] = target_x
         translated["param1"] = target_y
+    elif command_name in {"load", "join"}:
+        key = "transport" if command_name == "load" else "target"
+        target_id = int(action.get("action", {}).get(key))
+        target = next((item for item in state["units"] if int(item["id"]) == target_id), None)
+        if (
+            target is None
+            or int(target["owner"]) != 2
+            or target.get("position") != {"x": destination[0], "y": destination[1]}
+        ):
+            raise ValueError(f"model selected invalid {command_name} target {target_id}")
+        translated["param0"] = target_id
+        translated["param1"] = 0
+    elif command_name == "unload":
+        unloads = action.get("action", {}).get("unloads")
+        if not isinstance(unloads, list) or not 1 <= len(unloads) <= 2:
+            raise ValueError("unload requires one or two cargo orders")
+        cargo = [int(value) for value in unit.get("cargo", [])]
+        params = [0, 0]
+        direction_by_delta = {(0, -1): 1, (1, 0): 2, (0, 1): 3, (-1, 0): 4}
+        seen: set[int] = set()
+        for order in unloads:
+            cargo_id = int(order["unit"])
+            if cargo_id in seen or cargo_id not in cargo:
+                raise ValueError(f"model selected invalid unload cargo {cargo_id}")
+            seen.add(cargo_id)
+            drop = order.get("destination")
+            delta = (int(drop["x"]) - destination[0], int(drop["y"]) - destination[1])
+            if delta not in direction_by_delta:
+                raise ValueError(f"invalid unload destination for cargo {cargo_id}")
+            slot = cargo.index(cargo_id)
+            if slot > 1:
+                raise ValueError("AW2 transport exposes only two cargo slots")
+            params[slot] = direction_by_delta[delta]
+        translated["param0"], translated["param1"] = params
+    elif command_name == "hide":
+        hidden = bool(action.get("action", {}).get("hidden"))
+        translated["command"] = 0x0B if hidden else 0x0C
+    elif command_name == "fire_silo":
+        target = action.get("action", {}).get("target")
+        if not isinstance(target, dict):
+            raise ValueError("missile-silo action has no target position")
+        target_x, target_y = int(target["x"]), int(target["y"])
+        width, height = int(state["map"]["width"]), int(state["map"]["height"])
+        if not (0 <= target_x < width and 0 <= target_y < height):
+            raise ValueError(f"missile-silo target ({target_x},{target_y}) is outside the map")
+        if {"x": destination[0], "y": destination[1]} not in state["map"].get("silos", []):
+            raise ValueError("missile-silo action does not end on a live silo")
+        translated["param0"], translated["param1"] = target_x, target_y
     return translated

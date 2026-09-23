@@ -51,6 +51,14 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual(payload[RESPONSE["action"]], ACTIONS["BUILD"])
         self.assertEqual(struct.unpack_from("<I", payload, RESPONSE["state_seed"])[0], seed)
 
+    def test_power_response_uses_native_command_and_side(self) -> None:
+        payload = response_payload(
+            {"branch": "power", "command": 0x10, "native_side": 3}, 0x12345678
+        )
+        self.assertEqual(payload[RESPONSE["action"]], ACTIONS["POWER"])
+        self.assertEqual(payload[RESPONSE["command"]], 0x10)
+        self.assertEqual(payload[RESPONSE["param0"]], 3)
+
     def test_bad_kind_is_rejected(self) -> None:
         data = encode_envelope(Envelope(FILE_KIND_REQUEST, 1, 2, b""))
         with self.assertRaises(ValueError):
@@ -112,6 +120,36 @@ class AdapterTests(unittest.TestCase):
             state,
         )
         self.assertEqual(translated["aw2_unit_type"], 1)
+
+    def test_native_power_state_is_projected_at_awbw_scale(self) -> None:
+        payload = bytearray(self.snapshot())
+        offset = REQUEST["player_records"] + 2 * REQUEST["player_record_stride"]
+        payload[offset + 0x1F] = 2
+        struct.pack_into("<I", payload, offset + 0x20, 54_000)
+        payload[offset + 0x24] = 2
+        payload[offset + 0x25] = 3
+        state = state_from_snapshot(bytes(payload))
+        active = state["players"][1]
+        self.assertEqual(active["power_meter"], 540_000)
+        self.assertEqual(active["power_active"], "scop")
+        self.assertEqual(active["power_uses"], 3)
+        self.assertEqual(state["_aw2"]["power_readiness"], 2)
+
+    def test_native_power_translation_obeys_aw2_readiness(self) -> None:
+        state = {"_aw2": {"active_side": 2, "power_readiness": 1}}
+        translated = translate_model_action({"branch": "power", "power": "cop"}, state)
+        self.assertEqual(translated, {"branch": "power", "command": 0x0F, "native_side": 2})
+        self.assertFalse(is_translatable_action({"branch": "power", "power": "scop"}, state))
+        with self.assertRaisesRegex(ValueError, "unavailable native power"):
+            translate_model_action({"branch": "power", "power": "scop"}, state)
+
+    def test_cross_native_army_load_is_removed_from_collapsed_team_actions(self) -> None:
+        state = {"_aw2": {"active_side": 2}}
+        action = {
+            "branch": "unit", "unit": 65,
+            "action": {"command": "load", "transport": 129},
+        }
+        self.assertFalse(is_translatable_action(action, state))
 
     def test_campaign_weather_and_special_object_are_projected(self) -> None:
         payload = bytearray(self.snapshot())
@@ -237,6 +275,61 @@ class AdapterTests(unittest.TestCase):
         )
         self.assertEqual(translated["command"], 5)
         self.assertEqual((translated["param0"], translated["param1"]), (6, 7))
+
+    def test_load_join_and_unload_translate_to_native_operands(self) -> None:
+        state = {
+            "_aw2": {"active_side": 2},
+            "units": [
+                {"id": 65, "owner": 2, "position": {"x": 3, "y": 3}, "cargo": []},
+                {"id": 66, "owner": 2, "position": {"x": 4, "y": 3}, "cargo": [67, 68]},
+                {"id": 67, "owner": 2, "position": None, "cargo": []},
+                {"id": 68, "owner": 2, "position": None, "cargo": []},
+            ],
+        }
+        path = {"positions": [{"x": 3, "y": 3}, {"x": 4, "y": 3}]}
+        loaded = translate_model_action(
+            {"branch": "unit", "unit": 65, "path": path,
+             "action": {"command": "load", "transport": 66}}, state
+        )
+        joined = translate_model_action(
+            {"branch": "unit", "unit": 65, "path": path,
+             "action": {"command": "join", "target": 66}}, state
+        )
+        self.assertEqual((loaded["command"], loaded["param0"]), (7, 66))
+        self.assertEqual((joined["command"], joined["param0"]), (0x0A, 66))
+
+        unload_path = {"positions": [{"x": 4, "y": 3}]}
+        unloaded = translate_model_action(
+            {"branch": "unit", "unit": 66, "path": unload_path,
+             "action": {"command": "unload", "unloads": [
+                 {"unit": 68, "destination": {"x": 4, "y": 4}},
+                 {"unit": 67, "destination": {"x": 3, "y": 3}},
+             ]}}, state
+        )
+        self.assertEqual(unloaded["command"], 8)
+        self.assertEqual((unloaded["param0"], unloaded["param1"]), (4, 3))
+
+    def test_supply_hide_and_fire_silo_translate_to_native_commands(self) -> None:
+        state = {
+            "_aw2": {"active_side": 2},
+            "units": [{"id": 65, "owner": 2, "position": {"x": 2, "y": 2}, "cargo": []}],
+            "map": {"width": 8, "height": 7, "silos": [{"x": 3, "y": 2}]},
+        }
+        path = {"positions": [{"x": 2, "y": 2}, {"x": 3, "y": 2}]}
+        supplied = translate_model_action(
+            {"branch": "unit", "unit": 65, "path": path, "action": {"command": "supply"}}, state
+        )
+        hidden = translate_model_action(
+            {"branch": "unit", "unit": 65, "path": path,
+             "action": {"command": "hide", "hidden": False}}, state
+        )
+        silo = translate_model_action(
+            {"branch": "unit", "unit": 65, "path": path,
+             "action": {"command": "fire_silo", "target": {"x": 7, "y": 6}}}, state
+        )
+        self.assertEqual(supplied["command"], 6)
+        self.assertEqual(hidden["command"], 0x0C)
+        self.assertEqual((silo["command"], silo["param0"], silo["param1"]), (0x14, 7, 6))
 
 
 if __name__ == "__main__":

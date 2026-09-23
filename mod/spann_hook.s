@@ -274,14 +274,85 @@ consume_response:
 1:
     ldrb r0, [r5, #RESPONSE_ACTION]
     cmp r0, #MAILBOX_ACTION_BUILD
-    beq execute_build
+    bne 1f
+    b execute_build
+1:
     cmp r0, #MAILBOX_ACTION_UNIT
-    beq execute_unit
+    bne 1f
+    b execute_unit
+1:
+    cmp r0, #MAILBOX_ACTION_POWER
+    beq execute_power
     cmp r0, #MAILBOX_ACTION_END_TURN
     bne 1f
     b execute_end_turn
 1:
     b unsupported_action
+
+    .ltorg
+
+execute_power:
+    ldrb r0, [r5, #RESPONSE_COMMAND]
+    cmp r0, #0x0f
+    beq validate_cop
+    cmp r0, #0x10
+    beq validate_scop
+    b unsupported_action
+validate_cop:
+    movs r2, #1
+    b validate_power_ready
+validate_scop:
+    movs r2, #2
+validate_power_ready:
+    ldr r1, =G_ACTIVE_SIDE
+    ldrh r1, [r1]
+    ldrb r3, [r5, #RESPONSE_PARAM0]
+    cmp r1, r3
+    bne power_invalid
+    lsls r3, r1, #6
+    lsls r1, r1, #2
+    subs r3, r3, r1
+    ldr r1, =PLAYER_RECORDS
+    adds r3, r3, r1
+    adds r3, #0x24
+    ldrb r1, [r3]              /* 1=COP ready, 2=SCOP ready */
+    cmp r1, r2
+    blo power_invalid
+    subs r3, #5
+    ldrb r1, [r3]              /* no second activation while one is active */
+    cmp r1, #0
+    bne power_invalid
+
+    ldr r3, =G_COMMAND
+    movs r1, #0
+    str r1, [r3, #0]
+    str r1, [r3, #4]
+    str r1, [r3, #8]
+    str r1, [r3, #12]
+    str r1, [r3, #16]
+    strb r0, [r3, #0]
+    ldrb r1, [r5, #RESPONSE_PARAM0]
+    strb r1, [r3, #6]
+    ldr r1, =G_RNG_SEED
+    ldr r1, [r1]
+    str r1, [r3, #8]
+    movs r1, #1
+    strb r1, [r3, #0x13]
+    movs r0, #MAILBOX_ACTION_POWER
+    str r0, [r4, #MAILBOX_OFF_LAST_ACTION]
+    movs r0, #MAILBOX_STATE_EXECUTING
+    str r0, [r4, #MAILBOX_OFF_STATE]
+    ldr r1, =G_EXECUTOR_STATE
+    movs r0, #0
+    strh r0, [r1]
+    ldr r1, =G_AI_PHASE
+    movs r0, #3
+    strh r0, [r1]
+    b return_dispatcher
+power_invalid:
+    b invalid_response
+
+    .ltorg
 
 execute_build:
     ldrb r0, [r5, #RESPONSE_BUILDING_X]
@@ -417,14 +488,32 @@ execute_unit:
 1:
     ldrb r2, [r5, #RESPONSE_COMMAND]
     cmp r2, #2                  /* wait */
-    beq unit_command_valid
+    beq unit_command_valid_near
     cmp r2, #3                  /* capture */
-    beq unit_command_valid
+    beq unit_command_valid_near
     cmp r2, #4                  /* attack; param0 = target unit id */
     beq 1f
     cmp r2, #5                  /* special terrain; params = target x/y */
     beq validate_special_target
+    cmp r2, #6                  /* APC supply */
+    beq validate_supply
+    cmp r2, #7                  /* load; param0 = transport id */
+    beq validate_friendly_target
+    cmp r2, #8                  /* unload; params = cargo-slot directions */
+    beq validate_unload
+    cmp r2, #0x0a               /* join; param0 = target unit id */
+    beq validate_friendly_target
+    cmp r2, #0x0b               /* dive */
+    beq validate_sub_command
+    cmp r2, #0x0c               /* surface */
+    beq validate_sub_command
+    cmp r2, #0x14               /* missile silo; params = target x/y */
+    beq validate_silo_target
     b unsupported_action
+unit_command_valid_near:
+    b unit_command_valid
+unit_invalid_near:
+    b invalid_response
 1:
     ldrb r0, [r5, #RESPONSE_PARAM0]
     ldr r1, =UNIT_RECORDS
@@ -457,7 +546,85 @@ execute_unit:
     movs r0, #0x2a
     ldrb r3, [r3, r0]
     cmp r2, r3
-    bne unit_command_valid
+    bne unit_command_valid_near
+    b invalid_response
+
+validate_supply:
+    ldrb r0, [r7]
+    cmp r0, #7                  /* APC */
+    beq unit_command_valid_near
+    b invalid_response
+
+validate_sub_command:
+    ldrb r0, [r7]
+    cmp r0, #24                 /* Sub */
+    beq unit_command_valid_near
+    b invalid_response
+
+validate_friendly_target:
+    ldrb r0, [r5, #RESPONSE_PARAM0]
+    cmp r0, #0
+    beq unit_invalid_near
+    ldr r1, =UNIT_RECORDS
+    lsls r2, r0, #3
+    lsls r3, r0, #2
+    adds r2, r2, r3
+    adds r1, r1, r2
+    ldrb r2, [r1]
+    cmp r2, #0
+    beq unit_invalid_near
+    lsrs r2, r0, #6
+    adds r2, #1
+    ldr r3, =G_ACTIVE_SIDE
+    ldrh r3, [r3]
+    cmp r2, r3
+    bne unit_invalid_near
+    ldrb r2, [r1, #2]
+    ldrb r3, [r5, #RESPONSE_DEST_X]
+    cmp r2, r3
+    bne unit_invalid_near
+    ldrb r2, [r1, #3]
+    ldrb r3, [r5, #RESPONSE_DEST_Y]
+    cmp r2, r3
+    bne unit_invalid_near
+    ldr r1, =MAP_BASE + 0x417A
+    lsls r2, r3, #1
+    ldrh r2, [r1, r2]
+    ldrb r3, [r5, #RESPONSE_DEST_X]
+    adds r2, r2, r3
+    ldr r1, =MAP_BASE + 0x12
+    ldrb r2, [r1, r2]
+    cmp r2, r0
+    bne unit_invalid_near
+    b unit_command_valid
+
+validate_unload:
+    ldrb r0, [r5, #RESPONSE_PARAM0]
+    cmp r0, #4
+    bhi unit_invalid_near
+    ldrb r1, [r5, #RESPONSE_PARAM1]
+    cmp r1, #4
+    bhi unit_invalid_near
+    orrs r0, r1
+    cmp r0, #0
+    beq unit_invalid_near
+    ldrb r0, [r5, #RESPONSE_PARAM0]
+    cmp r0, #0
+    beq 1f
+    ldrb r2, [r7, #7]
+    cmp r2, #0
+    beq unit_invalid_near
+1:
+    cmp r1, #0
+    beq unit_command_valid_near
+    ldrb r2, [r7, #8]
+    cmp r2, #0
+    bne unit_command_valid_near
+    b invalid_response
+
+unit_command_valid_mid:
+    b unit_command_valid
+unit_invalid_mid:
     b invalid_response
 
 validate_special_target:
@@ -482,7 +649,39 @@ validate_special_target:
     ldr r3, =0x020288B4         /* live special-object HP plane */
     ldrb r2, [r3, r2]
     cmp r2, #0
-    bne unit_command_valid
+    bne unit_command_valid_mid
+    b invalid_response
+
+validate_silo_target:
+    /* The actor must be infantry/mech and finish on a live silo tile. */
+    ldrb r2, [r7]
+    cmp r2, #1
+    beq 1f
+    cmp r2, #2
+    bne unit_invalid_mid
+1:
+    ldrb r0, [r5, #RESPONSE_PARAM0]
+    ldr r3, =MAP_BASE
+    ldrh r3, [r3]
+    cmp r0, r3
+    bhs unit_invalid_mid
+    ldrb r1, [r5, #RESPONSE_PARAM1]
+    ldr r3, =MAP_BASE
+    ldrh r3, [r3, #2]
+    cmp r1, r3
+    bhs unit_invalid_mid
+    ldrb r0, [r5, #RESPONSE_DEST_X]
+    ldrb r1, [r5, #RESPONSE_DEST_Y]
+    ldr r3, =MAP_BASE + 0x417A
+    lsls r2, r1, #1
+    ldrh r2, [r3, r2]
+    adds r2, r2, r0
+    ldr r3, =MAP_BASE + 0x1432
+    ldrb r2, [r3, r2]
+    movs r3, #0x1f
+    ands r2, r3
+    cmp r2, #17                 /* unfired missile silo */
+    beq unit_command_valid_mid
     b invalid_response
 unit_command_valid:
     ldr r3, =G_CURRENT_UNIT_ID
@@ -689,8 +888,17 @@ validate_path_bounds:
     ldr r0, [r0, r1]
     ldrb r0, [r0, r6]
     cmp r0, #0xff
-    beq validate_path_bad
-    b validate_path_next
+    bne validate_path_next
+    /* Load/join are the only legal routes whose final cell is occupied. */
+    cmp r5, #1
+    bne validate_path_bad
+    ldr r0, =MAILBOX_BASE + MAILBOX_OFF_RESPONSE
+    ldrb r0, [r0, #RESPONSE_COMMAND]
+    cmp r0, #7
+    beq validate_path_next
+    cmp r0, #0x0a
+    beq validate_path_next
+    b validate_path_bad
 validate_path_end:
     cmp r5, #0
     bne validate_path_bad

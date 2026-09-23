@@ -85,6 +85,10 @@ def response_payload(action: dict[str, object], state_seed: int) -> bytes:
             raise ValueError("native path exceeds mailbox capacity")
         payload[RESPONSE["path_length"]] = len(path)
         payload[RESPONSE["path"] : RESPONSE["path"] + len(path)] = path
+    elif branch == "power":
+        payload[RESPONSE["action"]] = ACTIONS["POWER"]
+        payload[RESPONSE["command"]] = int(action["command"])
+        payload[RESPONSE["param0"]] = int(action["native_side"])
     else:
         raise ValueError(f"unsupported action branch {branch!r}")
     struct.pack_into("<I", payload, RESPONSE["state_seed"], state_seed)

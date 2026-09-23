@@ -30,6 +30,17 @@ LOG = logging.getLogger("aw2-bridge")
 
 def stub_selector(state: dict[str, Any], legal: list[dict[str, Any]], _env: object) -> int:
     del state
+    for power in ("scop", "cop"):
+        for index, action in enumerate(legal):
+            if action.get("branch") == "power" and action.get("power") == power:
+                return index
+    for command in ("unload", "load", "join", "fire_silo", "supply", "hide"):
+        for index, action in enumerate(legal):
+            if (
+                action.get("branch") == "unit"
+                and action.get("action", {}).get("command") == command
+            ):
+                return index
     for index, action in enumerate(legal):
         if action.get("branch") == "build" and action.get("unit_type") == "infantry":
             return index
@@ -100,9 +111,9 @@ def _model_state(state: dict[str, Any]) -> dict[str, Any]:
     return result
 
 
-def _remove_untranslatable_actions(env: Any) -> list[dict[str, Any]]:
+def _remove_untranslatable_actions(env: Any, state: dict[str, Any] | None = None) -> list[dict[str, Any]]:
     legal = json.loads(env.legal_actions_json())
-    rejected = [index for index, action in enumerate(legal) if not is_translatable_action(action)]
+    rejected = [index for index, action in enumerate(legal) if not is_translatable_action(action, state)]
     for index in reversed(rejected):
         env.exclude_legal_action(index)
     filtered = json.loads(env.legal_actions_json())
@@ -115,7 +126,7 @@ def process_request(path: Path, runtime_dir: Path, native_env: type, selector: C
     envelope = decode_envelope(path.read_bytes(), expected_kind=FILE_KIND_REQUEST)
     state = state_from_snapshot(envelope.payload)
     env = native_env(json.dumps(_model_state(state), separators=(",", ":")))
-    legal = _remove_untranslatable_actions(env)
+    legal = _remove_untranslatable_actions(env, state)
     selected = int(selector(state, legal, env))
     legal = json.loads(env.legal_actions_json())
     if not 0 <= selected < len(legal):

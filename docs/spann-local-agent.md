@@ -33,7 +33,7 @@ Build the separate modified ROM with:
 X:\dev\awbw\.venv\Scripts\python.exe tools\spann_bridge\build_mod.py
 ```
 
-The builder rejects a base ROM whose size, SHA-1, or original hook word differs. It writes `build-mod\aw2bhr-spann-local.gba` and `build-mod\build-info.txt`. The current modified ROM SHA-1 is `dabe25058b43bc79e35c0a362a37de9bfa740ce3`.
+The builder rejects a base ROM whose size, SHA-1, or original hook word differs. It writes `build-mod\aw2bhr-spann-local.gba` and `build-mod\build-info.txt`. The current modified ROM SHA-1 is `d9cb06b2cb2f1d164d00b1b0bf7ac971966cbae0`.
 
 Double-click **`START-AW2-ML.cmd`**. It launches the same portable mGBA installation and settings directory used by the previous working Spann launcher, starts the persistent model process, and loads the Lua bridge automatically. `START-SPANN-ML.cmd` remains as a compatibility alias.
 
@@ -68,7 +68,9 @@ The action flow is:
 5. The hook fills AW2's native command record and hands control to the stock phase-3 executor. End turn enters the stock phase-4 cleanup.
 6. A new request is published only after the executor returns to phase 2.
 
-Confirmed native commands are `1` build, `2` wait, `3` capture, `4` attack unit, and `5` attack special terrain. Command 4 carries the native target unit ID. Command 5 carries target `(x,y)` in bytes `+6/+7`; this follows the stock `sub_0805E718`/`sub_080587FC` descriptor path. Movement directions are `0` left, `1` right, `2` down, `3` up, and `4` terminator.
+Confirmed native commands are `1` build, `2` wait, `3` capture, `4` attack unit, `5` attack special terrain, `6` APC supply, `7` load, `8` unload, `0x0a` join, `0x0b` dive, `0x0c` surface, `0x0f` COP, `0x10` SCOP, and `0x14` fire missile silo. Command 4 carries the native target unit ID. Commands 5 and `0x14` carry target `(x,y)` in bytes `+6/+7`. Unload bytes `+6/+7` correspond to cargo slots one/two and use `0` no unload, `1` up, `2` right, `3` down, `4` left. Power byte `+6` is the native army selector. Movement directions are `0` left, `1` right, `2` down, `3` up, and `4` terminator.
+
+Load and join may legally end on an occupied friendly cell, so the route guard allows an occupied final overlay cell only for commands `7` and `0x0a`; every preceding cell remains subject to AW2's movement overlay. Unload is not considered complete until the native asynchronous executor returns from substate `0x0a` to phase 2/substate 0.
 
 ## State projection
 
@@ -79,6 +81,8 @@ Current weather is read from `0x03003FEC`: `0` clear, `1` snow, `2` rain. The re
 AW2 terrain IDs 21..31 are Campaign-specific Black Hole structures. AWBW has no matching terrain classes. A special cell with live HP is projected as an attackable pipe seam; the model's `attack_seam` target is translated to native command 5. A special cell without live HP, including underlay/custom structure cells, is projected as an impassable pipe. Raw AW2 kind and HP remain in bridge-only metadata and are checked again during translation. This preserves obstruction and lets the model target only structures AW2 itself marks destructible.
 
 The model sees the active native team as player 2 and every opposing native team as player 1. Other active-team armies are present but marked moved, and their production sites are not offered to the current side. This prevents one CPU army from moving or building for an ally.
+
+Power state comes from the native player record: `+0x20` is the AW2 meter, converted to AWBW's tenths-of-funds scale; `+0x24` is native readiness (`0`, COP, SCOP); `+0x25` is the prior-use count; and `+0x1f` is the active COP/SCOP state. The readiness byte is checked again in the ROM hook. Cargo comes from unit bytes `+7/+8`, and submerged state is unit flag byte `+1 & 0x20`.
 
 ## Mailbox and IPC
 
@@ -103,7 +107,9 @@ Mailbox states are `IDLE`, `REQUEST_READY`, `WAITING`, `RESPONSE_READY`, `EXECUT
 - On Moji, runE-U83 completed two enemy turns on the 26x22 map, including production and movement, and advanced to day 3 without an error.
 - Campaign mode/map/dimensions/fog were confirmed at runtime on the first battle. The automated menu driver reached the human turn, but did not complete its menu end-turn sequence, so a full Campaign enemy turn is not claimed as runtime-tested.
 - A synthetic Campaign snapshot with rain and a live Deathray is accepted by `NativeEnv`; legal `attack_seam` actions are produced and translated to native command 5 with the target coordinates. The command-5 field layout and executor path are confirmed from upstream source; execution against a real special objective has not yet been observed in mGBA.
-- Automated coverage includes layout generation, IPC envelopes, stale-state seed binding, dynamic state conversion, weather mapping, coalition ownership, capture mirroring, route validation, unit attacks, special-object attacks, and production translation.
+- A forced full-meter mGBA run executed SCOP as native command `0x10`, returned to phase 2, issued the next request, completed production, and ended the turn without a mailbox error.
+- A deterministic mGBA scenario executed load, unload, and join as commands `7`, `8`, and `0x0a`, ended the turn, and successfully issued another load on day 7. Separate scenarios executed APC supply (`6`), missile-silo firing (`0x14`), and Sub dive (`0x0b`) and continued to later requests without mailbox errors. These scenarios altered RAM only to make the action immediately legal; the bridge and native executor were the production paths.
+- Automated coverage includes layout generation, IPC envelopes, stale-state seed binding, dynamic state conversion, weather and native power projection, coalition ownership, capture mirroring, route validation, unit attacks, special-object attacks, production, power, transport, join, supply, hide/surface, and silo translation. Twenty tests pass with the AWBW virtual environment.
 
 Run the automated checks with:
 
@@ -113,4 +119,4 @@ X:\dev\awbw\.venv\Scripts\python.exe -m unittest discover -s tests -p 'test_*.py
 
 ## Current command boundary
 
-The runtime translator supports build, wait, capture, unit attack, special-object attack, and end turn. Power activation, transport load/unload, join, APC supply, stealth/sub state changes, repair, and missile-silo firing are removed from the model's legal-action mask. The selector still comes from runE-U83; these filters do not call or consult AW2's AI. A targeted non-fog CPU turn fails closed if no translatable action remains.
+Every runE-U83 action that has an AW2 equivalent is now exposed: build, wait, capture, unit/special-object attack, end turn, COP/SCOP, transport load/unload, join, APC supply, Sub dive/surface, and missile-silo firing. The only filtered unit command is Black Boat repair because AW2 has no Black Boat or selectable repair command; property repair remains AW2's automatic turn-start behavior. AWBW-only units and actions for Black Boat, Carrier, Stealth, and Black Bomb remain unavailable because those units do not exist in Advance Wars 2. No filtered action is delegated to AW2 AI. A targeted non-fog CPU turn fails closed if no translatable action remains.
