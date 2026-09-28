@@ -37,6 +37,8 @@ The builder rejects a base ROM whose size, SHA-1, or original hook word differs.
 
 Double-click **`START-AW2-ML.cmd`**. It launches the same portable mGBA installation and settings directory used by the previous working Spann launcher, starts the persistent model process, and loads the Lua bridge automatically. `START-SPANN-ML.cmd` remains as a compatibility alias.
 
+Before starting the bridge, the launcher compares `X:\dev\awbw\python\awbw_native\_native.pyd` with the Rust sources and Cargo manifests under the local AWBW checkout. If the editable extension is stale or missing, it runs `maturin develop --release`. This keeps legal-action generation aligned with the current local rules rather than an older loaded `_native.pyd`.
+
 ```powershell
 tools\run_spann_local.ps1 -Mode model
 ```
@@ -112,6 +114,7 @@ On Windows, antivirus or indexing can briefly deny access to a request immediate
 - Campaign runtime was observed across multiple non-fog battles. Map `0x8b` completed three enemy days including capture, load, unload, supply, attack, movement, and end turn. A moved-transport mask regression was found after an APC supplied and AWBW offered it a second unload; the bridge now excludes every native unit that has already acted.
 - Factory map `0x91` (20x15) initially exposed an intact objective as an explicit 99-HP pipe-seam override, which `NativeEnv` correctly rejected. After representing intact HP implicitly, the exact failed snapshot produced 12 legal actions. The live blocked turn was resumed without restarting mGBA and executed build, movement, and end turn through requests 133-135.
 - The same live Campaign session completed requests 136-241 across Factory map `0x91` and map `0x94`. Windows then returned one transient sharing violation while opening request 242. With bounded read retries enabled, the preserved request was processed as `end_turn` and the existing mGBA session continued.
+- On map `0x94`, a stale September 8 `_native.pyd` still gave Lash COP/SCOP `+1` movement although the current AWBW source had removed that bonus. It proposed a four-cost infantry route that AW2 correctly rejected. Rebuilding the extension removed the destination from the exact snapshot (`movement cost 4 exceeds allowance 3`); the live session resumed at request 382, used a three-step route for the same unit, and ended the turn at request 385.
 - A synthetic Campaign snapshot with rain and a live Deathray is accepted by `NativeEnv`; legal `attack_seam` actions are produced and translated to native command 5 with the target coordinates. The command-5 field layout and executor path are confirmed from upstream source; execution against a real special objective has not yet been observed in mGBA.
 - A forced full-meter mGBA run executed SCOP as native command `0x10`, returned to phase 2, issued the next request, completed production, and ended the turn without a mailbox error.
 - A deterministic mGBA scenario executed load, unload, and join as commands `7`, `8`, and `0x0a`, ended the turn, and successfully issued another load on day 7. Separate scenarios executed APC supply (`6`), missile-silo firing (`0x14`), and Sub dive (`0x0b`) and continued to later requests without mailbox errors. These scenarios altered RAM only to make the action immediately legal; the bridge and native executor were the production paths.

@@ -27,6 +27,31 @@ if ($SaveState -and -not (Test-Path -LiteralPath $SaveState -PathType Leaf)) {
     throw "Savestate is missing: $SaveState"
 }
 
+# The editable AWBW package can keep an older native extension even when its
+# Rust rules have changed. Rebuild before loading the model so bridge legality
+# always comes from the current local AWBW source tree.
+$bridgeConfig = Get-Content -LiteralPath $config -Raw | ConvertFrom-Json
+$awbwRoot = (Resolve-Path -LiteralPath ([string]$bridgeConfig.awbw_root)).Path
+$nativeExtension = Join-Path $awbwRoot 'python\awbw_native\_native.pyd'
+$nativeInputs = @(
+    Get-Item -LiteralPath (Join-Path $awbwRoot 'Cargo.toml'), (Join-Path $awbwRoot 'Cargo.lock'), (Join-Path $awbwRoot 'pyproject.toml')
+    Get-ChildItem -LiteralPath (Join-Path $awbwRoot 'crates') -Recurse -File |
+        Where-Object { $_.Name -eq 'Cargo.toml' -or $_.Extension -eq '.rs' }
+)
+$latestNativeInput = $nativeInputs | Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1
+$nativeIsStale = -not (Test-Path -LiteralPath $nativeExtension -PathType Leaf) -or
+    $latestNativeInput.LastWriteTimeUtc -gt (Get-Item -LiteralPath $nativeExtension).LastWriteTimeUtc
+if ($nativeIsStale) {
+    Write-Host "AWBW native rules are newer than _native.pyd; rebuilding the local extension..."
+    Push-Location -LiteralPath $awbwRoot
+    try {
+        & $Python -m maturin develop --release
+        if ($LASTEXITCODE -ne 0) { throw 'AWBW native extension rebuild failed.' }
+    } finally {
+        Pop-Location
+    }
+}
+
 New-Item -ItemType Directory -Path $runtime -Force | Out-Null
 $resolvedRuntime = (Resolve-Path -LiteralPath $runtime).Path
 Get-ChildItem -LiteralPath $resolvedRuntime -File -ErrorAction SilentlyContinue |
