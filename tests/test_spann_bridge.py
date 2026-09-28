@@ -151,6 +151,26 @@ class AdapterTests(unittest.TestCase):
         }
         self.assertFalse(is_translatable_action(action, state))
 
+    def test_moved_transport_cannot_receive_a_second_unload_action(self) -> None:
+        state = {
+            "_aw2": {"active_side": 2},
+            "units": [{
+                "id": 68, "owner": 2, "native_side": 2, "moved": True,
+                "position": {"x": 8, "y": 5}, "cargo": [67],
+            }],
+        }
+        action = {
+            "branch": "unit", "unit": 68,
+            "path": {"positions": [{"x": 8, "y": 5}]},
+            "action": {
+                "command": "unload",
+                "unloads": [{"unit": 67, "destination": {"x": 8, "y": 6}}],
+            },
+        }
+        self.assertFalse(is_translatable_action(action, state))
+        with self.assertRaisesRegex(ValueError, "after it already acted"):
+            translate_model_action(action, state)
+
     def test_campaign_weather_and_special_object_are_projected(self) -> None:
         payload = bytearray(self.snapshot())
         payload[REQUEST["mode"]] = 1
@@ -168,6 +188,22 @@ class AdapterTests(unittest.TestCase):
             {"position": {"x": x, "y": y}, "hp": 73},
             state["map"]["pipe_seam_hp"],
         )
+
+    def test_intact_factory_pipe_seam_uses_implicit_awbw_hp(self) -> None:
+        awbw = Path(r"X:\dev\awbw")
+        payload = bytearray(self.snapshot())
+        payload[REQUEST["mode"]] = 1
+        x, y = 12, 1
+        index = y * 15 + x
+        payload[REQUEST["property_plane"] + index] = 16
+        payload[REQUEST["special_hp_plane"] + index] = 99
+        state = state_from_snapshot(bytes(payload))
+        self.assertIn({"x": x, "y": y}, state["map"]["pipe_seams"])
+        self.assertEqual(state["map"]["pipe_seam_hp"], [])
+        sys.path.insert(0, str(awbw / "python"))
+        from awbw_native import NativeEnv
+
+        NativeEnv(json.dumps(_model_state(state), separators=(",", ":")))
 
     def test_zero_native_capture_bits_become_no_active_capture(self) -> None:
         awbw = Path(r"X:\dev\awbw")

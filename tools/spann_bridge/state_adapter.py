@@ -257,8 +257,10 @@ def state_from_snapshot(payload: bytes) -> dict[str, Any]:
             "property_capture_hp": {str(item["id"]): item["capture_hp"] for item in buildings},
             "pipes": pipes, "pipe_seams": pipe_seams,
             "pipe_seam_hp": [
-                {"position": {"x": item["x"], "y": item["y"]}, "hp": min(item["hp"], 99)}
-                for item in special_terrain if item["hp"]
+                {"position": {"x": item["x"], "y": item["y"]}, "hp": item["hp"]}
+                # AWBW represents an intact 99-HP seam implicitly. Supplying
+                # 99 in the damaged-seam override is rejected by NativeEnv.
+                for item in special_terrain if 0 < int(item["hp"]) < 99
             ],
             "silos": silos,
             "hqs": hqs, "labs": labs, "comtowers": [],
@@ -287,6 +289,21 @@ def is_translatable_action(action: dict[str, Any], state: dict[str, Any] | None 
         return (power == "cop" and readiness >= 1) or (power == "scop" and readiness >= 2)
     if branch != "unit":
         return False
+    if state is not None and "units" in state:
+        unit_id = int(action.get("unit", 0))
+        unit = next((item for item in state["units"] if int(item["id"]) == unit_id), None)
+        active_side = int(state.get("_aw2", {}).get("active_side", 0))
+        # NativeEnv permits a moved transport to unload because AWBW can model
+        # movement and unloading as separate phases.  The AW2 bridge submits an
+        # entire native action at once, so any unit whose AW2 moved bit is set
+        # has already completed its action for this turn.
+        if (
+            unit is None
+            or int(unit.get("owner", 0)) != 2
+            or _native_side(unit_id) != active_side
+            or bool(unit.get("moved", False))
+        ):
+            return False
     unit_action = action.get("action", {})
     command = str(unit_action.get("command"))
     if command not in SUPPORTED_UNIT_COMMANDS:
@@ -328,6 +345,8 @@ def translate_model_action(action: dict[str, Any], state: dict[str, Any]) -> dic
     unit = next((item for item in state["units"] if int(item["id"]) == unit_id), None)
     if unit is None or int(unit["owner"]) != 2 or _native_side(unit_id) != active_side:
         raise ValueError(f"model selected invalid active native unit {unit_id}")
+    if bool(unit.get("moved", False)):
+        raise ValueError(f"model selected native unit {unit_id} after it already acted")
     positions = action.get("path", {}).get("positions", [])
     if not positions or unit["position"] is None:
         raise ValueError("unit action has no native path")
