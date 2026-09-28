@@ -5,6 +5,7 @@ import struct
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import Mock, patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,7 +22,7 @@ from protocol import (
     request_state_seed,
     response_payload,
 )
-from bridge import _model_state, _remove_untranslatable_actions
+from bridge import _model_state, _read_request_bytes, _remove_untranslatable_actions
 from state_adapter import is_translatable_action, state_from_snapshot, translate_model_action
 
 
@@ -39,6 +40,14 @@ class LayoutTests(unittest.TestCase):
 
 
 class ProtocolTests(unittest.TestCase):
+    def test_request_read_retries_a_transient_windows_sharing_violation(self) -> None:
+        path = Mock()
+        path.read_bytes.side_effect = [PermissionError("sharing violation"), b"request"]
+        with patch("bridge.time.sleep") as sleep:
+            self.assertEqual(_read_request_bytes(path), b"request")
+        self.assertEqual(path.read_bytes.call_count, 2)
+        sleep.assert_called_once()
+
     def test_envelope_round_trip_keeps_session_and_request(self) -> None:
         source = Envelope(FILE_KIND_REQUEST, 0x12345678, 17, b"snapshot")
         self.assertEqual(decode_envelope(encode_envelope(source), expected_kind=FILE_KIND_REQUEST), source)

@@ -101,6 +101,8 @@ Lua appends tables that do not fit in the verified 4 KiB region. Protocol-v2 req
 
 Mailbox states are `IDLE`, `REQUEST_READY`, `WAITING`, `RESPONSE_READY`, `EXECUTING`, and `ERROR`. IPC envelopes bind every response to a random emulator session, request ID, and state seed. Invalid input leaves the targeted CPU in `WAITING` or `ERROR`; stale commands cannot be replayed.
 
+On Windows, antivirus or indexing can briefly deny access to a request immediately after its atomic rename. The host retries sharing violations for one second and leaves the request pending if the lock lasts longer; a transient `PermissionError` is never quarantined as invalid input.
+
 ## Verification
 
 - Vanilla reconstruction remained byte-identical to the supplied US ROM.
@@ -109,10 +111,11 @@ Mailbox states are `IDLE`, `REQUEST_READY`, `WAITING`, `RESPONSE_READY`, `EXECUT
 - On Moji, runE-U83 completed two enemy turns on the 26x22 map, including production and movement, and advanced to day 3 without an error.
 - Campaign runtime was observed across multiple non-fog battles. Map `0x8b` completed three enemy days including capture, load, unload, supply, attack, movement, and end turn. A moved-transport mask regression was found after an APC supplied and AWBW offered it a second unload; the bridge now excludes every native unit that has already acted.
 - Factory map `0x91` (20x15) initially exposed an intact objective as an explicit 99-HP pipe-seam override, which `NativeEnv` correctly rejected. After representing intact HP implicitly, the exact failed snapshot produced 12 legal actions. The live blocked turn was resumed without restarting mGBA and executed build, movement, and end turn through requests 133-135.
+- The same live Campaign session completed requests 136-241 across Factory map `0x91` and map `0x94`. Windows then returned one transient sharing violation while opening request 242. With bounded read retries enabled, the preserved request was processed as `end_turn` and the existing mGBA session continued.
 - A synthetic Campaign snapshot with rain and a live Deathray is accepted by `NativeEnv`; legal `attack_seam` actions are produced and translated to native command 5 with the target coordinates. The command-5 field layout and executor path are confirmed from upstream source; execution against a real special objective has not yet been observed in mGBA.
 - A forced full-meter mGBA run executed SCOP as native command `0x10`, returned to phase 2, issued the next request, completed production, and ended the turn without a mailbox error.
 - A deterministic mGBA scenario executed load, unload, and join as commands `7`, `8`, and `0x0a`, ended the turn, and successfully issued another load on day 7. Separate scenarios executed APC supply (`6`), missile-silo firing (`0x14`), and Sub dive (`0x0b`) and continued to later requests without mailbox errors. These scenarios altered RAM only to make the action immediately legal; the bridge and native executor were the production paths.
-- Automated coverage includes layout generation, IPC envelopes, stale-state seed binding, dynamic state conversion, weather and native power projection, coalition ownership, capture mirroring, route validation, unit attacks, special-object attacks, implicit intact-object HP, production, power, transport, moved-unit filtering, join, supply, hide/surface, and silo translation. Twenty-two tests pass with the AWBW virtual environment.
+- Automated coverage includes layout generation, IPC envelopes, Windows sharing-violation retries, stale-state seed binding, dynamic state conversion, weather and native power projection, coalition ownership, capture mirroring, route validation, unit attacks, special-object attacks, implicit intact-object HP, production, power, transport, moved-unit filtering, join, supply, hide/surface, and silo translation. Twenty-three tests pass with the AWBW virtual environment.
 
 Run the automated checks with:
 

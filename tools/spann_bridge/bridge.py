@@ -26,6 +26,20 @@ from protocol import (
 from state_adapter import is_translatable_action, state_from_snapshot, translate_model_action
 
 LOG = logging.getLogger("aw2-bridge")
+REQUEST_READ_ATTEMPTS = 100
+REQUEST_READ_RETRY_SECONDS = 0.01
+
+
+def _read_request_bytes(path: Path) -> bytes:
+    """Tolerate short Windows sharing violations around an atomic publish."""
+    for attempt in range(REQUEST_READ_ATTEMPTS):
+        try:
+            return path.read_bytes()
+        except PermissionError:
+            if attempt + 1 == REQUEST_READ_ATTEMPTS:
+                raise
+            time.sleep(REQUEST_READ_RETRY_SECONDS)
+    raise AssertionError("unreachable request-read retry loop")
 
 
 def stub_selector(state: dict[str, Any], legal: list[dict[str, Any]], _env: object) -> int:
@@ -123,7 +137,7 @@ def _remove_untranslatable_actions(env: Any, state: dict[str, Any] | None = None
 
 
 def process_request(path: Path, runtime_dir: Path, native_env: type, selector: Callable) -> Path:
-    envelope = decode_envelope(path.read_bytes(), expected_kind=FILE_KIND_REQUEST)
+    envelope = decode_envelope(_read_request_bytes(path), expected_kind=FILE_KIND_REQUEST)
     state = state_from_snapshot(envelope.payload)
     env = native_env(json.dumps(_model_state(state), separators=(",", ":")))
     legal = _remove_untranslatable_actions(env, state)
@@ -175,6 +189,11 @@ def main() -> None:
             for path in requests:
                 try:
                     process_request(path, runtime_dir, native_env, selector)
+                except PermissionError:
+                    # Antivirus/indexing can transiently deny a newly renamed
+                    # request on Windows. Keep it pending instead of turning a
+                    # recoverable sharing violation into a stopped CPU turn.
+                    LOG.warning("request temporarily unavailable; will retry: %s", path)
                 except Exception:
                     LOG.exception("request failed: %s", path)
                     path.rename(path.with_suffix(".error"))
