@@ -232,7 +232,10 @@ def state_from_snapshot(payload: bytes) -> dict[str, Any]:
         "config": {
             "map_id": (payload[REQUEST["mode"]] << 8) | payload[REQUEST["map_id"]],
             "funds_per_property": 1000, "starting_funds": 0, "powers_enabled": True,
-            "weather": weather, "fog_enabled": False, "tags_enabled": False,
+            # NativeEnv's Standard-profile validator treats config.weather as
+            # initial match weather, which must remain clear. Runtime snow or
+            # rain (including CO powers) belongs in weather.current below.
+            "weather": "clear", "fog_enabled": False, "tags_enabled": False,
             "unit_limit": 64, "capture_limit": None, "day_limit": None,
             "banned_units": [], "banned_cos": [], "lab_units": [], "ghosted_properties": [],
         },

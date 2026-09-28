@@ -189,7 +189,7 @@ class AdapterTests(unittest.TestCase):
         payload[REQUEST["property_plane"] + index] = 30  # Deathray
         payload[REQUEST["special_hp_plane"] + index] = 73
         state = state_from_snapshot(bytes(payload))
-        self.assertEqual(state["config"]["weather"], "rain")
+        self.assertEqual(state["config"]["weather"], "clear")
         self.assertEqual(state["weather"]["current"], "rain")
         self.assertEqual(state["map"]["terrain"][index], "pipe_seam")
         self.assertIn({"x": x, "y": y}, state["map"]["pipe_seams"])
@@ -197,6 +197,11 @@ class AdapterTests(unittest.TestCase):
             {"position": {"x": x, "y": y}, "hp": 73},
             state["map"]["pipe_seam_hp"],
         )
+        sys.path.insert(0, str(Path(r"X:\dev\awbw") / "python"))
+        from awbw_native import NativeEnv
+
+        env = NativeEnv(json.dumps(_model_state(state), separators=(",", ":")))
+        self.assertTrue(_remove_untranslatable_actions(env, state))
 
     def test_intact_factory_pipe_seam_uses_implicit_awbw_hp(self) -> None:
         awbw = Path(r"X:\dev\awbw")
